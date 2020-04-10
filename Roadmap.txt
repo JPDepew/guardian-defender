@@ -1,0 +1,32 @@
+v2.0.2
+	- Player not dying on low drop *
+	- Pause menu fix *
+v2.1.0
+	- Backwards flying slower, but faster acceleration * 
+	- HDR particle effects * 
+	- Spawning indication for player - particles/sfx *
+v2.2.0
+	- Player - max vertical speed *
+	- Saucer improvements
+		- Not going below screen *
+	- SFX
+		- sound when aliens capture humans *
+		- sound when aliens mutate *
+v2.3.0
+	- Little map of game *
+	
+v2.4.0
+	- Mutant movement *
+		- moving up and down as they chase you
+		- Max speed range
+		- Not going below screen
+	- UI Fixes *
+	- Controls touch up *
+
+v2.5.0
+	- Support rescuing multiple humans
+	- Powerups on respawn
+	
+Powerup ideas: 
+	- Ramming thing - You can't get shot or hit from the front, and you can destroy enemies by ramming them
+	- Speed boost - Pressing a key (shift?) Gives you a speed boost
