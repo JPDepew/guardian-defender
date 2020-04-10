@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 1188604548433550, guid: 2acfea5141b90284589dd965edb812e0, type: 3}
   powerups: 0
+  powerupName: Laser
 --- !u!50 &50480464229113126
 Rigidbody2D:
   serializedVersion: 4
@@ -235,6 +237,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

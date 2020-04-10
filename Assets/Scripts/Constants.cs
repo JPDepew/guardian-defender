@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class Constants : MonoBehaviour
 {
@@ -12,6 +15,7 @@ public class Constants : MonoBehaviour
     public int catchHumanBonus = 500;
     public int rescueHumanBonus = 500;
     public float explosionOffset = 15f;
+    public List<PowerupObj> powerups = new List<PowerupObj>();
 
     string playerPrefHighScoreKey = "playerHighScore";
 

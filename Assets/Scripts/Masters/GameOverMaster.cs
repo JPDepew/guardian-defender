@@ -7,8 +7,6 @@ public class GameOverMaster : MonoBehaviour
     public Text highScoreText;
     public Text scoreText;
 
-    float timer = 0;
-
     private void Start()
     {
 

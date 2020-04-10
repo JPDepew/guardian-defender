@@ -41,9 +41,7 @@ public class GameMaster : MonoBehaviour
     private Animator bonusTextAnimator;
     private AudioSource[] audioSources;
 
-    private float playerRespawnDelay = 3f;
     private float waveCount = 0f;
-    private bool firstSpawn = true;
     private int bonus;
     private int score;
     private int scoreTracker;
@@ -160,7 +158,6 @@ public class GameMaster : MonoBehaviour
             bonusText.text = "";
         }
 
-        firstSpawn = false;
         yield return new WaitForSeconds(bonusTextAnimator.GetCurrentAnimatorStateInfo(0).length);
 
         shipReference.GetComponent<ShipController>().ClearAllHumans();

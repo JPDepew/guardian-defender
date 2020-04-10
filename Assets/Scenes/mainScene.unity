@@ -883,6 +883,7 @@ MonoBehaviour:
   score: 0
   bigLaser: 0
   shield: 0
+  speedBoost: 0
 --- !u!114 &449487486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,6 +905,10 @@ MonoBehaviour:
   catchHumanBonus: 500
   rescueHumanBonus: 500
   explosionOffset: 15
+  powerups:
+  - {fileID: 114622171338110102, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
+  - {fileID: 114524866262424988, guid: c97c09016795cd344b0599d98e331cf5, type: 3}
+  - {fileID: 114622171338110102, guid: d222e1049ebaae64b8b0be27d34bfb66, type: 3}
 --- !u!82 &449487487
 AudioSource:
   m_ObjectHideFlags: 0
@@ -911,7 +916,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449487481}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a82e37e1c5feaff4f8570701d3fc92e5, type: 3}
@@ -1007,7 +1012,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449487481}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3ad39659eb67dd244a692897924f3716, type: 3}

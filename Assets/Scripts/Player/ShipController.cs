@@ -66,7 +66,7 @@ public class ShipController : MonoBehaviour
         invulnerabilityTargetTime = Time.time + invulnerabilityTime;
         InitializeHealthIndicators();
 
-        LaserPowerup.onGetPowerup += OnShieldEnable;
+        PowerupObj.onGetPowerup += OnPowerup;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.5f);
@@ -85,15 +85,22 @@ public class ShipController : MonoBehaviour
         transform.position = transform.position + (Vector3)direction * Time.deltaTime;
     }
 
-    void OnShieldEnable(LaserPowerup.Powerup powerup)
+    void OnPowerup(PowerupObj.Powerup powerupName)
     {
-        audioSources[3].Play();
-        shield.SetActive(true);
+        if (powerupName == PowerupObj.Powerup.Shield)
+        {
+            audioSources[3].Play();
+            shield.SetActive(true);
+        }
+        if (powerupName == PowerupObj.Powerup.Boost)
+        {
+            // Start playing boost particle system
+        }
     }
 
     private void OnDestroy()
     {
-        LaserPowerup.onGetPowerup -= OnShieldEnable;
+        PowerupObj.onGetPowerup -= OnPowerup;
     }
 
     public void InitializeHealthIndicators()
@@ -131,7 +138,7 @@ public class ShipController : MonoBehaviour
         // Shooting
         if (Input.GetKeyDown(KeyCode.Z) && canShoot)
         {
-            if (!playerStats.bigLaser)
+            if (!playerStats.IsPowerupActive(PowerupObj.Powerup.Laser))
             {
                 audioSources[0].Play();
                 GameObject tempBullet = Instantiate(bullet, gunPosition.transform.position, transform.rotation);
@@ -323,7 +330,7 @@ public class ShipController : MonoBehaviour
 
     IEnumerator WaitBetweenShooting(bool disinfect)
     {
-        float waitTime = playerStats.bigLaser && !disinfect ? 0.45f : 0.1f;
+        float waitTime = playerStats.IsPowerupActive(PowerupObj.Powerup.Laser) && !disinfect ? 0.45f : 0.1f;
         yield return new WaitForSeconds(waitTime);
         canShoot = true;
     }

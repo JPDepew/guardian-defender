@@ -13,13 +13,11 @@ public class FlyingSaucer : Enemy
     public GameObject shieldPowerup;
     public GameObject bullet;
 
+    PlayerStats playerStats = PlayerStats.instance;
+
     float verticalHalfSize;
     bool avoidingWall;
     bool goToTopOfPlayer = true;
-    bool shooting = false;
-
-    public delegate void OnDestroyed();
-    public static event OnDestroyed onAlienDestroyed;
 
     protected override void Start()
     {
@@ -128,20 +126,22 @@ public class FlyingSaucer : Enemy
 
     protected override void DestroySelf()
     {
+        // change this next
         speed = 0;
         audioSources[6].Stop();
-        int randomNum = Random.Range(0, 0);
+        int randomNum = Random.Range(0, 1);
         if (randomNum == 0)
         {
-            randomNum = Random.Range(0, 2);
-            if ((randomNum == 1 || PlayerStats.instance.bigLaser) && !PlayerStats.instance.shield)
-            {
-                Instantiate(shieldPowerup, transform.position, transform.rotation);
-            }
-            else
-            {
-                Instantiate(laserPowerup, transform.position, transform.rotation);
-            }
+            randomNum = Random.Range(0, Constants.instance.powerups.Count);
+            Instantiate(Constants.instance.powerups[randomNum], transform.position, transform.rotation);
+            //if ((randomNum == 1 || PlayerStats.instance.bigLaser) && !PlayerStats.instance.shield)
+            //{
+            //    Instantiate(shieldPowerup, transform.position, transform.rotation);
+            //}
+            //else
+            //{
+            //    Instantiate(laserPowerup, transform.position, transform.rotation);
+            //}
         }
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
         scoreText.text = "300";
