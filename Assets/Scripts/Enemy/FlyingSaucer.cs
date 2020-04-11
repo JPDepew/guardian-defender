@@ -134,14 +134,6 @@ public class FlyingSaucer : Enemy
         {
             randomNum = Random.Range(0, Constants.instance.powerups.Count);
             Instantiate(Constants.instance.powerups[randomNum], transform.position, transform.rotation);
-            //if ((randomNum == 1 || PlayerStats.instance.bigLaser) && !PlayerStats.instance.shield)
-            //{
-            //    Instantiate(shieldPowerup, transform.position, transform.rotation);
-            //}
-            //else
-            //{
-            //    Instantiate(laserPowerup, transform.position, transform.rotation);
-            //}
         }
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
         scoreText.text = "300";

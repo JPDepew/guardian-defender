@@ -11,16 +11,21 @@ public class ShipController : MonoBehaviour
     public GameObject shield;
     public GameObject explosion;
     public GameObject healthIndicator;
-    public ParticleSystem fuelParticleSystem;
     public GameObject leftShip;
+
+    public ParticleSystem fuelParticleSystem;
+    public Transform particleSystemPosLeft;
+    public Transform particleSystemPosRight;
+
+    public ParticleSystem boostParticleSystem;
+    public Transform boostParticleSystemPosLeft;
+    public Transform boostParticleSystemPosRight;
 
     public Transform healthIndicatorParent;
     public Transform healthIndicatorPos;
     public float healthIndicatorOffset = 0.5f;
     private float currentHealthIndicatorOffset = 0;
 
-    public Transform particleSystemPosLeft;
-    public Transform particleSystemPosRight;
 
     public float horizontalAcceleration = 0.1f;
     public float verticalAcceleration = 0.6f;
@@ -94,7 +99,7 @@ public class ShipController : MonoBehaviour
         }
         if (powerupName == PowerupObj.Powerup.Boost)
         {
-            // Start playing boost particle system
+            boostParticleSystem.gameObject.SetActive(true);
         }
     }
 
@@ -198,12 +203,7 @@ public class ShipController : MonoBehaviour
             {
                 direction += horizontalAcceleration * Vector2.left;
             }
-            fuelParticleSystem.transform.rotation = Quaternion.Euler(new Vector3(180, -90, 0));
-            fuelParticleSystem.transform.position = particleSystemPosRight.position;
-            if (!fuelParticleSystem.isEmitting)
-            {
-                fuelParticleSystem.Play();
-            }
+            HandleParticleSystemsMoveLeft();
             if (!audioSources[1].isPlaying)
             {
                 audioSources[1].Play();
@@ -218,12 +218,7 @@ public class ShipController : MonoBehaviour
             {
                 direction += horizontalAcceleration * Vector2.right;
             }
-            fuelParticleSystem.transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
-            fuelParticleSystem.transform.position = particleSystemPosLeft.position;
-            if (!fuelParticleSystem.isEmitting)
-            {
-                fuelParticleSystem.Play();
-            }
+            HandleParticleSystemsMoveRight();
             if (!audioSources[1].isPlaying)
             {
                 audioSources[1].Play();
@@ -239,6 +234,10 @@ public class ShipController : MonoBehaviour
                 {
                     fuelParticleSystem.Stop();
                 }
+                if (boostParticleSystem.isPlaying)
+                {
+                    boostParticleSystem.Stop();
+                }
                 if (audioSources[1].isPlaying)
                 {
                     audioSources[1].Stop();
@@ -248,6 +247,43 @@ public class ShipController : MonoBehaviour
             {
                 direction = new Vector2(0, direction.y);
             }
+        }
+    }
+
+    void HandleParticleSystemsMoveLeft()
+    {
+        fuelParticleSystem.transform.rotation = Quaternion.Euler(new Vector3(180, -90, 0));
+        fuelParticleSystem.transform.position = particleSystemPosRight.position;
+        boostParticleSystem.transform.rotation = Quaternion.Euler(new Vector3(180, -90, 0));
+        boostParticleSystem.transform.position = boostParticleSystemPosLeft.position;
+        HandleEngineParticleSystems();
+    }
+
+    void HandleParticleSystemsMoveRight()
+    {
+        fuelParticleSystem.transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
+        fuelParticleSystem.transform.position = particleSystemPosLeft.position;
+        boostParticleSystem.transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
+        boostParticleSystem.transform.position = boostParticleSystemPosRight.position;
+        HandleEngineParticleSystems();
+    }
+
+    void HandleEngineParticleSystems()
+    {
+        if (!fuelParticleSystem.isEmitting)
+        {
+            fuelParticleSystem.Play();
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (boostParticleSystem.gameObject.activeSelf && !boostParticleSystem.isEmitting)
+            {
+                boostParticleSystem.Play();
+            }
+        }
+        else
+        {
+            boostParticleSystem.Stop();
         }
     }
 

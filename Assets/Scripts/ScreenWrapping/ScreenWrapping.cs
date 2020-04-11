@@ -9,15 +9,11 @@ public class ScreenWrapping : MonoBehaviour
 
     private List<Transform> groundTransforms;
     private Transform playerTransform;
-    private GameObject rightSide;
-    private GameObject leftSide;
     private int listCount;
 
     void Start()
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
-        rightSide = GameObject.FindWithTag("rightMapSide");
-        leftSide = GameObject.FindWithTag("leftMapSide");
 
         groundTransforms = new List<Transform>();
 
@@ -32,8 +28,6 @@ public class ScreenWrapping : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            //Debug.Log("Player pos: " + playerTransform.position.x);
-            //Debug.Log("Middle pos: " + (GetMiddlePosition() + middleOffset).ToString());
             if (playerTransform.position.x > GetMiddlePosition() + middleOffset)
             {
                 Transform oldLeftGround = groundTransforms[0];
@@ -54,37 +48,11 @@ public class ScreenWrapping : MonoBehaviour
                 groundTransforms.Insert(0, oldRightGround);
                 oldRightGround.position = newPosition;
             }
-
-            //if (player.transform.position.x > rightSide.transform.position.x)
-            //{
-            //    Vector3 newPosition = new Vector3(rightSide.transform.position.x + distance, leftSide.transform.position.y, 0);
-            //    leftSide.transform.position = newPosition;
-            //}
-            //else if (player.transform.position.x < rightSide.transform.position.x)
-            //{
-            //    Vector3 newPosition = new Vector3(rightSide.transform.position.x - distance, leftSide.transform.position.y, 0);
-            //    leftSide.transform.position = newPosition;
-            //}
-            //if (player.transform.position.x > leftSide.transform.position.x)
-            //{
-            //    Vector3 newPosition = new Vector3(leftSide.transform.position.x + distance, rightSide.transform.position.y, 0);
-            //    rightSide.transform.position = newPosition;
-            //}
-            //else if (player.transform.position.x < leftSide.transform.position.x)
-            //{
-            //    Vector3 newPosition = new Vector3(leftSide.transform.position.x - distance, rightSide.transform.position.y, 0);
-            //    rightSide.transform.position = newPosition;
-            //}
         }
         else
         {
             playerTransform = GameObject.FindWithTag("Player")?.transform;
         }
-    }
-
-    void SetCorrectIndex()
-    {
-
     }
 
     float GetMiddlePosition()
