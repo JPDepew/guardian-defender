@@ -26,13 +26,13 @@ public class ShipController : MonoBehaviour
     public float healthIndicatorOffset = 0.5f;
     private float currentHealthIndicatorOffset = 0;
 
-
     public float horizontalAcceleration = 0.1f;
     public float verticalAcceleration = 0.6f;
     public float backwardsAcceleration = 0.1f;
     public float maxHorizontalSpeed = 2;
     public float maxVerticalSpeed = 2;
     public float maxBackwardsSpeed = 2;
+    public float boostValue = 1.3f;
 
     public float verticalDecelerationLinearInterpolationTime = 0.12f;
     public float horizontalDecelerationLinearInterpolationTime = 0.2f;
@@ -46,6 +46,9 @@ public class ShipController : MonoBehaviour
     private Utilities utilities;
     private Constants constants;
     private bool canShoot = true;
+    private float boostMultiplier = 1f;
+
+    private AudioSource[] boostAudioSources;
 
     private float invulnerabilityTime = 1f;
     private float invulnerabilityTargetTime;
@@ -69,6 +72,7 @@ public class ShipController : MonoBehaviour
         audioSources = GetComponents<AudioSource>();
         verticalHalfSize = Camera.main.orthographicSize;
         invulnerabilityTargetTime = Time.time + invulnerabilityTime;
+        boostAudioSources = boostParticleSystem.GetComponents<AudioSource>();
         InitializeHealthIndicators();
 
         PowerupObj.onGetPowerup += OnPowerup;
@@ -199,9 +203,13 @@ public class ShipController : MonoBehaviour
             healthIndicatorParent.localScale = new Vector2(-Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
             leftShip.SetActive(true);
             spriteRenderer.enabled = false;
-            if (direction.x > -maxHorizontalSpeed)
+            if (direction.x > -maxHorizontalSpeed * boostMultiplier)
             {
-                direction += horizontalAcceleration * Vector2.left;
+                direction += horizontalAcceleration * Vector2.left * boostMultiplier;
+            }
+            else
+            {
+                direction = Vector2.Lerp(direction, new Vector2(-maxHorizontalSpeed, direction.y), horizontalDecelerationLinearInterpolationTime);
             }
             HandleParticleSystemsMoveLeft();
             if (!audioSources[1].isPlaying)
@@ -214,9 +222,13 @@ public class ShipController : MonoBehaviour
             healthIndicatorParent.localScale = new Vector2(Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
             leftShip.SetActive(false);
             spriteRenderer.enabled = true;
-            if (direction.x < maxHorizontalSpeed)
+            if (direction.x < maxHorizontalSpeed * boostMultiplier)
             {
-                direction += horizontalAcceleration * Vector2.right;
+                direction += horizontalAcceleration * Vector2.right * boostMultiplier;
+            }
+            else
+            {
+                direction = Vector2.Lerp(direction, new Vector2(maxHorizontalSpeed, direction.y), horizontalDecelerationLinearInterpolationTime);
             }
             HandleParticleSystemsMoveRight();
             if (!audioSources[1].isPlaying)
@@ -227,21 +239,11 @@ public class ShipController : MonoBehaviour
         // Horizontal Deceleration
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.Space))
         {
+            boostMultiplier = 1;
             if (Mathf.Abs(direction.x) > 0.01f)
             {
                 direction = Vector2.Lerp(direction, new Vector2(0, direction.y), horizontalDecelerationLinearInterpolationTime);
-                if (fuelParticleSystem.isPlaying)
-                {
-                    fuelParticleSystem.Stop();
-                }
-                if (boostParticleSystem.isPlaying)
-                {
-                    boostParticleSystem.Stop();
-                }
-                if (audioSources[1].isPlaying)
-                {
-                    audioSources[1].Stop();
-                }
+                HandleEngineParticleSystemStop();
             }
             else
             {
@@ -278,12 +280,36 @@ public class ShipController : MonoBehaviour
         {
             if (boostParticleSystem.gameObject.activeSelf && !boostParticleSystem.isEmitting)
             {
+                boostAudioSources[0].Play();
+                boostAudioSources[1].Play();
+                boostMultiplier = boostValue;
                 boostParticleSystem.Play();
             }
         }
         else
         {
+            boostMultiplier = 1;
+            boostAudioSources[1].Stop();
+            boostAudioSources[0].Stop();
             boostParticleSystem.Stop();
+        }
+    }
+
+    void HandleEngineParticleSystemStop()
+    {
+        if (fuelParticleSystem.isPlaying)
+        {
+            fuelParticleSystem.Stop();
+        }
+        if (boostParticleSystem.isPlaying)
+        {
+            boostAudioSources[1].Stop();
+            boostAudioSources[0].Stop();
+            boostParticleSystem.Stop();
+        }
+        if (audioSources[1].isPlaying)
+        {
+            audioSources[1].Stop();
         }
     }
 
