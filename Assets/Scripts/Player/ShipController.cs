@@ -149,15 +149,7 @@ public class ShipController : MonoBehaviour
         {
             if (!playerStats.IsPowerupActive(PowerupObj.Powerup.Laser))
             {
-                audioSources[0].Play();
-                GameObject tempBullet = Instantiate(bullet, gunPosition.transform.position, transform.rotation);
-
-                tempBullet.transform.localScale = leftShip.activeSelf == true ?
-                    new Vector2(-tempBullet.transform.localScale.x, tempBullet.transform.localScale.y) :
-                    new Vector2(tempBullet.transform.localScale.x, tempBullet.transform.localScale.y);
-
-                canShoot = false;
-                StartCoroutine(WaitBetweenShooting(false));
+                ShootBullet(bullet);
             }
             else
             {
@@ -170,16 +162,23 @@ public class ShipController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.X) && canShoot)
         {
-            audioSources[0].Play();
-            GameObject tempBullet = Instantiate(bulletDisinfect, gunPosition.transform.position, transform.rotation);
-
-            tempBullet.transform.localScale = leftShip.activeSelf == true ?
-                new Vector2(-tempBullet.transform.localScale.x, tempBullet.transform.localScale.y) :
-                new Vector2(tempBullet.transform.localScale.x, tempBullet.transform.localScale.y);
-
-            canShoot = false;
-            StartCoroutine(WaitBetweenShooting(true));
+            ShootBullet(bulletDisinfect);
         }
+    }
+
+    void ShootBullet(GameObject bullet)
+    {
+        audioSources[0].Play();
+        GameObject tempBullet = Instantiate(bullet, gunPosition.transform.position, transform.rotation);
+
+        tempBullet.transform.localScale = leftShip.activeSelf == true ?
+            new Vector2(-tempBullet.transform.localScale.x, tempBullet.transform.localScale.y) :
+            new Vector2(tempBullet.transform.localScale.x, tempBullet.transform.localScale.y);
+
+        tempBullet.GetComponent<Bullet>().speed *= boostMultiplier;
+
+        canShoot = false;
+        StartCoroutine(WaitBetweenShooting(false));
     }
 
     void ManageVerticalBounds()
