@@ -55,6 +55,8 @@ public class ShipController : MonoBehaviour
     private BoxCollider2D boxCollider;
     private bool shouldBeInvulnerable = true;
 
+    KeyCode bombKeyCode;
+
     float verticalHalfSize;
     bool destroyed = false;
 
@@ -75,6 +77,8 @@ public class ShipController : MonoBehaviour
         boostAudioSources = boostParticleSystem.GetComponents<AudioSource>();
         InitializeHealthIndicators();
 
+        bombKeyCode = constants.PowerupObjByEnum(Powerup.Bomb).keyCode;
+
         PowerupObj.onGetPowerup += OnPowerup;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -94,14 +98,14 @@ public class ShipController : MonoBehaviour
         transform.position = transform.position + (Vector3)direction * Time.deltaTime;
     }
 
-    void OnPowerup(PowerupObj.Powerup powerupName)
+    void OnPowerup(Powerup powerupName)
     {
-        if (powerupName == PowerupObj.Powerup.Shield)
+        if (powerupName == Powerup.Shield)
         {
             audioSources[3].Play();
             shield.SetActive(true);
         }
-        if (powerupName == PowerupObj.Powerup.Boost)
+        if (powerupName == Powerup.Boost)
         {
             boostParticleSystem.gameObject.SetActive(true);
         }
@@ -144,10 +148,12 @@ public class ShipController : MonoBehaviour
         HandleVerticalInput();
         ManageVerticalBounds();
 
+        HandleBomb();
+
         // Shooting
         if (Input.GetKeyDown(KeyCode.Z) && canShoot)
         {
-            if (!playerStats.IsPowerupActive(PowerupObj.Powerup.Laser))
+            if (!playerStats.IsPowerupActive(Powerup.Laser))
             {
                 ShootBullet(bullet);
             }
@@ -163,6 +169,17 @@ public class ShipController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X) && canShoot)
         {
             ShootBullet(bulletDisinfect);
+        }
+    }
+
+    void HandleBomb()
+    {
+        if (Input.GetKeyDown(bombKeyCode))
+        {
+            if (playerStats.bombsCount > 0)
+            {
+                playerStats.bombsCount--;
+            }
         }
     }
 
@@ -391,7 +408,7 @@ public class ShipController : MonoBehaviour
 
     IEnumerator WaitBetweenShooting(bool disinfect)
     {
-        float waitTime = playerStats.IsPowerupActive(PowerupObj.Powerup.Laser) && !disinfect ? 0.45f : 0.1f;
+        float waitTime = playerStats.IsPowerupActive(Powerup.Laser) && !disinfect ? 0.45f : 0.1f;
         yield return new WaitForSeconds(waitTime);
         canShoot = true;
     }

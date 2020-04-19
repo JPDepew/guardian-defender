@@ -5,9 +5,9 @@ using UnityEngine;
 public class PowerupObj : ScreenWrappingObject
 {
     public GameObject explosion;
-    public enum Powerup { Laser, Shield, Boost }
     public Powerup powerupEnum;
     public string powerupName;
+    public KeyCode keyCode;
 
     public delegate void OnGetPowerup(Powerup powerup);
     public static event OnGetPowerup onGetPowerup;

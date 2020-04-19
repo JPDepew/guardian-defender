@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,11 +6,9 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats instance;
 
+    public int bombsCount = 0;
     private int lives;
     public int score;
-    public bool bigLaser = false;
-    public bool shield = false;
-    public bool speedBoost = false;
     public Dictionary<PowerupObj, bool> powerups = new Dictionary<PowerupObj, bool>();
 
     private int scoreTracker;
@@ -49,15 +45,24 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public bool IsPowerupActive(PowerupObj.Powerup powerupEnum)
+    public bool IsPowerupActive(Powerup powerupEnum)
     {
-        return powerups[powerups.FirstOrDefault(x => x.Key.powerupEnum == powerupEnum).Key];
+        return powerups[PowerupKeyByEnum(powerupEnum)];
     }
 
-    void OnPowerupActivate(PowerupObj.Powerup powerupEnum)
+    void OnPowerupActivate(Powerup powerupEnum)
     {
-        PowerupObj powerup = powerups.FirstOrDefault(x => x.Key.powerupEnum == powerupEnum).Key;
+        PowerupObj powerup = PowerupKeyByEnum(powerupEnum);
         powerups[powerup] = true;
+        if (powerupEnum == Powerup.Bomb)
+        {
+            bombsCount++;
+        }
+    }
+
+    PowerupObj PowerupKeyByEnum(Powerup powerupEnum)
+    {
+        return powerups.FirstOrDefault(x => x.Key.powerupEnum == powerupEnum).Key;
     }
 
     public int GetScore()
@@ -81,8 +86,6 @@ public class PlayerStats : MonoBehaviour
 
     public void ResetAllPowerups()
     {
-        bigLaser = false;
-        shield = false;
         List<PowerupObj> keys = new List<PowerupObj>(powerups.Keys);
         foreach (var key in keys)
         {

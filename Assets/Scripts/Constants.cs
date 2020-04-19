@@ -46,6 +46,11 @@ public class Constants : MonoBehaviour
         }
     }
 
+    public PowerupObj PowerupObjByEnum(Powerup powerupEnum)
+    {
+        return powerups.FirstOrDefault(x => x.powerupEnum == powerupEnum);
+    }
+
     public void resetScore()
     {
         score = 0;
