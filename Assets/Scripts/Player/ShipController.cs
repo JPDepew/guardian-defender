@@ -10,6 +10,7 @@ public class ShipController : MonoBehaviour
     public GameObject bigLaser;
     public GameObject shield;
     public GameObject explosion;
+    public GameObject bomb;
     public GameObject healthIndicator;
     public GameObject leftShip;
 
@@ -178,6 +179,7 @@ public class ShipController : MonoBehaviour
         {
             if (playerStats.bombsCount > 0)
             {
+                Instantiate(bomb, transform.position, transform.rotation);
                 playerStats.bombsCount--;
             }
         }

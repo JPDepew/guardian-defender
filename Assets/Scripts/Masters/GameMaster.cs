@@ -160,7 +160,10 @@ public class GameMaster : MonoBehaviour
 
         yield return new WaitForSeconds(bonusTextAnimator.GetCurrentAnimatorStateInfo(0).length);
 
-        shipReference.GetComponent<ShipController>().ClearAllHumans();
+        if (shipReference)
+        {
+            shipReference.GetComponent<ShipController>().ClearAllHumans();
+        }
 
         bonusText.text = "";
         bonusText.GetComponent<Animator>().StopPlayback();

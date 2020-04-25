@@ -29,6 +29,11 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        PowerupObj.onGetPowerup -= OnPowerupActivate;
+    }
+
     public int GetLives()
     {
         return lives;

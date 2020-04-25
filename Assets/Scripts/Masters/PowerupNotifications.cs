@@ -35,4 +35,9 @@ public class PowerupNotifications : MonoBehaviour
         textAnimator.Play("PowerupInstructionsFadeOut");
 
     }
+
+    private void OnDestroy()
+    {
+        PowerupObj.onGetPowerup -= OnPowerupActivate;
+    }
 }
