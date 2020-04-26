@@ -6,7 +6,7 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats instance;
 
-    public int bombsCount = 0;
+    public int bombsCount = 3;
     private int lives;
     public int score;
     public Dictionary<PowerupObj, bool> powerups = new Dictionary<PowerupObj, bool>();

@@ -63,6 +63,9 @@ public class ShipController : MonoBehaviour
 
     GameMaster gameMaster;
 
+    public delegate void OnBomb();
+    public static event OnBomb onBomb;
+
     private void Start()
     {
         playerStats = PlayerStats.instance;
@@ -181,6 +184,7 @@ public class ShipController : MonoBehaviour
             {
                 Instantiate(bomb, transform.position, transform.rotation);
                 playerStats.bombsCount--;
+                onBomb?.Invoke();
             }
         }
     }
