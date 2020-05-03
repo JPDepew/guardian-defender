@@ -20,7 +20,7 @@ public class AlienBullet : MonoBehaviour {
     void Update () {
         if (utilities.gameState == Utilities.GameState.STOPPED) return;
 
-        transform.Translate(direction * speed);
+        transform.Translate(direction * speed * Time.deltaTime);
         if (!sRnderer.isVisible)
         {
             Destroy(gameObject);

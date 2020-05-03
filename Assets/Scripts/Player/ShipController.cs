@@ -14,6 +14,8 @@ public class ShipController : MonoBehaviour
     public GameObject healthIndicator;
     public GameObject leftShip;
 
+    public LayerMask layerMask;
+
     public ParticleSystem fuelParticleSystem;
     public Transform particleSystemPosLeft;
     public Transform particleSystemPosRight;
@@ -90,6 +92,8 @@ public class ShipController : MonoBehaviour
 
         boxCollider = GetComponent<BoxCollider2D>();
         boxCollider.enabled = false;
+
+        StartCoroutine(HandleCollisions());
     }
 
     void Update()
@@ -99,7 +103,7 @@ public class ShipController : MonoBehaviour
         GetInput();
 
         HandleInvulnerability();
-        transform.position = transform.position + (Vector3)direction * Time.deltaTime;
+        transform.position = transform.position + (Vector3)direction * Time.unscaledDeltaTime;
     }
 
     void OnPowerup(Powerup powerupName)
@@ -176,6 +180,29 @@ public class ShipController : MonoBehaviour
         }
     }
 
+    private IEnumerator HandleCollisions()
+    {
+        while (true)
+        {
+            Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1.75f, 0.2f), 0, layerMask);
+            if (col && col.tag == "Human")
+            {
+                Human human = col.transform.GetComponent<Human>();
+                if (human.curState == Human.State.FALLING)
+                {
+                    float audioPitchIncrease = 0.05f;
+
+                    audioSources[4].pitch = 1 + shipHumans.Count * audioPitchIncrease;
+                    shipHumans.Add(human);
+                    audioSources[4].Play();
+                    human.SetToRescued(transform, shipHumans.Count);
+                    gameMaster.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
+                }
+            }
+            yield return new WaitForSecondsRealtime(.02f);
+        }
+    }
+
     void HandleBomb()
     {
         if (Input.GetKeyDown(bombKeyCode))
@@ -198,7 +225,11 @@ public class ShipController : MonoBehaviour
             new Vector2(-tempBullet.transform.localScale.x, tempBullet.transform.localScale.y) :
             new Vector2(tempBullet.transform.localScale.x, tempBullet.transform.localScale.y);
 
-        tempBullet.GetComponent<Bullet>().speed *= boostMultiplier;
+        Bullet bulletScript = tempBullet.GetComponent<Bullet>();
+        // Add the ships speed to the bullet speed
+        bulletScript.speed += Mathf.Abs(direction.x);
+        // multiply by ship's boostMultiplier
+        bulletScript.speed *= boostMultiplier;
 
         canShoot = false;
         StartCoroutine(WaitBetweenShooting(false));
@@ -415,7 +446,7 @@ public class ShipController : MonoBehaviour
     IEnumerator WaitBetweenShooting(bool disinfect)
     {
         float waitTime = playerStats.IsPowerupActive(Powerup.Laser) && !disinfect ? 0.45f : 0.1f;
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSecondsRealtime(waitTime);
         canShoot = true;
     }
 
@@ -475,19 +506,19 @@ public class ShipController : MonoBehaviour
             DestroySelf();
             gameMaster.RespawnPlayer();
         }
-        if (collision.tag == "Human")
-        {
-            Human human = collision.transform.GetComponent<Human>();
-            if (human.curState == Human.State.FALLING)
-            {
-                float audioPitchIncrease = 0.05f;
+        //if (collision.tag == "Human")
+        //{
+        //    Human human = collision.transform.GetComponent<Human>();
+        //    if (human.curState == Human.State.FALLING)
+        //    {
+        //        float audioPitchIncrease = 0.05f;
 
-                audioSources[4].pitch = 1 + shipHumans.Count * audioPitchIncrease;
-                shipHumans.Add(human);
-                audioSources[4].Play();
-                human.SetToRescued(transform, shipHumans.Count);
-                gameMaster.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
-            }
-        }
+        //        audioSources[4].pitch = 1 + shipHumans.Count * audioPitchIncrease;
+        //        shipHumans.Add(human);
+        //        audioSources[4].Play();
+        //        human.SetToRescued(transform, shipHumans.Count);
+        //        gameMaster.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
+        //    }
+        //}
     }
 }

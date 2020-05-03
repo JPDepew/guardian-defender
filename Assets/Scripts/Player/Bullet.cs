@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     public float invisibleTime = 0.5f;
     public LayerMask layerMask;
     public float damage = 1;
+    public float destroyAfter = 1f;
 
     Utilities utilities;
 
@@ -23,6 +24,7 @@ public class Bullet : MonoBehaviour
 
         direction = Mathf.Sign(transform.localScale.x);
         spriteRenderer = GetComponent<SpriteRenderer>();
+        StartCoroutine(DelayedDestroy());
     }
 
     protected virtual void Update()
@@ -34,10 +36,6 @@ public class Bullet : MonoBehaviour
         if (shouldRaycast)
         {
             Raycasting();
-        }
-        if (!spriteRenderer.isVisible)
-        {
-            StartCoroutine(DelayedDestroy());
         }
     }
 
@@ -74,7 +72,7 @@ public class Bullet : MonoBehaviour
 
     IEnumerator DelayedDestroy()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(destroyAfter);
         Destroy(gameObject);
     }
 }

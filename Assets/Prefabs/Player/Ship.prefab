@@ -4872,6 +4872,9 @@ MonoBehaviour:
   healthIndicator: {fileID: 1456231636893702, guid: 6f7f7e19019d8af45b5c24431a62cb11,
     type: 3}
   leftShip: {fileID: 1518918454723746}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
   fuelParticleSystem: {fileID: 198411630127620130}
   particleSystemPosLeft: {fileID: 4201931875760158}
   particleSystemPosRight: {fileID: 4698269673787468}

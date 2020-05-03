@@ -4858,6 +4858,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1280
   damage: 1
+  destroyAfter: 0.45
 --- !u!1 &1784120381563218
 GameObject:
   m_ObjectHideFlags: 0

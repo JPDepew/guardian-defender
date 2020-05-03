@@ -23,7 +23,6 @@ public class Human : Hittable
     private float verticalHalfSizeOffset = 0.8f;
     private bool shouldDie = true;
 
-
     private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider2D;
@@ -54,7 +53,7 @@ public class Human : Hittable
             if (transform.position.y > -verticalHalfSize + verticalHalfSizeOffset)
             {
                 actualSpeed += acceleration;
-                transform.Translate(Vector2.down * actualSpeed, Space.World);
+                transform.Translate(Vector2.down * actualSpeed * Time.deltaTime, Space.World);
             }
             else
             {
@@ -85,11 +84,13 @@ public class Human : Hittable
         }
         if (curState == State.GROUNDED)
         {
+            // default
             gameObject.layer = 0;
             transform.parent = currentGround;
         }
         else
         {
+            // hittable
             gameObject.layer = 8;
         }
     }
