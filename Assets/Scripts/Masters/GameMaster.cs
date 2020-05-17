@@ -42,6 +42,7 @@ public class GameMaster : MonoBehaviour
     private bool respawningCharacter;
     private Animator bonusTextAnimator;
     private AudioSource[] audioSources;
+    private UIAnimationsMaster uIAnimationsMaster;
 
     private float waveCount = 0f;
     private int bonus;
@@ -70,6 +71,7 @@ public class GameMaster : MonoBehaviour
         constants = Constants.instance;
         wrapDst = constants.wrapDst;
         mainCamera = Camera.main;
+        uIAnimationsMaster = GetComponent<UIAnimationsMaster>();
 
         // Event listeners
         Alien.onAlienDestroyed += OnAlienDestroyed;
@@ -323,44 +325,7 @@ public class GameMaster : MonoBehaviour
 
     public void InstantiateScorePopup(int scoreIncrease, Vector3 position)
     {
-        Text popupText = Instantiate(popupScoreText, new Vector2(position.x, position.y + 0.5f), transform.rotation, canvas.transform);
-        StartCoroutine(AnimatePopupText(popupText));
-        playerStats.IncreaseScoreBy(scoreIncrease);
-    }
-
-    IEnumerator AnimatePopupText(Text popupText)
-    {
-        StartCoroutine(MovePopupText(popupText.transform));
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(FadeOutPopupText(popupText));
-        Destroy(popupText.gameObject);
-    }
-
-    IEnumerator MovePopupText(Transform popupTransform)
-    {
-        float moveAmount = 0.7f;
-        float moveDecreaseFraction = 0.95f;
-        float seconds = 0.75f;
-        float targetTime = Time.time + seconds;
-
-        while (Time.time < targetTime)
-        {
-            popupTransform.Translate(Vector2.up * moveAmount * Time.deltaTime);
-            moveAmount *= moveDecreaseFraction;
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeOutPopupText(Text popupText)
-    {
-        Color curTextColor = popupText.color;
-        float alphaDecreaseAmt = 0.05f;
-
-        while (curTextColor.a >= 0)
-        {
-            popupText.color = new Color(curTextColor.r, curTextColor.g, curTextColor.b, popupText.color.a - alphaDecreaseAmt);
-            yield return null;
-        }
+        uIAnimationsMaster.InstanatiateScorePopup(scoreIncrease, position);
     }
 
     IEnumerator RespawnPlayerTimer()

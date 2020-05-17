@@ -5690,6 +5690,7 @@ GameObject:
   - component: {fileID: 449487488}
   - component: {fileID: 449487489}
   - component: {fileID: 449487491}
+  - component: {fileID: 449487490}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -6009,6 +6010,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: 0
+--- !u!114 &449487490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449487481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7399d1fb7640b4dbc85b821e3a20c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupScoreText: {fileID: 5466391997545098352, guid: bc70aad0a2951bb4ca276265b5cb7deb,
+    type: 3}
+  canvas: {fileID: 1770388714}
 --- !u!114 &449487491
 MonoBehaviour:
   m_ObjectHideFlags: 0
