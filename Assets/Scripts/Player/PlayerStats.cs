@@ -9,7 +9,10 @@ public class PlayerStats : MonoBehaviour
     public int bombsCount = 3;
     private int lives;
     public int score;
+    public float timeFreezeAmountRemaining = 0;
     public Dictionary<PowerupObj, bool> powerups = new Dictionary<PowerupObj, bool>();
+
+    Constants constants;
 
     private int scoreTracker;
 
@@ -63,6 +66,10 @@ public class PlayerStats : MonoBehaviour
         {
             bombsCount++;
         }
+        if (powerupEnum == Powerup.TimeFreeze)
+        {
+            timeFreezeAmountRemaining = constants.timeFreezeAmount;
+        }
     }
 
     PowerupObj PowerupKeyByEnum(Powerup powerupEnum)
@@ -96,5 +103,6 @@ public class PlayerStats : MonoBehaviour
         {
             powerups[key] = false;
         }
+        timeFreezeAmountRemaining = 0;
     }
 }
