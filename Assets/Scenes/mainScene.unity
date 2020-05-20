@@ -5777,6 +5777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombsCount: 3
   score: 0
+  timeFreezeAmountRemaining: 0
 --- !u!114 &449487486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5798,11 +5799,13 @@ MonoBehaviour:
   catchHumanBonus: 500
   rescueHumanBonus: 500
   explosionOffset: 15
+  timeFreezeAmount: 100
   powerups:
   - {fileID: 114622171338110102, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
   - {fileID: 114524866262424988, guid: c97c09016795cd344b0599d98e331cf5, type: 3}
   - {fileID: 114622171338110102, guid: d222e1049ebaae64b8b0be27d34bfb66, type: 3}
   - {fileID: 114524866262424988, guid: cc6511c3c399053419bb6840f07a85f3, type: 3}
+  - {fileID: 114524866262424988, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
 --- !u!82 &449487487
 AudioSource:
   m_ObjectHideFlags: 0

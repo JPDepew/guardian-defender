@@ -251,7 +251,7 @@ public class ShipController : MonoBehaviour
     void HandleHorizontalInput()
     {
         // Side to side movement
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             healthIndicatorParent.localScale = new Vector2(-Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
             leftShip.SetActive(true);
@@ -270,7 +270,7 @@ public class ShipController : MonoBehaviour
                 audioSources[1].Play();
             }
         }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             healthIndicatorParent.localScale = new Vector2(Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
             leftShip.SetActive(false);

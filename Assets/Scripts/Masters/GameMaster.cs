@@ -56,6 +56,8 @@ public class GameMaster : MonoBehaviour
     private Vector3 playerPosition;
     private Quaternion rotation;
 
+    private bool timeFreeze = false;
+
     float wrapDst = 100;
 
     private void Awake()
@@ -97,12 +99,6 @@ public class GameMaster : MonoBehaviour
                 EndGame();
             }
         }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StopCoroutine("ChangeTimeScale");
-            StartCoroutine("ChangeTimeScale");
-            // Time.timeScale = Time.timeScale == 1 ? 0 : 1;
-        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
@@ -123,23 +119,6 @@ public class GameMaster : MonoBehaviour
             utilities.gameState = Utilities.GameState.STOPPED;
             Time.timeScale = 0;
             pauseCanvas.SetActive(true);
-        }
-    }
-
-    IEnumerator ChangeTimeScale()
-    {
-        float min = 0.005f;
-        float targetTimeScale = Time.timeScale > 0.5f ? min : 1;
-        float fadeSpeed = 0.05f;
-        float sign = Mathf.Sign(targetTimeScale - Time.timeScale);
-        bool shouldChange = true;
-
-        while (Time.timeScale >= min && Time.timeScale <= 1 || shouldChange)
-        {
-            float newValue = Time.timeScale + fadeSpeed * sign;
-            Time.timeScale = Mathf.Clamp(newValue, min, 1);
-            shouldChange = false;
-            yield return null;
         }
     }
 
