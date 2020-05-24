@@ -26,6 +26,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        constants = Constants.instance;
         foreach (PowerupObj powerup in Constants.instance.powerups)
         {
             powerups.Add(powerup, false);
@@ -64,11 +65,12 @@ public class PlayerStats : MonoBehaviour
         powerups[powerup] = true;
         if (powerupEnum == Powerup.Bomb)
         {
+            print(powerupEnum == Powerup.Bomb);
             bombsCount++;
         }
         if (powerupEnum == Powerup.TimeFreeze)
         {
-            timeFreezeAmountRemaining = constants.timeFreezeAmount;
+            timeFreezeAmountRemaining += constants.timeFreezeAmount;
         }
     }
 

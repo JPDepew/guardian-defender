@@ -56,8 +56,6 @@ public class GameMaster : MonoBehaviour
     private Vector3 playerPosition;
     private Quaternion rotation;
 
-    private bool timeFreeze = false;
-
     float wrapDst = 100;
 
     private void Awake()

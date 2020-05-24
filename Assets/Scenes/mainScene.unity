@@ -5799,7 +5799,7 @@ MonoBehaviour:
   catchHumanBonus: 500
   rescueHumanBonus: 500
   explosionOffset: 15
-  timeFreezeAmount: 100
+  timeFreezeAmount: 1000
   powerups:
   - {fileID: 114622171338110102, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
   - {fileID: 114524866262424988, guid: c97c09016795cd344b0599d98e331cf5, type: 3}

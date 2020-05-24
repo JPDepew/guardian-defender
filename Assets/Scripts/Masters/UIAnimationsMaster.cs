@@ -18,7 +18,6 @@ public class UIAnimationsMaster : MonoBehaviour
 
     public void InstanatiateScorePopup(int scoreIncrease, Vector3 position)
     {
-        print(scoreIncrease);
         Text popupText = Instantiate(popupScoreText, new Vector2(position.x, position.y + 0.5f), transform.rotation, canvas.transform);
         popupText.text = scoreIncrease.ToString();
         StartCoroutine(AnimatePopupText(popupText));

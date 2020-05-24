@@ -4869,7 +4869,6 @@ MonoBehaviour:
   bigLaser: {fileID: 1312202280678862, guid: d624cf486720233428c9a019befbd6d1, type: 3}
   shield: {fileID: 1624324070910128}
   explosion: {fileID: 1454944896820088, guid: a1394b9af106c924db7a06ec75e1dd6b, type: 3}
-  bomb: {fileID: 7148878231075306214, guid: 6bba7beca2e0be947aea60c2c01f3a65, type: 3}
   healthIndicator: {fileID: 1456231636893702, guid: 6f7f7e19019d8af45b5c24431a62cb11,
     type: 3}
   leftShip: {fileID: 1518918454723746}
@@ -4906,6 +4905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a51761738e03b04d9d6f0f312652e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bomb: {fileID: 7148878231075306214, guid: 6bba7beca2e0be947aea60c2c01f3a65, type: 3}
 --- !u!82 &82989810532279758
 AudioSource:
   m_ObjectHideFlags: 0

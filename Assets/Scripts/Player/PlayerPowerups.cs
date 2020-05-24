@@ -4,38 +4,87 @@ using UnityEngine;
 
 public class PlayerPowerups : MonoBehaviour
 {
+    public GameObject bomb;
+
     private PlayerStats playerStats;
     private Constants constants;
 
     private KeyCode timeFreezeKeyCode;
+    private KeyCode bombKeyCode;
 
     private bool timeFreeze = false;
-    
+
+    public delegate void OnBomb();
+    public static event OnBomb onBomb;
+
     void Start()
     {
         constants = Constants.instance;
         playerStats = PlayerStats.instance;
         timeFreezeKeyCode = constants.PowerupObjByEnum(Powerup.TimeFreeze).keyCode;
+        bombKeyCode = constants.PowerupObjByEnum(Powerup.Bomb).keyCode;
+
+        PowerupObj.onGetPowerup += OnPowerupActivate;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(timeFreezeKeyCode))
+        HandleBomb();
+    }
+
+    private void OnDestroy()
+    {
+        PowerupObj.onGetPowerup -= OnPowerupActivate;
+    }
+
+    void OnPowerupActivate(Powerup powerup)
+    {
+        switch (powerup)
         {
-            StopCoroutine("ChangeTimeScale");
-            StartCoroutine("ChangeTimeScale");
-        }
-        if (timeFreeze)
-        {
-            playerStats.timeFreezeAmountRemaining -= 1;
-            print(playerStats.timeFreezeAmountRemaining);
+            case Powerup.TimeFreeze:
+                StopCoroutine("TimeFreezeActive");
+                StartCoroutine("TimeFreezeActive");
+                break;
         }
     }
 
-    IEnumerator ChangeTimeScale()
+    void HandleBomb()
+    {
+        if (Input.GetKeyDown(bombKeyCode))
+        {
+            if (playerStats.bombsCount > 0)
+            {
+                Instantiate(bomb, transform.position, transform.rotation);
+                playerStats.bombsCount--;
+                onBomb?.Invoke();
+            }
+        }
+    }
+
+    IEnumerator TimeFreezeActive()
+    {
+        while(playerStats.timeFreezeAmountRemaining > 0)
+        {
+            if (Input.GetKeyDown(timeFreezeKeyCode) && playerStats.IsPowerupActive(Powerup.TimeFreeze) && playerStats.timeFreezeAmountRemaining > 0)
+            {
+                StopCoroutine("ChangeTimeScale");
+                StartCoroutine("ChangeTimeScale", false);
+            }
+            if (timeFreeze)
+            {
+                playerStats.timeFreezeAmountRemaining -= 1;
+            }
+            yield return null;
+        }
+        StopCoroutine("ChangeTimeScale");
+        StartCoroutine("ChangeTimeScale", true);
+    }
+
+    IEnumerator ChangeTimeScale(bool overrideSpeedUp = false)
     {
         float min = 0.005f;
-        float targetTimeScale = Time.timeScale > 0.5f ? min : 1;
+        float max = 1;
+        float targetTimeScale = Time.timeScale < 0.5f || overrideSpeedUp ? max : min;
         float fadeSpeed = 0.05f;
         float sign = Mathf.Sign(targetTimeScale - Time.timeScale);
         bool shouldChange = true;

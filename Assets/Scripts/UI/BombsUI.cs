@@ -10,15 +10,13 @@ public class BombsUI : MonoBehaviour
 
     Stack<GameObject> bombs;
     PlayerStats playerStats;
-    int bombsCount;
 
     void Start()
     {
         playerStats = PlayerStats.instance;
-        bombsCount = playerStats.bombsCount;
         bombs = new Stack<GameObject>();
 
-        for (int i = 0; i < bombsCount; i++)
+        for (int i = 0; i < playerStats.bombsCount; i++)
         {
             bombs.Push(
                 Instantiate(bombUI, new Vector3(bombsParent.position.x + offset * i, bombsParent.position.y), bombsParent.rotation, bombsParent)
@@ -26,27 +24,28 @@ public class BombsUI : MonoBehaviour
         }
 
         PowerupObj.onGetPowerup += OnGetPowerup;
-        ShipController.onBomb += OnBomb;
+        PlayerPowerups.onBomb += OnBomb;
     }
 
     void OnGetPowerup(Powerup powerup)
     {
-        bombs.Push(
-            Instantiate(bombUI, new Vector3(bombsParent.position.x + offset * bombsCount, bombsParent.position.y), bombsParent.rotation, bombsParent)
-        );
-        bombsCount++;
+        if (powerup == Powerup.Bomb)
+        {
+            bombs.Push(
+                Instantiate(bombUI, new Vector3(bombsParent.position.x + offset * playerStats.bombsCount, bombsParent.position.y), bombsParent.rotation, bombsParent)
+            );
+        }
     }
 
     void OnBomb()
     {
         GameObject bombToRemove = bombs.Pop();
         Destroy(bombToRemove);
-        bombsCount--;
     }
 
     private void OnDestroy()
     {
         PowerupObj.onGetPowerup -= OnGetPowerup;
-        ShipController.onBomb -= OnBomb;
+        PlayerPowerups.onBomb -= OnBomb;
     }
 }

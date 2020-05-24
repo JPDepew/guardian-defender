@@ -10,7 +10,6 @@ public class ShipController : MonoBehaviour
     public GameObject bigLaser;
     public GameObject shield;
     public GameObject explosion;
-    public GameObject bomb;
     public GameObject healthIndicator;
     public GameObject leftShip;
 
@@ -58,15 +57,10 @@ public class ShipController : MonoBehaviour
     private BoxCollider2D boxCollider;
     private bool shouldBeInvulnerable = true;
 
-    KeyCode bombKeyCode;
-
     float verticalHalfSize;
     bool destroyed = false;
 
     GameMaster gameMaster;
-
-    public delegate void OnBomb();
-    public static event OnBomb onBomb;
 
     private void Start()
     {
@@ -82,8 +76,6 @@ public class ShipController : MonoBehaviour
         invulnerabilityTargetTime = Time.time + invulnerabilityTime;
         boostAudioSources = boostParticleSystem.GetComponents<AudioSource>();
         InitializeHealthIndicators();
-
-        bombKeyCode = constants.PowerupObjByEnum(Powerup.Bomb).keyCode;
 
         PowerupObj.onGetPowerup += OnPowerup;
 
@@ -156,8 +148,6 @@ public class ShipController : MonoBehaviour
         HandleVerticalInput();
         ManageVerticalBounds();
 
-        HandleBomb();
-
         // Shooting
         if (Input.GetKeyDown(KeyCode.Z) && canShoot)
         {
@@ -200,19 +190,6 @@ public class ShipController : MonoBehaviour
                 }
             }
             yield return new WaitForSecondsRealtime(.02f);
-        }
-    }
-
-    void HandleBomb()
-    {
-        if (Input.GetKeyDown(bombKeyCode))
-        {
-            if (playerStats.bombsCount > 0)
-            {
-                Instantiate(bomb, transform.position, transform.rotation);
-                playerStats.bombsCount--;
-                onBomb?.Invoke();
-            }
         }
     }
 
