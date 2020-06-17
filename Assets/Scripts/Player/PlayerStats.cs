@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     public int bombsCount = 3;
     private int lives;
     public int score;
-    public float timeFreezeAmountRemaining = 0;
+    public int timeFreezeAmountRemaining = 0;
     public Dictionary<PowerupObj, bool> powerups = new Dictionary<PowerupObj, bool>();
 
     Constants constants;

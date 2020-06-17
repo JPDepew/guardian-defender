@@ -7,6 +7,10 @@ public class UIAnimationsMaster : MonoBehaviour
 {
     private PlayerStats playerStats;
     public Text popupScoreText;
+    public Text timeFreezeAmountText;
+
+    public GameObject timeFreezePanel;
+
     public GameObject canvas;
 
     // Start is called before the first frame update
@@ -14,6 +18,7 @@ public class UIAnimationsMaster : MonoBehaviour
     {
         // setting instance refs
         playerStats = PlayerStats.instance;
+        PowerupObj.onGetPowerup += OnPowerupActivate;
     }
 
     public void InstanatiateScorePopup(int scoreIncrease, Vector3 position)
@@ -22,6 +27,33 @@ public class UIAnimationsMaster : MonoBehaviour
         popupText.text = scoreIncrease.ToString();
         StartCoroutine(AnimatePopupText(popupText));
         playerStats.IncreaseScoreBy(scoreIncrease);
+    }
+
+    private void OnDestroy()
+    {
+        PowerupObj.onGetPowerup -= OnPowerupActivate;
+    }
+
+    void OnPowerupActivate(Powerup powerup)
+    {
+        switch (powerup)
+        {
+            case Powerup.TimeFreeze:
+                timeFreezePanel.SetActive(true);
+                StopCoroutine("HandleTimeFreezeUI");
+                StartCoroutine("HandleTimeFreezeUI");
+                break;
+        }
+    }
+
+    IEnumerator HandleTimeFreezeUI()
+    {
+        while (playerStats.timeFreezeAmountRemaining > 0)
+        {
+            timeFreezeAmountText.text = playerStats.timeFreezeAmountRemaining.ToString();
+            yield return null;
+        }
+        timeFreezePanel.SetActive(false);
     }
 
     /// <summary>
