@@ -17,6 +17,8 @@ public class PlayerPowerups : MonoBehaviour
 
     public delegate void OnBomb();
     public static event OnBomb onBomb;
+    public delegate void OnTimeFreeze();
+    public static event OnTimeFreeze onTimeFreeze;
 
     void Start()
     {
@@ -64,10 +66,11 @@ public class PlayerPowerups : MonoBehaviour
 
     IEnumerator TimeFreezeActive()
     {
-        while(playerStats.timeFreezeAmountRemaining > 0)
+        while (playerStats.timeFreezeAmountRemaining > 0)
         {
             if (Input.GetKeyDown(timeFreezeKeyCode) && playerStats.IsPowerupActive(Powerup.TimeFreeze) && playerStats.timeFreezeAmountRemaining > 0)
             {
+                onTimeFreeze?.Invoke();
                 StopCoroutine("ChangeTimeScale");
                 StartCoroutine("ChangeTimeScale", false);
             }
@@ -77,6 +80,7 @@ public class PlayerPowerups : MonoBehaviour
             }
             yield return null;
         }
+        onTimeFreeze?.Invoke();
         StopCoroutine("ChangeTimeScale");
         StartCoroutine("ChangeTimeScale", true);
     }

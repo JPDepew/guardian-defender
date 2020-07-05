@@ -77,6 +77,7 @@ public class GameMaster : MonoBehaviour
         Alien.onAlienDestroyed += OnAlienDestroyed;
         MutatedAlien.onMutatedAlienDestroyed += OnAlienDestroyed;
         Watch.onWatchDestroyed += OnWatchDestroyed;
+        PlayerPowerups.onTimeFreeze += ToggleMusic;
 
         verticalHalfSize = mainCamera.orthographicSize;
         bonusTextAnimator = bonusText.GetComponent<Animator>();
@@ -287,6 +288,7 @@ public class GameMaster : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        PlayAllMusic();
         playerPosition = shipReference.transform.position;
         rotation = shipReference.transform.rotation;
         playerStats.ResetAllPowerups();
@@ -326,6 +328,7 @@ public class GameMaster : MonoBehaviour
         Alien.onAlienDestroyed -= OnAlienDestroyed;
         MutatedAlien.onMutatedAlienDestroyed -= OnAlienDestroyed;
         Watch.onWatchDestroyed -= OnWatchDestroyed;
+        PlayerPowerups.onTimeFreeze -= ToggleMusic;
     }
 
     IEnumerator NewScene()
@@ -333,5 +336,50 @@ public class GameMaster : MonoBehaviour
         yield return new WaitForSeconds(4);
         Data.Instance.score = playerStats.GetScore();
         SceneManager.LoadScene(3);
+    }
+
+    /// <summary>
+    /// Toggles whether the current background is playing or not
+    /// </summary>
+    void ToggleMusic()
+    {
+        if (currentWatchAlien)
+        {
+            if (audioSources[1].isPlaying)
+            {
+                audioSources[1].Pause();
+            }
+            else
+            {
+                audioSources[1].UnPause();
+            }
+        }
+        else
+        {
+            if (audioSources[0].isPlaying)
+            {
+                audioSources[0].Pause();
+            }
+            else
+            {
+                audioSources[0].UnPause();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Makes sure that music is playing. If the player dies when time is frozen,
+    /// The music must be started again.
+    /// </summary>
+    void PlayAllMusic()
+    {
+        if (currentWatchAlien)
+        {
+            audioSources[1].UnPause();
+        }
+        else
+        {
+            audioSources[0].UnPause();
+        }
     }
 }

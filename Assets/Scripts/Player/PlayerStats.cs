@@ -105,6 +105,6 @@ public class PlayerStats : MonoBehaviour
         {
             powerups[key] = false;
         }
-        timeFreezeAmountRemaining = 0;
+        //timeFreezeAmountRemaining = 0;
     }
 }
