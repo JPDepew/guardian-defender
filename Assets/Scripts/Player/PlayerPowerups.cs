@@ -9,6 +9,7 @@ public class PlayerPowerups : MonoBehaviour
 
     private PlayerStats playerStats;
     private Constants constants;
+    private AudioSource[] audioSources;
 
     private KeyCode timeFreezeKeyCode;
     private KeyCode bombKeyCode;
@@ -26,6 +27,7 @@ public class PlayerPowerups : MonoBehaviour
         playerStats = PlayerStats.instance;
         timeFreezeKeyCode = constants.PowerupObjByEnum(Powerup.TimeFreeze).keyCode;
         bombKeyCode = constants.PowerupObjByEnum(Powerup.Bomb).keyCode;
+        audioSources = GetComponents<AudioSource>();
 
         PowerupObj.onGetPowerup += OnPowerupActivate;
     }
@@ -93,6 +95,15 @@ public class PlayerPowerups : MonoBehaviour
         float fadeSpeed = 0.05f;
         float sign = Mathf.Sign(targetTimeScale - Time.timeScale);
         bool shouldChange = true;
+
+        if (targetTimeScale == max)
+        {
+            audioSources[6].Play();
+        }
+        else
+        {
+            audioSources[5].Play();
+        }
 
         timeFreeze = !timeFreeze;
         while (Time.timeScale >= min && Time.timeScale <= 1 || shouldChange)
