@@ -4908,6 +4908,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bomb: {fileID: 7148878231075306214, guid: 6bba7beca2e0be947aea60c2c01f3a65, type: 3}
+  timeFreezeTrail: {fileID: 4099047929104453813, guid: 4e2bb6458cebefc42b853effba5e6e39,
+    type: 3}
+  timeFreezeTrailSpeed: 6
 --- !u!50 &50279070530075280
 Rigidbody2D:
   serializedVersion: 4

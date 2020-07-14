@@ -6,10 +6,15 @@ using UnityEngine.UI;
 public class PlayerPowerups : MonoBehaviour
 {
     public GameObject bomb;
+    public GameObject timeFreezeTrail;
+
+    public float timeFreezeTrailSpeed = 6;
 
     private PlayerStats playerStats;
     private Constants constants;
     private AudioSource[] audioSources;
+    private GameObject timeFreezeInstance;
+    private ShipController shipController;
 
     private KeyCode timeFreezeKeyCode;
     private KeyCode bombKeyCode;
@@ -28,6 +33,7 @@ public class PlayerPowerups : MonoBehaviour
         timeFreezeKeyCode = constants.PowerupObjByEnum(Powerup.TimeFreeze).keyCode;
         bombKeyCode = constants.PowerupObjByEnum(Powerup.Bomb).keyCode;
         audioSources = GetComponents<AudioSource>();
+        shipController = GetComponent<ShipController>();
 
         PowerupObj.onGetPowerup += OnPowerupActivate;
     }
@@ -98,10 +104,13 @@ public class PlayerPowerups : MonoBehaviour
 
         if (targetTimeScale == max)
         {
+            // Exit time freeze
             audioSources[6].Play();
         }
         else
         {
+            // Enter time freeze
+            StartCoroutine(ActivateTimeFreezeTrail());
             audioSources[5].Play();
         }
 
@@ -111,6 +120,21 @@ public class PlayerPowerups : MonoBehaviour
             float newValue = Time.timeScale + fadeSpeed * sign;
             Time.timeScale = Mathf.Clamp(newValue, min, 1);
             shouldChange = false;
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Enable and animates the time freeze trail
+    /// </summary>
+    /// <returns>null</returns>
+    IEnumerator ActivateTimeFreezeTrail()
+    {
+        timeFreezeInstance = Instantiate(timeFreezeTrail, transform.position, transform.rotation, transform);
+        timeFreezeInstance.transform.rotation = Quaternion.Euler(new Vector3(-135, 90, -90));
+        while (true)
+        {
+            timeFreezeInstance.transform.Rotate(Vector3.up, timeFreezeTrailSpeed);
             yield return null;
         }
     }
