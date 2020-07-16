@@ -9,11 +9,11 @@ public class PlayerPowerups : MonoBehaviour
     public GameObject timeFreezeTrail;
 
     public float timeFreezeTrailSpeed = 6;
+    public float timeFreezeTrailDelay = 0.1f;
 
     private PlayerStats playerStats;
     private Constants constants;
     private AudioSource[] audioSources;
-    private GameObject timeFreezeInstance;
     private ShipController shipController;
 
     private KeyCode timeFreezeKeyCode;
@@ -110,7 +110,7 @@ public class PlayerPowerups : MonoBehaviour
         else
         {
             // Enter time freeze
-            StartCoroutine(ActivateTimeFreezeTrail());
+            StartCoroutine(ActivateTimeFreezeTrails());
             audioSources[5].Play();
         }
 
@@ -124,15 +124,23 @@ public class PlayerPowerups : MonoBehaviour
         }
     }
 
+    IEnumerator ActivateTimeFreezeTrails()
+    {
+        StartCoroutine(ActivateTimeFreezeTrail());
+        yield return new WaitForSeconds(timeFreezeTrailDelay);
+        StartCoroutine(ActivateTimeFreezeTrail());
+    }
+
     /// <summary>
     /// Enable and animates the time freeze trail
     /// </summary>
     /// <returns>null</returns>
     IEnumerator ActivateTimeFreezeTrail()
     {
-        timeFreezeInstance = Instantiate(timeFreezeTrail, transform.position, transform.rotation, transform);
+        GameObject timeFreezeInstance = Instantiate(timeFreezeTrail, transform.position, transform.rotation, transform);
         timeFreezeInstance.transform.rotation = Quaternion.Euler(new Vector3(-135, 90, -90));
-        while (true)
+        ParticleSystem particleSystem = timeFreezeInstance.GetComponent<ParticleSystem>();
+        while (particleSystem.IsAlive())
         {
             timeFreezeInstance.transform.Rotate(Vector3.up, timeFreezeTrailSpeed);
             yield return null;

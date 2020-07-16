@@ -414,6 +414,7 @@ public class ShipController : MonoBehaviour
     IEnumerator ShootBigLaser()
     {
         yield return new WaitForSeconds(0.1f);
+        print(bigLaser);
         GameObject tempBullet = Instantiate(bigLaser, gunPosition.transform.position, transform.rotation);
         tempBullet.transform.localScale = leftShip.activeSelf == true ?
             new Vector2(-tempBullet.transform.localScale.x, tempBullet.transform.localScale.y) :
