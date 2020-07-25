@@ -209,7 +209,7 @@ public class ShipController : MonoBehaviour
         bulletScript.speed *= boostMultiplier;
 
         canShoot = false;
-        StartCoroutine(WaitBetweenShooting(false));
+        StartCoroutine(WaitBetweenShooting(true));
     }
 
     void ManageVerticalBounds()
@@ -413,8 +413,7 @@ public class ShipController : MonoBehaviour
 
     IEnumerator ShootBigLaser()
     {
-        yield return new WaitForSeconds(0.1f);
-        print(bigLaser);
+        yield return new WaitForSecondsRealtime(0.1f);
         GameObject tempBullet = Instantiate(bigLaser, gunPosition.transform.position, transform.rotation);
         tempBullet.transform.localScale = leftShip.activeSelf == true ?
             new Vector2(-tempBullet.transform.localScale.x, tempBullet.transform.localScale.y) :

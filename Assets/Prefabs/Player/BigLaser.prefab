@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 212481916534132122}
   - component: {fileID: 61831271936026282}
   - component: {fileID: 95306715735068148}
-  - component: {fileID: 2205081771452620205}
+  - component: {fileID: 703440361928269220}
   m_Layer: 0
   m_Name: BigLaser
   m_TagString: Untagged
@@ -129,7 +129,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2205081771452620205
+--- !u!114 &703440361928269220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

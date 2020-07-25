@@ -105,6 +105,7 @@ public class PlayerPowerups : MonoBehaviour
         if (targetTimeScale == max)
         {
             // Exit time freeze
+            StartCoroutine(ActivateTimeFreezeTrails());
             audioSources[6].Play();
         }
         else
@@ -128,21 +129,24 @@ public class PlayerPowerups : MonoBehaviour
     {
         StartCoroutine(ActivateTimeFreezeTrail());
         yield return new WaitForSeconds(timeFreezeTrailDelay);
-        StartCoroutine(ActivateTimeFreezeTrail());
+        StartCoroutine(ActivateTimeFreezeTrail(true));
     }
 
     /// <summary>
-    /// Enable and animates the time freeze trail
+    /// Enable and rotates the time freeze trail
     /// </summary>
-    /// <returns>null</returns>
-    IEnumerator ActivateTimeFreezeTrail()
+    /// <param name="oppositeRotation">Should trail spin in opposite direction</param>
+    /// <returns></returns>
+    IEnumerator ActivateTimeFreezeTrail(bool oppositeRotation = false)
     {
         GameObject timeFreezeInstance = Instantiate(timeFreezeTrail, transform.position, transform.rotation, transform);
-        timeFreezeInstance.transform.rotation = Quaternion.Euler(new Vector3(-135, 90, -90));
+        Vector3 startRotation = oppositeRotation ? new Vector3(-45, 90, -90) : new Vector3(-135, 90, -90);
+        timeFreezeInstance.transform.rotation = Quaternion.Euler(startRotation);
         ParticleSystem particleSystem = timeFreezeInstance.GetComponent<ParticleSystem>();
+        float actualSpeed = oppositeRotation ? -timeFreezeTrailSpeed : timeFreezeTrailSpeed;
         while (particleSystem.IsAlive())
         {
-            timeFreezeInstance.transform.Rotate(Vector3.up, timeFreezeTrailSpeed);
+            timeFreezeInstance.transform.Rotate(Vector3.up, actualSpeed);
             yield return null;
         }
     }
