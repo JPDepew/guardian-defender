@@ -31,8 +31,9 @@ public class BombsUI : MonoBehaviour
     {
         if (powerup == Powerup.Bomb)
         {
+            print(playerStats.bombsCount);
             bombs.Push(
-                Instantiate(bombUI, new Vector3(bombsParent.position.x + offset * playerStats.bombsCount, bombsParent.position.y), bombsParent.rotation, bombsParent)
+                Instantiate(bombUI, new Vector3(bombsParent.position.x + offset * (playerStats.bombsCount - 1), bombsParent.position.y), bombsParent.rotation, bombsParent)
             );
         }
     }

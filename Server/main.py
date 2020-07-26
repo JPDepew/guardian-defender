@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import datetime
+import json
 
 from flask import Flask, render_template, request
 
@@ -41,7 +42,8 @@ def fetch_scores(limit):
     query = datastore_client.query(kind=SCORE_KIND)
     query.order = ['-score']
 
-    scores = query.fetch(limit=limit)
+    scores = list(query.fetch(limit=limit))
+    print(scores)
 
     return scores
 
@@ -49,13 +51,18 @@ def fetch_scores(limit):
 @app.route('/create_user_score/', methods=['POST'])
 def create_user_score():
     """ Create a new user score """
-    print(request)
     if not 'name' in request.form or not 'score' in request.form:
         return 'Name or score not provided', 400
 
     create_score(request.form['name'], request.form['score'])
 
     return 'Success', 200
+
+
+@app.route('/get_user_scores/', methods=['GET'])
+def get_user_scores():
+    """ Return a list of names and scores """
+    return json.dumps(fetch_scores(30))
 
 
 @app.route('/')

@@ -5768,7 +5768,7 @@ MonoBehaviour:
   side1: {fileID: 0}
   side2: {fileID: 0}
   initialNumberOfHumans: 10
-  initialNumberOfAliens: 5
+  initialNumberOfAliens: 25
   instantiateNewWaveDelay: 2
   scoreText: {fileID: 835270265}
   livesText: {fileID: 1636475097}

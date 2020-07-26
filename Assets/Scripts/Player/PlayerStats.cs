@@ -22,7 +22,6 @@ public class PlayerStats : MonoBehaviour
 
         lives = 3;
         PowerupObj.onGetPowerup += OnPowerupActivate;
-        PlayerPowerups.onBomb += OnBomb;
     }
 
     private void Start()
@@ -37,7 +36,6 @@ public class PlayerStats : MonoBehaviour
     private void OnDestroy()
     {
         PowerupObj.onGetPowerup -= OnPowerupActivate;
-        PlayerPowerups.onBomb -= OnBomb;
     }
 
     public int GetLives()
@@ -74,14 +72,6 @@ public class PlayerStats : MonoBehaviour
         {
             timeFreezeAmountRemaining += constants.timeFreezeAmount;
         }
-    }
-
-    /// <summary>
-    /// Decrement the bombs count whenever the player leaves a bomb.
-    /// </summary>
-    void OnBomb()
-    {
-        bombsCount--;
     }
 
     PowerupObj PowerupKeyByEnum(Powerup powerupEnum)

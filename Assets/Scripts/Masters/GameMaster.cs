@@ -1,9 +1,23 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+[System.Serializable]
+class UserScore
+{
+    public string name;
+    public int score;
+}
+
+[System.Serializable]
+class RootUserScores
+{
+    public UserScore[] userScores;
+}
 
 public class GameMaster : MonoBehaviour
 {
@@ -107,6 +121,10 @@ public class GameMaster : MonoBehaviour
         {
             StartCoroutine(Upload());
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartCoroutine(GetScores());
+        }
         HandleUI();
     }
 
@@ -127,6 +145,29 @@ public class GameMaster : MonoBehaviour
             else
             {
                 Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+    IEnumerator GetScores()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get("https://guardian-scoreboard.ue.r.appspot.com/get_user_scores/"))
+        {
+            www.SetRequestHeader("Best-Header", "test");
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                RootUserScores res = JsonUtility.FromJson<RootUserScores>("{\"userScores\":" + www.downloadHandler.text + "}");
+                for (int i = 0; i < res.userScores.Length; i++)
+                {
+                    print(res.userScores[i].name);
+                    print(res.userScores[i].score);
+                }
             }
         }
     }

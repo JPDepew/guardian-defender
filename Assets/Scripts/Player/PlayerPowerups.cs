@@ -63,6 +63,7 @@ public class PlayerPowerups : MonoBehaviour
     {
         if (Input.GetKeyDown(bombKeyCode))
         {
+            print(playerStats.bombsCount);
             if (playerStats.bombsCount > 0)
             {
                 Instantiate(bomb, transform.position, transform.rotation);
