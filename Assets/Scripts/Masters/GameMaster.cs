@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -49,7 +50,7 @@ public class GameMaster : MonoBehaviour
     private int score;
     private int scoreTracker;
     private int alienDestroyedCountTracker;
-    private int dstAsteroidsCanSpawnFromPlayer = 3;
+    private int dstAliensCanSpawnFromPlayer = 3;
     private float verticalHalfSize = 0;
     private bool currentWatchAlien;
 
@@ -102,7 +103,32 @@ public class GameMaster : MonoBehaviour
         {
             TogglePause();
         }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartCoroutine(Upload());
+        }
         HandleUI();
+    }
+
+    IEnumerator Upload()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", "Mr. Pee on the potty");
+        form.AddField("score", 2800);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://guardian-scoreboard.ue.r.appspot.com/create_user_score/", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
     }
 
     private void TogglePause()
@@ -210,7 +236,7 @@ public class GameMaster : MonoBehaviour
                 yield return new WaitForSeconds(0.2f);
             }
             // Making sure aliens don't spawn too close to the player
-            if ((alienPositon - (Vector2)shipReference.transform.position).magnitude < dstAsteroidsCanSpawnFromPlayer)
+            if ((alienPositon - (Vector2)shipReference.transform.position).magnitude < dstAliensCanSpawnFromPlayer)
             {
                 i--; // This is probably really sketchy, I know... But it works really well...
             }
