@@ -1,34 +1,80 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverMaster : MonoBehaviour
 {
-    public Text highScoreText;
     public Text scoreText;
+    public InputField nameInput;
 
     private void Start()
     {
-
+        print(Data.Instance.score);
         if (Constants.instance.score > Constants.instance.highScore)
         {
             Constants.instance.SetHighScore();
         }
-
-        //highScoreText.text = "High Score: " + Constants.S.highScore.ToString();
+        nameInput.Select();
         scoreText.text = "Score: " + Data.Instance.score.ToString();
         Constants.instance.resetScore();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            SceneManager.LoadScene(2);
+            SubmitHighScore();
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+    }
+
+    public void SubmitHighScore()
+    {
+        StartCoroutine(UploadScore());
+    }
+
+    IEnumerator UploadScore()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", nameInput.text);
+        form.AddField("score", Data.Instance.score);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://guardian-scoreboard.ue.r.appspot.com/create_user_score/", form))
         {
-            SceneManager.LoadScene(1);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+    IEnumerator GetScores()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get("https://guardian-scoreboard.ue.r.appspot.com/get_user_scores/"))
+        {
+            www.SetRequestHeader("Best-Header", "test");
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                RootUserScores res = JsonUtility.FromJson<RootUserScores>("{\"userScores\":" + www.downloadHandler.text + "}");
+                for (int i = 0; i < res.userScores.Length; i++)
+                {
+                    print(res.userScores[i].name);
+                    print(res.userScores[i].score);
+                }
+            }
         }
     }
 }
