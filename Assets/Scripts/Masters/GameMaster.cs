@@ -117,59 +117,7 @@ public class GameMaster : MonoBehaviour
         {
             TogglePause();
         }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            StartCoroutine(Upload());
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            StartCoroutine(GetScores());
-        }
         HandleUI();
-    }
-
-    IEnumerator Upload()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("name", "Mr. Pee on the potty");
-        form.AddField("score", 2800);
-
-        using (UnityWebRequest www = UnityWebRequest.Post("https://guardian-scoreboard.ue.r.appspot.com/create_user_score/", form))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!");
-            }
-        }
-    }
-
-    IEnumerator GetScores()
-    {
-        using (UnityWebRequest www = UnityWebRequest.Get("https://guardian-scoreboard.ue.r.appspot.com/get_user_scores/"))
-        {
-            www.SetRequestHeader("Best-Header", "test");
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                RootUserScores res = JsonUtility.FromJson<RootUserScores>("{\"userScores\":" + www.downloadHandler.text + "}");
-                for (int i = 0; i < res.userScores.Length; i++)
-                {
-                    print(res.userScores[i].name);
-                    print(res.userScores[i].score);
-                }
-            }
-        }
     }
 
     private void TogglePause()

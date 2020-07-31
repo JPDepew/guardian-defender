@@ -54,27 +54,4 @@ public class GameOverMaster : MonoBehaviour
             }
         }
     }
-
-    IEnumerator GetScores()
-    {
-        using (UnityWebRequest www = UnityWebRequest.Get("https://guardian-scoreboard.ue.r.appspot.com/get_user_scores/"))
-        {
-            www.SetRequestHeader("Best-Header", "test");
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                RootUserScores res = JsonUtility.FromJson<RootUserScores>("{\"userScores\":" + www.downloadHandler.text + "}");
-                for (int i = 0; i < res.userScores.Length; i++)
-                {
-                    print(res.userScores[i].name);
-                    print(res.userScores[i].score);
-                }
-            }
-        }
-    }
 }
