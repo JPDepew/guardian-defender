@@ -9,6 +9,8 @@ public class GameOverMaster : MonoBehaviour
     public Text scoreText;
     public InputField nameInput;
 
+    private bool submitting = false;
+
     private void Start()
     {
         print(Data.Instance.score);
@@ -23,7 +25,7 @@ public class GameOverMaster : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SubmitHighScore();
         }
@@ -31,7 +33,10 @@ public class GameOverMaster : MonoBehaviour
 
     public void SubmitHighScore()
     {
-        StartCoroutine(UploadScore());
+        if (!submitting)
+        {
+            StartCoroutine(UploadScore());
+        }
     }
 
     IEnumerator UploadScore()
@@ -39,6 +44,7 @@ public class GameOverMaster : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("name", nameInput.text);
         form.AddField("score", Data.Instance.score);
+        submitting = true;
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://guardian-scoreboard.ue.r.appspot.com/create_user_score/", form))
         {
@@ -52,6 +58,7 @@ public class GameOverMaster : MonoBehaviour
             {
                 Debug.Log("Form upload complete!");
             }
+            SceneManager.LoadScene("ScoreBoard");
         }
     }
 }

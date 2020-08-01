@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: f9818cc7657c5104c8cef9c625223765
+  - enabled: 1
+    path: Assets/Scenes/ScoreBoard.unity
+    guid: 6d5af4af7f9ae5b4cb3c65999fe109fa
   m_configObjects: {}
