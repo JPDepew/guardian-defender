@@ -171,7 +171,7 @@ public class GameMaster : MonoBehaviour
             bonusText.gameObject.SetActive(true);
             bonusTextAnimator.Play("Wave End");
             waveText.text = $"Wave {waveCount} Complete";
-            bonusText.text = $"Surviving humans: {bonus / constants.humanBonus} x {constants.humanBonus} = {bonus} bonus\nTotal Points: {playerStats.GetScore() + bonus}";
+            bonusText.text = $"Surviving humans: {bonus / constants.humanBonus} x {constants.humanBonus} = {bonus} bonus";
         }
         else
         {
@@ -259,14 +259,18 @@ public class GameMaster : MonoBehaviour
         audioSources[1].Stop();
     }
 
+    /// <summary>
+    /// If all the aliens are destroyed, start a new wave.
+    /// If there are only 2 left, and it is an even wave, instantiate a saucer.
+    /// </summary>
     private void OnAlienDestroyed()
     {
         alienDestroyedCountTracker++;
         if (alienDestroyedCountTracker == initialNumberOfAliens - 2)
         {
-            if (waveCount % 3 == 0 && shipReference != null)
+            if (waveCount % 2 == 0 && shipReference != null)
             {
-                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + 12, mainCamera.orthographicSize - 2), transform.rotation);
+                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + 10, mainCamera.orthographicSize + 2), transform.rotation);
             }
         }
         if (alienDestroyedCountTracker >= initialNumberOfAliens)

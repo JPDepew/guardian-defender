@@ -6,20 +6,19 @@ using UnityEngine.UI;
 
 public class ScoreMaster : MonoBehaviour
 {
-    public int scoreRows = 17;
+    public int scoreRows = 10;
     public Text ellipsesText;
-    public Text[] scoreTexts;
+    public Text[] scoreNames;
+    public Text[] scoreValues;
 
     private bool dataFetched = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(AnimateEllipses());
         StartCoroutine(GetScores());
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -59,11 +58,12 @@ public class ScoreMaster : MonoBehaviour
                 dataFetched = true;
                 for (int i = 0; i < res.userScores.Length; i++)
                 {
-                    if (i >= scoreRows)
+                    if (i % scoreRows == 0 && i > 0)
                     {
                         scoreTextCount++;
                     }
-                    scoreTexts[scoreTextCount].text += $"{res.userScores[i].name}:\t{res.userScores[i].score}\n";
+                    scoreNames[scoreTextCount].text += $"{i + 1}) {res.userScores[i].name}\n";
+                    scoreValues[scoreTextCount].text += $"{res.userScores[i].score}\n";
                     yield return new WaitForSeconds(0.05f);
                 }
             }
