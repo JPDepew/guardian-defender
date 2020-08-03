@@ -11,6 +11,7 @@ public class PlayerStats : MonoBehaviour
     public int score;
     public int timeFreezeAmountRemaining = 0;
     public Dictionary<PowerupObj, bool> powerups = new Dictionary<PowerupObj, bool>();
+    public bool completedTutorial = false;
 
     Constants constants;
 

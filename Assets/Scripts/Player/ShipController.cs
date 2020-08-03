@@ -39,6 +39,8 @@ public class ShipController : MonoBehaviour
     public float verticalDecelerationLinearInterpolationTime = 0.12f;
     public float horizontalDecelerationLinearInterpolationTime = 0.2f;
 
+    public bool demo = false;
+
     private List<Human> shipHumans;
     private Stack<GameObject> healthIndicators;
     private AudioSource[] audioSources;
@@ -147,6 +149,11 @@ public class ShipController : MonoBehaviour
         HandleReverseInput();
         HandleVerticalInput();
         ManageVerticalBounds();
+
+        if (demo)
+        {
+            direction = Vector2.zero;
+        }
 
         // Shooting
         if (Input.GetKeyDown(KeyCode.Z) && canShoot)
@@ -302,6 +309,7 @@ public class ShipController : MonoBehaviour
 
     void HandleEngineParticleSystems()
     {
+        if (demo) return;
         if (!fuelParticleSystem.isEmitting)
         {
             fuelParticleSystem.Play();

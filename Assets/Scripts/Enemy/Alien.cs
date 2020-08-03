@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Alien : Enemy
 {
-    public enum State { PATROLLING, CHASING, ABDUCTING, DEAD }
+    public enum State { PATROLLING, CHASING, ABDUCTING, DEAD, DEMO }
 
     public State curState;
 
@@ -60,6 +60,8 @@ public class Alien : Enemy
         {
             case State.ABDUCTING:
                 return abductionSpeed;
+            case State.DEMO:
+                return 0;
             default:
                 return speed;
         }
