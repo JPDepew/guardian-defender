@@ -146,7 +146,7 @@ public class Alien : Enemy
     {
         audioSources[7].Play();
         newDirection = Vector2.up;
-        curState = State.ABDUCTING;
+        curState = curState == State.DEMO ? State.DEMO : State.ABDUCTING;
         bool infectedHuman = false;
         while (human && human.curState != Human.State.DEAD)
         {

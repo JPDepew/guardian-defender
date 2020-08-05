@@ -185,7 +185,7 @@ public class ShipController : MonoBehaviour
             if (col && col.tag == "Human")
             {
                 Human human = col.transform.GetComponent<Human>();
-                if (human.curState == Human.State.FALLING)
+                if (human.curState == Human.State.FALLING || human.curState == Human.State.DEMO)
                 {
                     float audioPitchIncrease = 0.05f;
 
@@ -193,7 +193,7 @@ public class ShipController : MonoBehaviour
                     shipHumans.Add(human);
                     audioSources[4].Play();
                     human.SetToRescued(transform, shipHumans.Count);
-                    gameMaster.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
+                    gameMaster?.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
                 }
             }
             yield return new WaitForSecondsRealtime(.02f);
@@ -249,10 +249,7 @@ public class ShipController : MonoBehaviour
                 direction = Vector2.Lerp(direction, new Vector2(-maxHorizontalSpeed, direction.y), horizontalDecelerationLinearInterpolationTime);
             }
             HandleParticleSystemsMoveLeft();
-            if (!audioSources[1].isPlaying)
-            {
-                audioSources[1].Play();
-            }
+            PlayEngineAudio();
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -268,10 +265,7 @@ public class ShipController : MonoBehaviour
                 direction = Vector2.Lerp(direction, new Vector2(maxHorizontalSpeed, direction.y), horizontalDecelerationLinearInterpolationTime);
             }
             HandleParticleSystemsMoveRight();
-            if (!audioSources[1].isPlaying)
-            {
-                audioSources[1].Play();
-            }
+            PlayEngineAudio();
         }
         // Horizontal Deceleration
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.Space))
@@ -345,6 +339,19 @@ public class ShipController : MonoBehaviour
             boostAudioSources[0].Stop();
             boostParticleSystem.Stop();
         }
+        StopEngineAudio();
+    }
+
+    void PlayEngineAudio()
+    {
+        if (!audioSources[1].isPlaying && !demo)
+        {
+            audioSources[1].Play();
+        }
+    }
+
+    public void StopEngineAudio()
+    {
         if (audioSources[1].isPlaying)
         {
             audioSources[1].Stop();
@@ -450,7 +457,7 @@ public class ShipController : MonoBehaviour
 
     public void RemoveHuman(Human human)
     {
-        gameMaster.InstantiateScorePopup(constants.rescueHumanBonus, transform.position);
+        gameMaster?.InstantiateScorePopup(constants.rescueHumanBonus, transform.position);
         audioSources[4].pitch = 1;
         audioSources[4].Play();
         shipHumans.Remove(human);
@@ -475,6 +482,11 @@ public class ShipController : MonoBehaviour
             playerStats.ResetAllPowerups();
             Destroy(gameObject);
         }
+    }
+
+    public bool HasHumans()
+    {
+        return shipHumans.Count > 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

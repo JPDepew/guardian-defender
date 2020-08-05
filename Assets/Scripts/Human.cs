@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Human : Hittable
 {
-    public enum State { GROUNDED, ABDUCTED, FALLING, RESCUED, DEAD }
+    public enum State { GROUNDED, ABDUCTED, FALLING, RESCUED, DEAD, DEMO }
     public State curState;
     Utilities utilities;
 
@@ -156,5 +156,10 @@ public class Human : Hittable
         //yield return new WaitForSeconds(3f);
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
+    }
+
+    public void SetDemo()
+    {
+        curState = State.DEMO;
     }
 }

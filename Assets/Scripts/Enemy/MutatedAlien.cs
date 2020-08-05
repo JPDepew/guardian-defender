@@ -158,5 +158,16 @@ public class MutatedAlien : Enemy
             newDirection = new Vector2(newDirection.x, 0);
         }
     }
+
+    public void SetDirection(Vector2 _direction)
+    {
+        newDirection = _direction;
+    }
+
+    public void SetDemo()
+    {
+        StopAllCoroutines();
+        newSpeed = 0;
+    }
 }
 
