@@ -40,6 +40,7 @@ public class ShipController : MonoBehaviour
     public float horizontalDecelerationLinearInterpolationTime = 0.2f;
 
     public bool demo = false;
+    public bool frozen = false;
 
     private List<Human> shipHumans;
     private Stack<GameObject> healthIndicators;
@@ -150,7 +151,7 @@ public class ShipController : MonoBehaviour
         HandleVerticalInput();
         ManageVerticalBounds();
 
-        if (demo)
+        if (frozen)
         {
             direction = Vector2.zero;
         }
@@ -268,7 +269,7 @@ public class ShipController : MonoBehaviour
             PlayEngineAudio();
         }
         // Horizontal Deceleration
-        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.Space))
+        if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.Space))
         {
             boostMultiplier = 1;
             if (Mathf.Abs(direction.x) > 0.01f)
@@ -303,7 +304,7 @@ public class ShipController : MonoBehaviour
 
     void HandleEngineParticleSystems()
     {
-        if (demo) return;
+        if (frozen) return;
         if (!fuelParticleSystem.isEmitting)
         {
             fuelParticleSystem.Play();
@@ -344,7 +345,7 @@ public class ShipController : MonoBehaviour
 
     void PlayEngineAudio()
     {
-        if (!audioSources[1].isPlaying && !demo)
+        if (!audioSources[1].isPlaying && !frozen)
         {
             audioSources[1].Play();
         }
@@ -474,12 +475,11 @@ public class ShipController : MonoBehaviour
     /// </summary>
     public void DestroySelf()
     {
-        if (!destroyed)
+        if (!destroyed && !frozen)
         {
             destroyed = true;
             Instantiate(explosion, transform.position, transform.rotation);
             playerStats.DecrementLives();
-            playerStats.ResetAllPowerups();
             Destroy(gameObject);
         }
     }
@@ -491,31 +491,20 @@ public class ShipController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Alien")
+        if (!demo)
         {
-            collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
-            DestroySelf();
-            gameMaster.RespawnPlayer();
+            if (collision.tag == "Alien")
+            {
+                collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
+                DestroySelf();
+                gameMaster.RespawnPlayer();
+            }
+            if (collision.tag == "AlienBullet")
+            {
+                Destroy(collision.gameObject);
+                DestroySelf();
+                gameMaster.RespawnPlayer();
+            }
         }
-        if (collision.tag == "AlienBullet")
-        {
-            Destroy(collision.gameObject);
-            DestroySelf();
-            gameMaster.RespawnPlayer();
-        }
-        //if (collision.tag == "Human")
-        //{
-        //    Human human = collision.transform.GetComponent<Human>();
-        //    if (human.curState == Human.State.FALLING)
-        //    {
-        //        float audioPitchIncrease = 0.05f;
-
-        //        audioSources[4].pitch = 1 + shipHumans.Count * audioPitchIncrease;
-        //        shipHumans.Add(human);
-        //        audioSources[4].Play();
-        //        human.SetToRescued(transform, shipHumans.Count);
-        //        gameMaster.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
-        //    }
-        //}
     }
 }

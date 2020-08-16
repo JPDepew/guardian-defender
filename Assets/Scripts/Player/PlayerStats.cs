@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -60,13 +61,17 @@ public class PlayerStats : MonoBehaviour
         return powerups[PowerupKeyByEnum(powerupEnum)];
     }
 
+    public int NumPowerupsActive()
+    {
+        return powerups.Where(x => x.Value == true).Count();
+    }
+
     void OnPowerupActivate(Powerup powerupEnum)
     {
         PowerupObj powerup = PowerupKeyByEnum(powerupEnum);
         powerups[powerup] = true;
         if (powerupEnum == Powerup.Bomb)
         {
-            print(powerupEnum == Powerup.Bomb);
             bombsCount++;
         }
         if (powerupEnum == Powerup.TimeFreeze)
@@ -104,8 +109,8 @@ public class PlayerStats : MonoBehaviour
         List<PowerupObj> keys = new List<PowerupObj>(powerups.Keys);
         foreach (var key in keys)
         {
+            if (key.powerupEnum == Powerup.TimeFreeze) continue;
             powerups[key] = false;
         }
-        //timeFreezeAmountRemaining = 0;
     }
 }

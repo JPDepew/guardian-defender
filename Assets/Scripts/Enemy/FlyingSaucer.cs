@@ -9,19 +9,17 @@ public class FlyingSaucer : Enemy
     public float easeToNewDirection = 0.3f;
     public Vector2 horizontalBounds;
 
-    public GameObject laserPowerup;
-    public GameObject shieldPowerup;
     public GameObject bullet;
 
-    PlayerStats playerStats = PlayerStats.instance;
+    PlayerStats playerStats;
 
     float verticalHalfSize;
-    bool avoidingWall;
     bool goToTopOfPlayer = true;
 
     protected override void Start()
     {
         base.Start();
+        playerStats = PlayerStats.instance;
 
         StartCoroutine(StartEverything());
 
@@ -59,15 +57,6 @@ public class FlyingSaucer : Enemy
         yield return FindPlayer();
         StartCoroutine(ChasePlayer());
     }
-
-    //IEnumerator FindPlayer()
-    //{
-    //    while (player == null)
-    //    {
-    //        player = FindObjectOfType<ShipController>();
-    //        yield return new WaitForSeconds(0.3f);
-    //    }
-    //}
 
     public override bool DamageSelf(float damage, Vector2 hitPosition)
     {
@@ -132,12 +121,17 @@ public class FlyingSaucer : Enemy
         int randomNum = Random.Range(0, 1);
         if (randomNum == 0)
         {
-            randomNum = Random.Range(0, Constants.instance.powerups.Count);
-            Instantiate(Constants.instance.powerups[randomNum], transform.position, transform.rotation);
+            randomNum = Random.Range(0, constants.powerups.Count);
+            while (playerStats.IsPowerupActive(constants.powerups[randomNum].powerupEnum) && playerStats.NumPowerupsActive() < playerStats.powerups.Count - 1)
+            {
+                randomNum = (randomNum + 1) % (playerStats.powerups.Count - 1);
+                print(playerStats.powerups.Count - 1);
+            }
+            Instantiate(constants.powerups[randomNum], transform.position, transform.rotation);
         }
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
         scoreText.text = "300";
-        PlayerStats.instance.IncreaseScoreBy(300);
+        playerStats.IncreaseScoreBy(300);
         base.DestroySelf();
     }
 

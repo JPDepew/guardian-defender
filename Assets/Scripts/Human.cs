@@ -162,4 +162,9 @@ public class Human : Hittable
     {
         curState = State.DEMO;
     }
+
+    public State GetState()
+    {
+        return curState;
+    }
 }

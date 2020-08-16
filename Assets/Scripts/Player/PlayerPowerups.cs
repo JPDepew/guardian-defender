@@ -36,6 +36,11 @@ public class PlayerPowerups : MonoBehaviour
         shipController = GetComponent<ShipController>();
 
         PowerupObj.onGetPowerup += OnPowerupActivate;
+
+        if (IsTimeFreezeActive())
+        {
+            StartCoroutine("TimeFreezeActive");
+        }
     }
 
     private void Update()
@@ -76,7 +81,7 @@ public class PlayerPowerups : MonoBehaviour
     {
         while (playerStats.timeFreezeAmountRemaining > 0)
         {
-            if (Input.GetKeyDown(timeFreezeKeyCode) && playerStats.IsPowerupActive(Powerup.TimeFreeze) && playerStats.timeFreezeAmountRemaining > 0)
+            if (Input.GetKeyDown(timeFreezeKeyCode) && IsTimeFreezeActive())
             {
                 onTimeFreeze?.Invoke();
                 StopCoroutine("ChangeTimeScale");
@@ -149,5 +154,10 @@ public class PlayerPowerups : MonoBehaviour
             timeFreezeInstance.transform.Rotate(Vector3.up, actualSpeed);
             yield return null;
         }
+    }
+
+    private bool IsTimeFreezeActive()
+    {
+        return playerStats.IsPowerupActive(Powerup.TimeFreeze) && playerStats.timeFreezeAmountRemaining > 0;
     }
 }

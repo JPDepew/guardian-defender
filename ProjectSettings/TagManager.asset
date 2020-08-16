@@ -27,7 +27,7 @@ TagManager:
   - Game Map
   - Both
   - Bomb Particles
-  - 
+  - Cam2
   - 
   - 
   - 
@@ -46,6 +46,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2197447605
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -57,4 +60,7 @@ TagManager:
     locked: 0
   - name: Game Map
     uniqueID: 1328254957
+    locked: 0
+  - name: Overlay Layer
+    uniqueID: 3730122443
     locked: 0

@@ -24,9 +24,13 @@ v2.4.0
 	- Controls touch up *
 
 v2.5.0
-	- Support rescuing multiple humans
-	- Powerups on respawn
+	- Support rescuing multiple humans *
 	
 Powerup ideas: 
 	- Ramming thing - You can't get shot or hit from the front, and you can destroy enemies by ramming them
-	- Speed boost - Pressing a key (shift?) Gives you a speed boost
+	- Speed boost - Pressing a key (shift?) Gives you a speed boost *
+	
+v3.0.0
+Enemies:
+	- Swarmer - spinning jar looking thing. On shooting it, it explodes and a bunch of swarmers are released. Their direction is updated every frame to point towards you.
+	- 

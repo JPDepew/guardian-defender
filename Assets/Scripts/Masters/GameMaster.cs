@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -31,9 +29,6 @@ public class GameMaster : MonoBehaviour
     public ParticleSystem alienSpawn;
     public AudioMixer audioMixer;
 
-    public GameObject side1;
-    public GameObject side2;
-
     Utilities utilities;
 
     public float initialNumberOfHumans;
@@ -54,15 +49,12 @@ public class GameMaster : MonoBehaviour
     private Camera mainCamera;
     private PlayerStats playerStats;
     private GameObject shipReference;
-    private bool respawningCharacter;
     private Animator bonusTextAnimator;
     private AudioSource[] audioSources;
     private UIAnimationsMaster uIAnimationsMaster;
 
     private float waveCount = 0f;
     private int bonus;
-    private int score;
-    private int scoreTracker;
     private int alienDestroyedCountTracker;
     private int dstAliensCanSpawnFromPlayer = 3;
     private float verticalHalfSize = 0;
@@ -139,7 +131,7 @@ public class GameMaster : MonoBehaviour
     IEnumerator InstructionsTextFadeOut()
     {
         yield return new WaitForSeconds(3f);
-        while (instructionsText.color.a > 0.05f)
+        while (instructionsText?.color.a > 0.05f)
         {
             instructionsText.color = new Color(instructionsText.color.r, instructionsText.color.g, instructionsText.color.b, instructionsText.color.a - 0.05f);
             yield return null;
@@ -268,9 +260,11 @@ public class GameMaster : MonoBehaviour
         alienDestroyedCountTracker++;
         if (alienDestroyedCountTracker == initialNumberOfAliens - 2)
         {
-            if (waveCount % 2 == 0 && shipReference != null)
+            if (waveCount % 1 == 0 && shipReference != null)
             {
-                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + 10, mainCamera.orthographicSize + 2), transform.rotation);
+                int rand = Random.Range(0, 2);
+                int multiplier = rand == 1 ? 1 : -1;
+                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + multiplier * wrapDst / 2, 0), transform.rotation);
             }
         }
         if (alienDestroyedCountTracker >= initialNumberOfAliens)
@@ -285,11 +279,16 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Remove the remaining humans at end of wave. If there are any that are falling or being carried by
+    /// the player, do not remove them.
+    /// </summary>
     private void DealWithRemainingHumans()
     {
         Human[] humans = FindObjectsOfType<Human>();
         for (int i = 0; i < humans.Length; i++)
         {
+            if (humans[i].GetState() != Human.State.GROUNDED) continue;
             Destroy(humans[i].gameObject);
             if (!(humans[i].curState == Human.State.DEAD))
             {
