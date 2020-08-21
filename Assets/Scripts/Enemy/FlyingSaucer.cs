@@ -125,7 +125,6 @@ public class FlyingSaucer : Enemy
             while (playerStats.IsPowerupActive(constants.powerups[randomNum].powerupEnum) && playerStats.NumPowerupsActive() < playerStats.powerups.Count - 1)
             {
                 randomNum = (randomNum + 1) % (playerStats.powerups.Count - 1);
-                print(playerStats.powerups.Count - 1);
             }
             Instantiate(constants.powerups[randomNum], transform.position, transform.rotation);
         }

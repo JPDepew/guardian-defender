@@ -12,6 +12,7 @@ TagManager:
   - MutatedAlien
   - LaserPowerup
   - Watch
+  - Bullet
   layers:
   - Default
   - TransparentFX

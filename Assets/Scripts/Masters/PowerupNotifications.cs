@@ -29,7 +29,7 @@ public class PowerupNotifications : MonoBehaviour
 
     IEnumerator PlayAnimations(PowerupObj powerupObj)
     {
-        powerupInstructions.text = $"{powerupObj.keyCode.ToString()} to activate {powerupObj.powerupName}";
+        powerupInstructions.text = $"{powerupObj.keyCode} to activate {powerupObj.powerupName}";
         textAnimator.Play("PowerupInstructionsFadeIn");
         yield return new WaitForSeconds(displayTime);
         textAnimator.Play("PowerupInstructionsFadeOut");
