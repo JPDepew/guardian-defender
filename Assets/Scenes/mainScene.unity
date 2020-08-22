@@ -5221,6 +5221,7 @@ GameObject:
   - component: {fileID: 120023690}
   - component: {fileID: 120023689}
   - component: {fileID: 120023692}
+  - component: {fileID: 120023694}
   m_Layer: 10
   m_Name: New Sprite
   m_TagString: Untagged
@@ -5241,7 +5242,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.002364967}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -5252,7 +5253,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 0.16, y: 0.15527007}
   m_EdgeRadius: 0
 --- !u!212 &120023690
 SpriteRenderer:
@@ -5340,6 +5341,29 @@ MonoBehaviour:
   rotateAmount: 2
   rotateTime: 0.2
   health: 0
+  maxRotateAmountPerFrame: 10
+  rotateAmountPerFrame: 0
+--- !u!50 &120023694
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120023688}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &150906803
 GameObject:
   m_ObjectHideFlags: 0
@@ -6187,7 +6211,7 @@ MonoBehaviour:
     type: 3}
   audioMixer: {fileID: 24100000, guid: 3e82b9a2982ae7d4fb7b18bba3cab35e, type: 2}
   initialNumberOfHumans: 10
-  initialNumberOfAliens: 7
+  initialNumberOfAliens: 1
   instantiateNewWaveDelay: 2
   scoreText: {fileID: 835270265}
   livesText: {fileID: 1636475097}

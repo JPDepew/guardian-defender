@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
 
     protected RaycastHit2D hit;
     SpriteRenderer spriteRenderer;
-    private float direction;
+    protected float direction;
     private bool shouldRaycast = true;
 
     protected virtual void Start()

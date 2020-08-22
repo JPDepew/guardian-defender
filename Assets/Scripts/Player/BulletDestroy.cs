@@ -6,6 +6,6 @@ public class BulletDestroy : Bullet {
 
     protected override bool HitAction(Transform enemy, Vector2 hitPoint)
     {
-        return enemy.GetComponent<Hittable>().DamageSelf(damage, hitPoint);
+        return enemy.GetComponent<Hittable>().DamageSelf(damage, hitPoint, Vector2.right * direction);
     }
 }

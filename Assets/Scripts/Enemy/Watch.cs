@@ -126,7 +126,7 @@ public class Watch : Enemy
         StartCoroutine(GetDirToPlayer());
     }
 
-    public override bool DamageSelf(float damage, Vector2 hitPosition)
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)
     {
         audioSources[3].Play();
         return base.DamageSelf(damage, hitPosition);

@@ -58,7 +58,7 @@ public class FlyingSaucer : Enemy
         StartCoroutine(ChasePlayer());
     }
 
-    public override bool DamageSelf(float damage, Vector2 hitPosition)
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)
     {
         int index = Random.Range(0, 5);
         audioSources[index].Play();

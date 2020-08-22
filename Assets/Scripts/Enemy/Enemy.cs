@@ -37,7 +37,7 @@ public class Enemy : Hittable
         base.Update();
     }
 
-    public override bool DamageSelf(float damage, Vector2 hitPosition)
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
     {
         Vector2 directionToEnemy = ((Vector2)transform.position - hitPosition).normalized;
         health -= damage;

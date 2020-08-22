@@ -112,7 +112,7 @@ public class Alien : Enemy
         }
     }
 
-    public override bool DamageSelf(float damage, Vector2 hitPosition)
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
     {
         int index = Random.Range(0, 6);
         audioSources[index].Play();

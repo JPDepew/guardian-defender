@@ -136,7 +136,7 @@ public class Human : Hittable
         spriteRenderer.sortingOrder = humanCount;
     }
 
-    public override bool DamageSelf(float damage, Vector2 hitPosition)
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
     {
         if (curState == State.FALLING || curState == State.ABDUCTED)
         {

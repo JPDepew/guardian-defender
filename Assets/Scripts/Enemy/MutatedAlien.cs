@@ -50,7 +50,7 @@ public class MutatedAlien : Enemy
         base.Update();
     }
 
-    public override bool DamageSelf(float damage, Vector2 hitPosition)
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)
     {
         PlayHitSound();
         GameObject tempMask = Instantiate(hitMask, hitPosition, transform.rotation);
