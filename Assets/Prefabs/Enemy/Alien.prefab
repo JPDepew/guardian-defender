@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 58119630571039144}
   - component: {fileID: 50277967784638276}
   - component: {fileID: 6699997527994562829}
+  - component: {fileID: 9067413269701450036}
   m_Layer: 10
   m_Name: Alien
   m_TagString: Alien
@@ -60,6 +61,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -107,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96228b21bc143514e9341c5968f153e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wrapDstMultiplier: 1
   scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
     type: 3}
   explosion: {fileID: 1224325130770760, guid: 893a497e8ea072e43ba4afbaa540ce13, type: 3}
@@ -118,7 +121,6 @@ MonoBehaviour:
   health: 0
   curState: 0
   speed: 2
-  infectedSpeed: 4
   abductionSpeed: 1.4
   timeToChangeDirection: 1.5
   easeToNewDirection: 0.05
@@ -999,6 +1001,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9067413269701450036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300934526662340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f320f6830f85180409f31acb0e1f9e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1466729879120600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,6 +1058,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1206,6 +1221,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1228,7 +1244,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328254957
-  m_SortingLayer: -1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f3bf730fd07c5cb428869cacc625919b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -53,7 +53,10 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected virtual bool HitAction(Transform enemy, Vector2 hitPoint)
+    /// <param name="hitObject">Object that has been hit</param>
+    /// <param name="hitPoint">Hit contact point</param>
+    /// <returns>Returns true if should perform hit action</returns>
+    protected virtual bool HitAction(Transform hitObject, Vector2 hitPoint)
     {
         return true;
     }

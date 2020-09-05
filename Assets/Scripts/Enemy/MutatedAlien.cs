@@ -52,16 +52,10 @@ public class MutatedAlien : Enemy
 
     public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)
     {
-        PlayHitSound();
+        soundPlayer.PlayRandomSoundFromRange(0, 1);
         GameObject tempMask = Instantiate(hitMask, hitPosition, transform.rotation);
         tempMask.transform.parent = transform;
         return base.DamageSelf(damage, hitPosition);
-    }
-
-    void PlayHitSound()
-    {
-        int index = Random.Range(0, 2);
-        audioSources[index].Play();
     }
 
     public override bool DisinfectEnemy(Vector2 hitPoint)
@@ -71,7 +65,7 @@ public class MutatedAlien : Enemy
         tempMask.transform.localScale *= 2;
         tempMask.transform.parent = transform;
         Instantiate(disinfectHit, transform.position, transform.rotation);
-        PlayHitSound();
+        soundPlayer.PlayRandomSoundFromRange(0, 1);
         if (disinfectHealth <= 0)
         {
             onMutatedAlienDestroyed?.Invoke();

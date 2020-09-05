@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 58016239185803472}
   - component: {fileID: 50731351200209828}
   - component: {fileID: 82473574401720202}
+  - component: {fileID: 8028472269193152828}
   m_Layer: 10
   m_Name: Flying Saucer
   m_TagString: Alien
@@ -56,6 +57,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724ab0316982e19419b69c3b5c7f2db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wrapDstMultiplier: 1
   scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
     type: 3}
   explosion: {fileID: 1224325130770760, guid: 893a497e8ea072e43ba4afbaa540ce13, type: 3}
@@ -116,12 +119,6 @@ MonoBehaviour:
   actionDstToPlayer: 7
   easeToNewDirection: 0.3
   horizontalBounds: {x: 0, y: 0}
-  topOffset: 0.7
-  bottomOffset: 1
-  laserPowerup: {fileID: 1458180464156824, guid: c97c09016795cd344b0599d98e331cf5,
-    type: 3}
-  shieldPowerup: {fileID: 1335039726127972, guid: d222e1049ebaae64b8b0be27d34bfb66,
-    type: 3}
   bullet: {fileID: 1200172600666214, guid: dc8901e4ec44a00468d95eab44283462, type: 3}
 --- !u!82 &82278937721478308
 AudioSource:
@@ -886,6 +883,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8028472269193152828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191564587170516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f320f6830f85180409f31acb0e1f9e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5699861773586771287
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,6 +940,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

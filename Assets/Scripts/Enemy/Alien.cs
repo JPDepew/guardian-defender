@@ -18,7 +18,6 @@ public class Alien : Enemy
 
     private Human human;
     float verticalHalfSize;
-    bool avoidingWall;
 
     public delegate void OnDestroyed();
     public static event OnDestroyed onAlienDestroyed;
@@ -114,8 +113,7 @@ public class Alien : Enemy
 
     public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
     {
-        int index = Random.Range(0, 6);
-        audioSources[index].Play();
+        soundPlayer.PlayRandomSoundFromRange(0, 5);
         return base.DamageSelf(damage, hitPosition);
     }
 

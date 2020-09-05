@@ -10,7 +10,7 @@ public class ScreenWrappingObject : MonoBehaviour
     protected bool shouldWrap = true;
 
     private Transform mainCam;
-    public float wrapDst = 100;
+    private float wrapDst = 100;
 
     protected virtual void Start()
     {

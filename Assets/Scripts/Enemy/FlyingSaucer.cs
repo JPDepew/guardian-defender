@@ -60,8 +60,7 @@ public class FlyingSaucer : Enemy
 
     public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)
     {
-        int index = Random.Range(0, 5);
-        audioSources[index].Play();
+        soundPlayer.PlayRandomSoundFromRange(0, 5);
         return base.DamageSelf(damage, hitPosition);
     }
 

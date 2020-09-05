@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BulletDisinfect : Bullet {
 
-    protected override bool HitAction(Transform enemy, Vector2 hitPoint)
+    protected override bool HitAction(Transform hitObject, Vector2 hitPoint)
     {
-        return enemy.GetComponent<Enemy>().DisinfectEnemy(hitPoint);
+        return hitObject.GetComponent<Enemy>().DisinfectEnemy(hitPoint);
     }
 }

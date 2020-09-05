@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 82204206279417118}
   - component: {fileID: 60625853155871218}
   - component: {fileID: 8156307076939890507}
+  - component: {fileID: 9179630188887055104}
   m_Layer: 10
   m_Name: Alien_Infected
   m_TagString: Alien
@@ -53,6 +54,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -100,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b55cda26f9f30045bb6fd0d7e760a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wrapDstMultiplier: 1
   scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
     type: 3}
   explosion: {fileID: 1224325130770760, guid: 893a497e8ea072e43ba4afbaa540ce13, type: 3}
@@ -119,6 +122,8 @@ MonoBehaviour:
   speedMin: 8.5
   offsetMax: 2
   offsetMin: -2
+  changeTimeMin: 0.2
+  changeTimeMax: 1
   easeToNewDirection: 0.2
   disinfectHumanOffset: 0.45
   destroyDelay: 0.31
@@ -563,6 +568,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9179630188887055104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947277898753582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f320f6830f85180409f31acb0e1f9e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8591918882261837488
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +625,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -630,7 +648,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328254957
-  m_SortingLayer: -1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: df7a4c22963723746857db72e50b6cf8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(SoundPlayer))]
 public class Enemy : Hittable
 {
     public TextMesh scoreText;
@@ -20,6 +21,7 @@ public class Enemy : Hittable
     protected CircleCollider2D circleCollider;
 
     protected ShipController player;
+    protected SoundPlayer soundPlayer;
 
     bool isDestroyed = false;
 
@@ -29,6 +31,7 @@ public class Enemy : Hittable
         spriteRenderer = GetComponent<SpriteRenderer>();
         circleCollider = GetComponent<CircleCollider2D>();
         audioSources = GetComponents<AudioSource>();
+        soundPlayer = GetComponent<SoundPlayer>();
         health = maxHealth;
     }
 
