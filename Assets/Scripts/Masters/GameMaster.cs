@@ -307,6 +307,7 @@ public class GameMaster : MonoBehaviour
     public void RespawnPlayer()
     {
         PlayAllMusic();
+        Time.timeScale = 1;
         playerPosition = shipReference.transform.position;
         rotation = shipReference.transform.rotation;
         playerStats.ResetAllPowerups();
@@ -330,11 +331,11 @@ public class GameMaster : MonoBehaviour
         GameObject parent = respawnCountdownText.transform.parent.gameObject;
         parent.SetActive(true);
         respawnCountdownText.text = "3";
-        yield return new WaitForSeconds(1);
-        respawnCountdownText.text = "2";
-        yield return new WaitForSeconds(1);
-        respawnCountdownText.text = "1";
-        yield return new WaitForSeconds(1);
+        while (System.Convert.ToInt16(respawnCountdownText.text) > 0)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            respawnCountdownText.text = (System.Convert.ToInt16(respawnCountdownText.text) - 1).ToString();
+        }
         parent.SetActive(false);
         shipReference = Instantiate(ship, new Vector2(playerPosition.x, 0), rotation);
     }

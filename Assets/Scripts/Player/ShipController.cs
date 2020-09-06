@@ -491,20 +491,21 @@ public class ShipController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!demo)
+        if (demo)
         {
-            if (collision.tag == "Alien")
-            {
-                collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
-                DestroySelf();
-                gameMaster.RespawnPlayer();
-            }
-            if (collision.tag == "AlienBullet")
-            {
-                Destroy(collision.gameObject);
-                DestroySelf();
-                gameMaster.RespawnPlayer();
-            }
+            return;
+        }
+        if (collision.tag == "Alien")
+        {
+            collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
+            DestroySelf();
+            gameMaster.RespawnPlayer();
+        }
+        if (collision.tag == "AlienBullet")
+        {
+            Destroy(collision.gameObject);
+            DestroySelf();
+            gameMaster.RespawnPlayer();
         }
     }
 }
