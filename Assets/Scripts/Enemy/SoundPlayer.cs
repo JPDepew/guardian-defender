@@ -19,6 +19,14 @@ public class SoundPlayer : MonoBehaviour
 
     /// <param name="minSoundIndex">The minimum sound index to play [inclusive]</param>
     /// <param name="maxSoundIndex">The maximum sound index to play [inclusive]</param>
+    //public void PlayRandomSoundFromRange(int soundIdex, float minPitch, float maxPitch)
+    //{
+    //    int index = Random.Range(minSoundIndex, maxSoundIndex + 1);
+    //    audioSources[index].Play();
+    //}
+
+    /// <param name="minSoundIndex">The minimum sound index to play [inclusive]</param>
+    /// <param name="maxSoundIndex">The maximum sound index to play [inclusive]</param>
     public void PlayRandomSoundFromRange(int minSoundIndex, int maxSoundIndex)
     {
         int index = Random.Range(minSoundIndex, maxSoundIndex + 1);

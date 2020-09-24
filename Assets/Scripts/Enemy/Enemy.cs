@@ -8,7 +8,7 @@ public class Enemy : Hittable
 {
     public TextMesh scoreText;
     public GameObject explosion;
-    public ParticleSystem hit;
+    public GameObject hit;
     public float maxHealth;
     public float bounceBackAmount = 0.4f;
     public float rotateAmount = 2f;

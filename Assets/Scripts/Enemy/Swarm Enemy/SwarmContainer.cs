@@ -72,6 +72,7 @@ public class SwarmContainer : Enemy
 
             for (int i = 0; i < enginesToUse.Count; i++)
             {
+                audioSources[2].Play();
                 enginesToUse[i].GetComponentInChildren<ParticleSystem>().Play();
             }
             int counter = 0;
