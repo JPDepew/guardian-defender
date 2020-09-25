@@ -6,6 +6,7 @@ public class SwarmGlass : Enemy
 {
     protected override void Start()
     {
+        shouldWrap = false;
         base.Start();
     }
 
@@ -17,12 +18,10 @@ public class SwarmGlass : Enemy
 
     public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)
     {
-        if (bulletDirection != null)
-        {
-            print("Damaging glass");
-            //audioSources[].Play();
-            Instantiate(hit, hitPosition, Quaternion.identity, transform);
-        }
+        base.DamageSelf(damage, hitPosition, bulletDirection);
+        audioSources[0].Play();
         return true;
     }
+
+    protected override void StartRotation(float directionToHitY) { }
 }

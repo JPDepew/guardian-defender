@@ -55,11 +55,11 @@ public class Enemy : Hittable
         else
         {
             direction += Vector2.right * directionToEnemy.x * bounceBackAmount;
-            Instantiate(hit, hitPosition, transform.rotation);
+            Instantiate(hit, hitPosition, transform.rotation, transform);
 
             float directionToHitY = directionToEnemy.x > 0 ? Mathf.Sign(directionToEnemy.y) : -Mathf.Sign(directionToEnemy.y);
 
-            StartCoroutine(Rotate(directionToHitY));
+            StartRotation(directionToHitY);
         }
         return true;
     }
@@ -92,6 +92,11 @@ public class Enemy : Hittable
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+    }
+
+    protected virtual void StartRotation(float directionToHitY)
+    {
+        StartCoroutine(Rotate(directionToHitY));
     }
 
     IEnumerator Rotate(float directionToHitY)
