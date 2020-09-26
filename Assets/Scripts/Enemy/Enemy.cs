@@ -79,9 +79,6 @@ public class Enemy : Hittable
         float directionToHitY = directionToEnemy.x > 0 ? Mathf.Sign(directionToEnemy.y) : -Mathf.Sign(directionToEnemy.y);
 
         return true;
-        //int index = Random.Range(0, 5);
-        //audioSource[index].Play();
-        //StartCoroutine(Rotate(directionToHitY));
     }
 
     protected virtual void DestroySelf()

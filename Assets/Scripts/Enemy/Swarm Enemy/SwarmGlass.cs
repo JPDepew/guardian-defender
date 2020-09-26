@@ -24,4 +24,10 @@ public class SwarmGlass : Enemy
     }
 
     protected override void StartRotation(float directionToHitY) { }
+
+    protected override void DestroySelf()
+    {
+        // Tell Parent glass to destroy self
+        base.DestroySelf();
+    }
 }

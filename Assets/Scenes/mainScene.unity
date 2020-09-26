@@ -6156,7 +6156,7 @@ MonoBehaviour:
   catchHumanBonus: 500
   rescueHumanBonus: 500
   timeFreezeAmount: 800
-  explosionOffset: 15
+  explosionOffset: 0
   powerups:
   - {fileID: 114622171338110102, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
   - {fileID: 114524866262424988, guid: c97c09016795cd344b0599d98e331cf5, type: 3}
@@ -12194,10 +12194,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wrapDstMultiplier: 1
-  scoreText: {fileID: 0}
-  explosion: {fileID: 0}
+  scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
+    type: 3}
+  explosion: {fileID: 9119462067206006595, guid: 55c0c94798b0c9d4f96c018407a2d27f,
+    type: 3}
   hit: {fileID: 7881382641007106122, guid: 357bf001d8ce79b4095cf7ead72be76b, type: 3}
-  maxHealth: 3
+  maxHealth: 5
   bounceBackAmount: 0.4
   rotateAmount: 2
   rotateTime: 0.2
