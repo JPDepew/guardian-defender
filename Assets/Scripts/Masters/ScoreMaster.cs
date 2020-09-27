@@ -42,9 +42,8 @@ public class ScoreMaster : MonoBehaviour
 
     IEnumerator GetScores()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("https://guardian-scoreboard.ue.r.appspot.com/get_user_scores/"))
+        using (UnityWebRequest www = UnityWebRequest.Get("https://us-central1-guardian-scoreboard.cloudfunctions.net/get_scores/"))
         {
-            www.SetRequestHeader("Best-Header", "test");
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError)

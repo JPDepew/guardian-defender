@@ -13,13 +13,12 @@ public class GameOverMaster : MonoBehaviour
 
     private void Start()
     {
-        print(Data.Instance.score);
         if (Constants.instance.score > Constants.instance.highScore)
         {
             Constants.instance.SetHighScore();
         }
         nameInput.Select();
-        scoreText.text = "Score: " + Data.Instance.score.ToString();
+        scoreText.text = Data.Instance ? $"Score: {Data.Instance.score.ToString()}" : $"Score: 0";
         Constants.instance.resetScore();
     }
 
@@ -41,12 +40,13 @@ public class GameOverMaster : MonoBehaviour
 
     IEnumerator UploadScore()
     {
+        string score = Data.Instance ? Data.Instance.score.ToString() : "0";
         WWWForm form = new WWWForm();
         form.AddField("name", nameInput.text);
-        form.AddField("score", Data.Instance.score);
+        form.AddField("score", score);
         submitting = true;
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://guardian-scoreboard.ue.r.appspot.com/create_user_score/", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://us-central1-guardian-scoreboard.cloudfunctions.net/post_score/", form))
         {
             yield return www.SendWebRequest();
 
