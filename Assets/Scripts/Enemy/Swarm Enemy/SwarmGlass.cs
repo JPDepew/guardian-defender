@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SwarmContainer))]
 public class SwarmGlass : Enemy
 {
+    SwarmContainer swarmContainer;
+
     protected override void Start()
     {
         shouldWrap = false;
+        swarmContainer = GetComponent<SwarmContainer>();
         base.Start();
     }
 

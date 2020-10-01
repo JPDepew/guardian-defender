@@ -15,12 +15,15 @@ public class SwarmContainer : Enemy
 
     Rigidbody2D rigidbody2d;
 
+    private SwarmPart[] metalChildren;
+
     protected override void Start()
     {
         base.Start();
         rigidbody2d = GetComponent<Rigidbody2D>();
         engines = GetComponentsInChildren<Transform>().Where(t => t.tag == "SwarmEngine").ToList();
         StartCoroutine(MoveShip());
+        metalChildren = GetComponentsInChildren<SwarmPart>();
     }
 
     // Update is called once per frame
@@ -38,6 +41,16 @@ public class SwarmContainer : Enemy
             rigidbody2d.AddForceAtPosition((Vector2)bulletDirection * 5, hitPosition);
         }
         return true;
+    }
+
+    protected override void DestroySelf()
+    {
+        // stuff goes flying off
+        //base.DestroySelf();
+        foreach(SwarmPart swarmPart in metalChildren)
+        {
+            swarmPart.DestroySelf();
+        }
     }
 
     IEnumerator MoveShip()
