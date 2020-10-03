@@ -10,7 +10,7 @@ public class SwarmGlass : Enemy
     protected override void Start()
     {
         shouldWrap = false;
-        swarmContainer = GetComponent<SwarmContainer>();
+        swarmContainer = GetComponentInParent<SwarmContainer>();
         base.Start();
     }
 
@@ -33,5 +33,6 @@ public class SwarmGlass : Enemy
     {
         // Tell Parent glass to destroy self
         base.DestroySelf();
+        swarmContainer.StartDestroy();
     }
 }

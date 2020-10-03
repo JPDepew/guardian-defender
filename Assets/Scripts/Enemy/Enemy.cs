@@ -8,7 +8,6 @@ public class Enemy : Hittable
 {
     public TextMesh scoreText;
     public GameObject explosion;
-    public GameObject hit;
     public float maxHealth;
     public float bounceBackAmount = 0.4f;
     public float rotateAmount = 2f;
@@ -54,8 +53,8 @@ public class Enemy : Hittable
         }
         else
         {
+            base.DamageSelf(damage, hitPosition);
             direction += Vector2.right * directionToEnemy.x * bounceBackAmount;
-            Instantiate(hit, hitPosition, transform.rotation, transform);
 
             float directionToHitY = directionToEnemy.x > 0 ? Mathf.Sign(directionToEnemy.y) : -Mathf.Sign(directionToEnemy.y);
 

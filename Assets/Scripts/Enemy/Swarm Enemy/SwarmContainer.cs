@@ -22,7 +22,7 @@ public class SwarmContainer : Enemy
         base.Start();
         rigidbody2d = GetComponent<Rigidbody2D>();
         engines = GetComponentsInChildren<Transform>().Where(t => t.tag == "SwarmEngine").ToList();
-        StartCoroutine(MoveShip());
+        StartCoroutine("MoveShip");
         metalChildren = GetComponentsInChildren<SwarmPart>();
     }
 
@@ -43,13 +43,20 @@ public class SwarmContainer : Enemy
         return true;
     }
 
+    public void StartDestroy()
+    {
+        DestroySelf();
+    }
+
     protected override void DestroySelf()
     {
         // stuff goes flying off
         //base.DestroySelf();
+
         foreach(SwarmPart swarmPart in metalChildren)
         {
-            swarmPart.DestroySelf();
+            StopCoroutine("MoveShip");
+            swarmPart.FlyOffDestroy(transform.position);
         }
     }
 
