@@ -501,6 +501,11 @@ public class ShipController : MonoBehaviour
             DestroySelf();
             gameMaster.RespawnPlayer();
         }
+        if (collision.tag == "SwarmTop" || collision.tag == "SwarmBottom")
+        {
+            DestroySelf();
+            gameMaster.RespawnPlayer();
+        }
         if (collision.tag == "AlienBullet")
         {
             Destroy(collision.gameObject);
