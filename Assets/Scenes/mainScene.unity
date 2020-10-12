@@ -6305,6 +6305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   star: {fileID: 5684726227552786082, guid: a5c955a6a2854c446bade099931023a6, type: 3}
+  starContainer: {fileID: 696757866}
   minZPos: 30
   maxZPos: 130
   minYPos: -17
@@ -6362,7 +6363,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449487481}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 3e82b9a2982ae7d4fb7b18bba3cab35e,
     type: 2}
@@ -6459,7 +6460,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449487481}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 3e82b9a2982ae7d4fb7b18bba3cab35e,
     type: 2}
@@ -6883,6 +6884,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662059748}
   m_CullTransparentMesh: 0
+--- !u!1 &696757865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 696757866}
+  m_Layer: 0
+  m_Name: Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &696757866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696757865}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &698913986
 GameObject:
   m_ObjectHideFlags: 0
@@ -12829,7 +12860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -123.399994, y: -35.300003}
+  m_AnchoredPosition: {x: -123.399994, y: -35.299988}
   m_SizeDelta: {x: 101.2, y: 19.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230034985
@@ -23963,9 +23994,11 @@ MonoBehaviour:
   rotateTime: 0.2
   health: 0
   lerpTime: 0.1
-  speed: 10
-  maxVelocity: 10
-  dstToPlayer: 5
+  acceleration: 0.03
+  maxVelocity: 5
+  maxDstToPlayer: 4.5
+  offsetFromVerticalBounds: 3
+  directionMultiplier: 0.5
 --- !u!114 &1995076270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24062,7 +24095,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995076268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.975, y: -2.558, z: 0.29209024}
+  m_LocalPosition: {x: 52.8, y: -0.8, z: 0.29209024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1607749264}
