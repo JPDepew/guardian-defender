@@ -10,9 +10,14 @@ public class SwarmAttacker : Enemy
     public float maxDstToPlayer = 3;
     public float offsetFromVerticalBounds = 3;
     public float directionMultiplier = 0.5f;
+    public float shootWaitTime = 0.4f;
+
+    public GameObject bullet; 
+
     float verticalHalfSize;
 
-    Vector3 velocity;
+    enum SwarmAttackState { CHASING, SHOOTING };
+    SwarmAttackState swarmAttackState = SwarmAttackState.CHASING;
     Rigidbody2D rb2D;
 
     protected override void Start()
@@ -32,7 +37,6 @@ public class SwarmAttacker : Enemy
         {
             Vector2 directionToUse;
             float xDstToPlayer = Mathf.Abs(direction.x);
-            float speedToUse = acceleration;
             if (transform.position.y > verticalHalfSize - offsetFromVerticalBounds)
             {
                 directionToUse = direction.normalized + Vector2.down * Mathf.Abs(transform.position.y) * directionMultiplier;
@@ -49,16 +53,15 @@ public class SwarmAttacker : Enemy
                 }
                 else
                 {
-                    speedToUse = 0;
+                    if (swarmAttackState == SwarmAttackState.CHASING)
+                    {
+                        StartCoroutine(ShootAtPlayer());
+                    }
                     directionToUse = direction;
                 }
             }
-            float angle = Vector2.SignedAngle(transform.up, directionToUse);
-            float angleToRotate = Mathf.Lerp(0, angle, lerpTime);
-            transform.Rotate(Vector3.forward, angleToRotate);
-
-            rb2D.AddForce(transform.up * Time.deltaTime * speedToUse);
-            rb2D.velocity = Vector2.ClampMagnitude(rb2D.velocity, maxVelocity);
+            HandleRotation(directionToUse);
+            HandleAcceleration();
         }
         else
         {
@@ -66,9 +69,29 @@ public class SwarmAttacker : Enemy
         }
     }
 
-    bool VectorsAreWithin90Degrees(Vector2 vectorA, Vector2 vectorB)
+    void HandleRotation(Vector2 directionToUse)
     {
-        return Vector2.Angle(vectorA, vectorB) < 45;
+        float angle = Vector2.SignedAngle(transform.up, directionToUse);
+        float angleToRotate = Mathf.Lerp(0, angle, lerpTime);
+        transform.Rotate(Vector3.forward, angleToRotate);
+    }
+
+    void HandleAcceleration()
+    {
+        float speedToUse = swarmAttackState == SwarmAttackState.SHOOTING ? 0 : acceleration;
+        rb2D.AddForce(transform.up * Time.deltaTime * speedToUse);
+        rb2D.velocity = Vector2.ClampMagnitude(rb2D.velocity, maxVelocity);
+    }
+
+    IEnumerator ShootAtPlayer()
+    {
+        swarmAttackState = SwarmAttackState.SHOOTING;
+        GameObject alienBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+        AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
+        print(transform.up);
+        tempBullet.direction = transform.up;
+        yield return new WaitForSeconds(shootWaitTime);
+        swarmAttackState = SwarmAttackState.CHASING;
     }
 
     IEnumerator GetDirectionToPlayer()

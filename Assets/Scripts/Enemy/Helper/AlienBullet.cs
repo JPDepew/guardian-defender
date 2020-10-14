@@ -13,13 +13,12 @@ public class AlienBullet : MonoBehaviour {
     private void Start()
     {
         utilities = Utilities.instance;
-
         sRnderer = GetComponent<SpriteRenderer>();
+        print(direction);
     }
 
     void Update () {
         if (utilities.gameState == Utilities.GameState.STOPPED) return;
-
         transform.Translate(direction * speed * Time.deltaTime);
         if (!sRnderer.isVisible)
         {
