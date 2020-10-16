@@ -4849,6 +4849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0}
   speed: 5
+  destroyAfter: 0
 --- !u!82 &82205733123901086
 AudioSource:
   m_ObjectHideFlags: 0

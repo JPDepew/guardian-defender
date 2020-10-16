@@ -19,11 +19,13 @@ public class SwarmAttacker : Enemy
     enum SwarmAttackState { CHASING, SHOOTING };
     SwarmAttackState swarmAttackState = SwarmAttackState.CHASING;
     Rigidbody2D rb2D;
+    ParticleSystem particleSystem;
 
     protected override void Start()
     {
         base.Start();
         rb2D = GetComponent<Rigidbody2D>();
+        particleSystem = GetComponentInChildren<ParticleSystem>();
         StartCoroutine(FindPlayer());
         StartCoroutine(GetDirectionToPlayer());
         verticalHalfSize = Camera.main.orthographicSize;
@@ -78,9 +80,23 @@ public class SwarmAttacker : Enemy
 
     void HandleAcceleration()
     {
-        float speedToUse = swarmAttackState == SwarmAttackState.SHOOTING ? 0 : acceleration;
+        bool isShooting = IsShooting();
+        if(!isShooting && particleSystem.isStopped)
+        {
+            particleSystem.Play();
+        }
+        if (isShooting && particleSystem.isPlaying)
+        {
+            particleSystem.Stop();
+        }
+        float speedToUse = isShooting ? 0 : acceleration;
         rb2D.AddForce(transform.up * Time.deltaTime * speedToUse);
         rb2D.velocity = Vector2.ClampMagnitude(rb2D.velocity, maxVelocity);
+    }
+
+    bool IsShooting()
+    {
+        return swarmAttackState == SwarmAttackState.SHOOTING;
     }
 
     IEnumerator ShootAtPlayer()
@@ -88,7 +104,6 @@ public class SwarmAttacker : Enemy
         swarmAttackState = SwarmAttackState.SHOOTING;
         GameObject alienBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
-        print(transform.up);
         tempBullet.direction = transform.up;
         yield return new WaitForSeconds(shootWaitTime);
         swarmAttackState = SwarmAttackState.CHASING;

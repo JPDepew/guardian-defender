@@ -6,6 +6,7 @@ public class AlienBullet : MonoBehaviour {
 
     public Vector2 direction;
     public float speed = 1;
+    public float destroyAfter = 1.5f;
     private SpriteRenderer sRnderer;
 
     Utilities utilities;
@@ -14,7 +15,6 @@ public class AlienBullet : MonoBehaviour {
     {
         utilities = Utilities.instance;
         sRnderer = GetComponent<SpriteRenderer>();
-        print(direction);
     }
 
     void Update () {
@@ -22,7 +22,13 @@ public class AlienBullet : MonoBehaviour {
         transform.Translate(direction * speed * Time.deltaTime);
         if (!sRnderer.isVisible)
         {
-            Destroy(gameObject);
+            StartCoroutine(DelayedDestroy());
         }
 	}
+
+    IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(destroyAfter);
+        Destroy(gameObject);
+    }
 }
