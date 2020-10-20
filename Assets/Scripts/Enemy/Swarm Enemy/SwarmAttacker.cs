@@ -19,14 +19,13 @@ public class SwarmAttacker : Enemy
     enum SwarmAttackState { CHASING, SHOOTING };
     SwarmAttackState swarmAttackState = SwarmAttackState.CHASING;
     Rigidbody2D rb2D;
-    ParticleSystem particleSystem;
+    ParticleSystem[] engineParticleSystems;
 
     protected override void Start()
     {
         base.Start();
         rb2D = GetComponent<Rigidbody2D>();
-        particleSystem = GetComponentInChildren<ParticleSystem>();
-        StartCoroutine(FindPlayer());
+        engineParticleSystems = GetComponentsInChildren<ParticleSystem>();
         StartCoroutine(GetDirectionToPlayer());
         verticalHalfSize = Camera.main.orthographicSize;
     }
@@ -38,7 +37,6 @@ public class SwarmAttacker : Enemy
         if (player)
         {
             Vector2 directionToUse;
-            float xDstToPlayer = Mathf.Abs(direction.x);
             if (transform.position.y > verticalHalfSize - offsetFromVerticalBounds)
             {
                 directionToUse = direction.normalized + Vector2.down * Mathf.Abs(transform.position.y) * directionMultiplier;
@@ -49,7 +47,8 @@ public class SwarmAttacker : Enemy
             }
             else
             {
-                if (xDstToPlayer > maxDstToPlayer)
+                float xDstToPlayer = Mathf.Abs(direction.x);
+                if (xDstToPlayer > maxDstToPlayer || direction == Vector2.zero)
                 {
                     directionToUse = new Vector2(direction.x, 0);
                 }
@@ -80,18 +79,39 @@ public class SwarmAttacker : Enemy
 
     void HandleAcceleration()
     {
-        bool isShooting = IsShooting();
-        if(!isShooting && particleSystem.isStopped)
-        {
-            particleSystem.Play();
-        }
-        if (isShooting && particleSystem.isPlaying)
-        {
-            particleSystem.Stop();
-        }
-        float speedToUse = isShooting ? 0 : acceleration;
+        HandleEngineParticleSystems();
+        float speedToUse = IsShooting() ? 0 : acceleration;
         rb2D.AddForce(transform.up * Time.deltaTime * speedToUse);
         rb2D.velocity = Vector2.ClampMagnitude(rb2D.velocity, maxVelocity);
+    }
+
+    void HandleEngineParticleSystems()
+    {
+        bool isShooting = IsShooting();
+        if (!isShooting && !engineParticleSystems[0].isEmitting)
+        {
+            PlayAllParticleSystems();
+        }
+        if (isShooting && engineParticleSystems[0].isPlaying)
+        {
+            StopAllParticleSystems();
+        }
+    }
+
+    void PlayAllParticleSystems()
+    {
+        for (int i = 0; i < engineParticleSystems.Length; i++)
+        {
+            engineParticleSystems[i].Play();
+        }
+    }
+
+    void StopAllParticleSystems()
+    {
+        for (int i = 0; i < engineParticleSystems.Length; i++)
+        {
+            engineParticleSystems[i].Stop();
+        }
     }
 
     bool IsShooting()

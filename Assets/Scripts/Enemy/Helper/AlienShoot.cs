@@ -28,8 +28,6 @@ public class AlienShoot : MonoBehaviour
     {
         while (true && (alien.curState == Alien.State.PATROLLING) && playerTransform != null)
         {
-            print("im an idot");
-            // totally screwed up
             float waitSeconds = 1.5f;
             yield return new WaitForSeconds(waitSeconds);
             Vector2 direction = (playerTransform.position - transform.position).normalized;
