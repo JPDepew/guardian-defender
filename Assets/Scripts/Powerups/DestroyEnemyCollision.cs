@@ -7,8 +7,11 @@ public class DestroyEnemyCollision : MonoBehaviour
     {
         if (collision.tag == "Alien")
         {
-            Enemy alien = collision.GetComponent<Enemy>();
-            alien.DamageSelf(12, transform.position);
+            if (collision.transform.parent != transform.parent)
+            {
+                Enemy alien = collision.GetComponent<Enemy>();
+                alien.DamageSelf(12, transform.position);
+            }
         }
         if (collision.tag == "Human")
         {

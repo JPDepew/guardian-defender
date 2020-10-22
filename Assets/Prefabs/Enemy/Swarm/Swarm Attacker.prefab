@@ -4768,7 +4768,7 @@ GameObject:
   - component: {fileID: 2702395774032424704}
   - component: {fileID: 2702395774032424735}
   - component: {fileID: 1837052869}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Swarm Attacker
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -4868,7 +4868,8 @@ MonoBehaviour:
   wrapDstMultiplier: 1
   hit: {fileID: 0}
   scoreText: {fileID: 0}
-  explosion: {fileID: 0}
+  explosion: {fileID: 1743161790072958964, guid: 8940e80e7493b104cae965ad59a6f560,
+    type: 3}
   maxHealth: 0
   bounceBackAmount: 0.4
   rotateAmount: 2

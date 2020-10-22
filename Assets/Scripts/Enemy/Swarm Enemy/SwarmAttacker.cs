@@ -145,4 +145,9 @@ public class SwarmAttacker : Enemy
             yield return new WaitForSeconds(timeToWait);
         }
     }
+
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
+    {
+        return base.DamageSelf(damage, hitPosition, bulletDirection);
+    }
 }
