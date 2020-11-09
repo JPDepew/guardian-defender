@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(CircleCollider2D))]
 public class SwarmAttacker : Enemy
 {
     public float lerpTime = 0.5f;
@@ -11,33 +13,72 @@ public class SwarmAttacker : Enemy
     public float offsetFromVerticalBounds = 3;
     public float directionMultiplier = 0.5f;
     public float shootWaitTime = 0.4f;
+    public float raycastDst = 5;
+    public float avoidEnemyTime = 0.5f;
 
-    public GameObject bullet; 
+    public GameObject bullet;
+    public LayerMask layerMaskToAvoid;
 
     float verticalHalfSize;
+    bool avoidingEnemy = false;
+    Vector2 directionToUse;
 
-    enum SwarmAttackState { CHASING, SHOOTING };
-    SwarmAttackState swarmAttackState = SwarmAttackState.CHASING;
+    enum SwarmAttackState { CHASING, SHOOTING, INACTIVE };
+    SwarmAttackState swarmAttackState = SwarmAttackState.INACTIVE;
     Rigidbody2D rb2D;
+    CircleCollider2D circleCollider2D;
     ParticleSystem[] engineParticleSystems;
+    ParticleSystem shootWarmup;
 
     protected override void Start()
     {
         base.Start();
         rb2D = GetComponent<Rigidbody2D>();
-        engineParticleSystems = GetComponentsInChildren<ParticleSystem>();
-        StartCoroutine(GetDirectionToPlayer());
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        engineParticleSystems = GetComponentsInChildren<ParticleSystem>().Where(x => x.CompareTag("Engine")).ToArray();
+        shootWarmup = GetComponentsInChildren<ParticleSystem>().FirstOrDefault(x => x.tag != "Engine");
         verticalHalfSize = Camera.main.orthographicSize;
     }
 
-    // Update is called once per frame
-    protected override void Update()
+    public void Activate()
     {
-        base.Update();
-        if (player)
+        ActivateRigidbody();
+        transform.parent = null;
+        circleCollider2D.enabled = true;
+        swarmAttackState = SwarmAttackState.CHASING;
+        StartCoroutine(StartCoroutinesDelay());
+    }
+
+    void ActivateRigidbody()
+    {
+        Vector2 directionToParent = (transform.position - transform.parent.position).normalized;
+        rb2D.bodyType = RigidbodyType2D.Dynamic;
+        rb2D.simulated = true;
+        rb2D.AddForce(directionToParent * Time.deltaTime);
+    }
+
+    IEnumerator StartCoroutinesDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(FindPlayer());
+        StartCoroutine(GetDirectionToPlayer());
+        StartCoroutine(ActionController());
+    }
+
+    IEnumerator ActionController()
+    {
+        while (true)
         {
-            Vector2 directionToUse;
-            if (transform.position.y > verticalHalfSize - offsetFromVerticalBounds)
+            if (!player && !findingPlayer)
+            {
+                StartCoroutine(FindPlayer());
+            }
+            Vector2? evadeDirection = GetEvadeDirection();
+            if (evadeDirection != null)
+            {
+                directionToUse = (Vector2)GetEvadeDirection();
+            }
+            else if (transform.position.y > verticalHalfSize - offsetFromVerticalBounds - 1)
             {
                 directionToUse = direction.normalized + Vector2.down * Mathf.Abs(transform.position.y) * directionMultiplier;
             }
@@ -63,11 +104,14 @@ public class SwarmAttacker : Enemy
             }
             HandleRotation(directionToUse);
             HandleAcceleration();
+            yield return null;
         }
-        else
-        {
-            StartCoroutine(FindPlayer());
-        }
+    }
+
+    // Update is called once per frame
+    protected override void Update()
+    {
+        base.Update();
     }
 
     void HandleRotation(Vector2 directionToUse)
@@ -75,6 +119,100 @@ public class SwarmAttacker : Enemy
         float angle = Vector2.SignedAngle(transform.up, directionToUse);
         float angleToRotate = Mathf.Lerp(0, angle, lerpTime);
         transform.Rotate(Vector3.forward, angleToRotate);
+    }
+
+    /// <summary>
+    /// Avoid collisions with other enemies
+    /// </summary>
+    Vector2? GetEvadeDirection()
+    {
+        List<Vector2> raycastDirections = new List<Vector2>();
+        Vector3 offset = transform.up * circleCollider2D.radius * (transform.localScale.x + 0.01f);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position + offset, transform.up, raycastDst, layerMaskToAvoid);
+        Debug.DrawRay(transform.position + offset, transform.up * raycastDst, Color.blue);
+
+        bool hit = raycastHit2D;
+        float step = 15;
+        int itrCount = 1;
+        int maxRays = 4;
+        Vector2 leftVectorDirection = Vector2.zero;
+        Vector2 rightVectorDirection = Vector2.zero;
+        RaycastHit2D raycastHit2DLeft;
+        RaycastHit2D raycastHit2DRight;
+
+        Vector2 evadeDirection = Vector2.zero;
+
+        while (itrCount < maxRays)
+        {
+            leftVectorDirection = Quaternion.Euler(0, 0, step * itrCount) * transform.up;
+            rightVectorDirection = Quaternion.Euler(0, 0, -step * itrCount) * transform.up;
+            raycastHit2DLeft = Physics2D.Raycast(transform.position + offset, leftVectorDirection, raycastDst, layerMaskToAvoid);
+            raycastHit2DRight = Physics2D.Raycast(transform.position + offset, rightVectorDirection, raycastDst, layerMaskToAvoid);
+
+            Debug.DrawRay(transform.position + offset, leftVectorDirection * raycastDst, Color.red);
+            Debug.DrawRay(transform.position + offset, rightVectorDirection * raycastDst, Color.red);
+
+            if (raycastHit2DRight || raycastHit2DLeft)
+            {
+                hit = true;
+            }
+
+            // get closest
+            if (!raycastHit2DRight)
+            {
+                evadeDirection = rightVectorDirection;
+                break;
+            }
+            if (!raycastHit2DLeft)
+            {
+                evadeDirection = leftVectorDirection;
+                break;
+            }
+
+            itrCount++;
+        }
+
+        Vector2? newDirection;
+        newDirection = GetVectorBetweenXClosestVectors(evadeDirection, transform.up);
+        Debug.DrawRay(transform.position + offset, (Vector2)newDirection * raycastDst, Color.green);
+
+        return hit ? newDirection : null;
+    }
+
+    // Return angle between 2 closest vectors
+    Vector2 GetVectorBetweenXClosestVectors(Vector2 evadeDirection, Vector2 compareVector)
+    {
+        float angleFromAvgToUp = Vector2.SignedAngle(evadeDirection, compareVector);
+        Vector2 vectorToUse = Quaternion.Euler(0, 0, -angleFromAvgToUp) * evadeDirection;
+
+        return (vectorToUse * 2 + evadeDirection).normalized;
+    }
+
+    Vector2? GetClosestVector(List<Vector2> vectors, Vector2 compareVector)
+    {
+        float smallestDiff = float.MaxValue;
+        Vector2? closestVector = null;
+        for (int i = 0; i < vectors.Count; i++)
+        {
+            float angleToPlayer = Mathf.Atan2(compareVector.y, compareVector.x) * Mathf.Rad2Deg;
+            if (angleToPlayer < 0)
+            {
+                angleToPlayer += 360f;
+            }
+            float vectorAngle = Mathf.Atan2(vectors[i].y, vectors[i].x) * Mathf.Rad2Deg;
+            if (vectorAngle < 0)
+            {
+                vectorAngle += 360f;
+            }
+            float angleDiff = Mathf.Abs(Mathf.Abs(vectorAngle) - Mathf.Abs(angleToPlayer));
+            if (angleDiff < smallestDiff)
+            {
+                smallestDiff = angleDiff;
+                closestVector = vectors[i];
+            }
+        }
+
+        return closestVector;
     }
 
     void HandleAcceleration()
@@ -122,6 +260,8 @@ public class SwarmAttacker : Enemy
     IEnumerator ShootAtPlayer()
     {
         swarmAttackState = SwarmAttackState.SHOOTING;
+        shootWarmup.Play();
+        yield return new WaitForSeconds(shootWarmup.main.duration);
         GameObject alienBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
         tempBullet.direction = transform.up;

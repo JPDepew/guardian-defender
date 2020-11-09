@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50277967784638276}
   - component: {fileID: 6699997527994562829}
   - component: {fileID: 9067413269701450036}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Alien
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -110,10 +110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wrapDstMultiplier: 1
+  hit: {fileID: 1673419022545814, guid: 25636ce3cd791d74c86c90a6862f58a1, type: 3}
   scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
     type: 3}
   explosion: {fileID: 1224325130770760, guid: 893a497e8ea072e43ba4afbaa540ce13, type: 3}
-  hit: {fileID: 1673419022545814, guid: 25636ce3cd791d74c86c90a6862f58a1, type: 3}
   maxHealth: 3
   bounceBackAmount: 1.5
   rotateAmount: 5

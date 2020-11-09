@@ -33,4 +33,7 @@ Powerup ideas:
 v3.0.0
 Enemies:
 	- Swarmer - spinning jar looking thing. On shooting it, it explodes and a bunch of swarmers are released. Their direction is updated every frame to point towards you.
-	- 
+		* A little randomized movement for swarmers
+		* Aliens try to avoid Swarm container
+	- Boss - interlocking bricks that switch position. Sometimes shoots bricks out
+	- Boss - line renderer with lines that kill you

@@ -213,6 +213,7 @@ public class TutorialMaster : MonoBehaviour
     private IEnumerator BombInstructions()
     {
         instructionsText.text = "One last thing";
+        PlayerStats.instance.bombsCount++;
         yield return new WaitForSeconds(0.5f);
         GameObject alienRef1 = Instantiate(alien, new Vector3(playerShip.transform.position.x + 4, -4), Quaternion.Euler(Vector3.zero));
         GameObject alienRef2 = Instantiate(alien, new Vector3(playerShip.transform.position.x - 4, -3), Quaternion.Euler(Vector3.zero));

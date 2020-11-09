@@ -1521,7 +1521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a526c2d026ea6f47aed0bd71ad27e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombsCount: 3
+  bombsCount: 0
   score: 0
   timeFreezeAmountRemaining: 0
   completedTutorial: 0

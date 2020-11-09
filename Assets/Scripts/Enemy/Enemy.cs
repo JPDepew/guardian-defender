@@ -21,6 +21,7 @@ public class Enemy : Hittable
 
     protected ShipController player;
     protected SoundPlayer soundPlayer;
+    protected bool findingPlayer = false;
 
     bool isDestroyed = false;
 
@@ -65,11 +66,13 @@ public class Enemy : Hittable
 
     protected virtual IEnumerator FindPlayer()
     {
+        findingPlayer = true;
         while (player == null)
         {
             player = FindObjectOfType<ShipController>();
             yield return new WaitForSeconds(0.3f);
         }
+        findingPlayer = false;
     }
 
     public virtual bool DisinfectEnemy(Vector2 hitPoint)

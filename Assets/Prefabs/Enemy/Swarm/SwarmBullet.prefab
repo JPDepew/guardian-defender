@@ -4853,7 +4853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0}
-  speed: 1
+  speed: 2
   destroyAfter: 10
   shrinkCounter: 30
 --- !u!61 &2363527180973308629

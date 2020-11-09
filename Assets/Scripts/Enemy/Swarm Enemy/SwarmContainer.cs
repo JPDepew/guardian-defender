@@ -11,11 +11,12 @@ public class SwarmContainer : Enemy
     public float topBound = 2;
     public float bottomBound = -2;
 
+    public Transform swarmAttackContainer;
+
     List<Transform> engines;
-
     Rigidbody2D rigidbody2d;
-
     private SwarmPart[] metalChildren;
+    private SwarmAttacker[] swarmAttackers;
 
     protected override void Start()
     {
@@ -24,6 +25,7 @@ public class SwarmContainer : Enemy
         engines = GetComponentsInChildren<Transform>().Where(t => t.tag == "SwarmEngine").ToList();
         StartCoroutine("MoveShip");
         metalChildren = GetComponentsInChildren<SwarmPart>();
+        swarmAttackers = GetComponentsInChildren<SwarmAttacker>();
     }
 
     // Update is called once per frame
@@ -46,18 +48,6 @@ public class SwarmContainer : Enemy
     public void StartDestroy()
     {
         DestroySelf();
-    }
-
-    protected override void DestroySelf()
-    {
-        // stuff goes flying off
-        //base.DestroySelf();
-
-        foreach(SwarmPart swarmPart in metalChildren)
-        {
-            StopCoroutine("MoveShip");
-            swarmPart.FlyOffDestroy(transform.position);
-        }
     }
 
     IEnumerator MoveShip()
@@ -183,5 +173,24 @@ public class SwarmContainer : Enemy
         float maxUpwardYVelocity = 0.3f;
         return transform.position.y > topBound
             || (rigidbody2d.velocity.y > maxUpwardYVelocity && transform.position.y > topBound - 1);
+    }
+
+    protected override void DestroySelf()
+    {
+        foreach (SwarmPart swarmPart in metalChildren)
+        {
+            StopCoroutine("MoveShip");
+            swarmPart.FlyOffDestroy(transform.position);
+        }
+        // Activate all swarm attack children
+        ActivateSwarmAttackers();
+    }
+
+    void ActivateSwarmAttackers()
+    {
+        foreach (SwarmAttacker swarmAttacker in swarmAttackers)
+        {
+            swarmAttacker.Activate();
+        }
     }
 }

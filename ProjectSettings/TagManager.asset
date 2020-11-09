@@ -14,6 +14,9 @@ TagManager:
   - Watch
   - Bullet
   - SwarmEngine
+  - SwarmTop
+  - SwarmBottom
+  - Engine
   layers:
   - Default
   - TransparentFX
@@ -30,7 +33,7 @@ TagManager:
   - Both
   - Bomb Particles
   - Cam2
-  - 
+  - EnemyDestroy
   - 
   - 
   - 
