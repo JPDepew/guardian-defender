@@ -33,6 +33,7 @@ public class SwarmAttacker : Enemy
     protected override void Start()
     {
         base.Start();
+        shouldWrap = false;
         rb2D = GetComponent<Rigidbody2D>();
         circleCollider2D = GetComponent<CircleCollider2D>();
         engineParticleSystems = GetComponentsInChildren<ParticleSystem>().Where(x => x.CompareTag("Engine")).ToArray();
@@ -40,9 +41,15 @@ public class SwarmAttacker : Enemy
         verticalHalfSize = Camera.main.orthographicSize;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     public void Activate()
     {
         ActivateRigidbody();
+        shouldWrap = true;
         transform.parent = null;
         circleCollider2D.enabled = true;
         swarmAttackState = SwarmAttackState.CHASING;
@@ -52,14 +59,19 @@ public class SwarmAttacker : Enemy
     void ActivateRigidbody()
     {
         Vector2 directionToParent = (transform.position - transform.parent.position).normalized;
+        float speedMultiplier = 0.5f;
+        float torque = Random.Range(200, 800);
+        int sign = Random.Range(0, 1) * 2 - 1;
         rb2D.bodyType = RigidbodyType2D.Dynamic;
         rb2D.simulated = true;
-        rb2D.AddForce(directionToParent * Time.deltaTime);
+        rb2D.AddForce(directionToParent * Time.deltaTime * speedMultiplier);
+        rb2D.AddTorque(torque * sign);
     }
 
     IEnumerator StartCoroutinesDelay()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.75f);
+        rb2D.angularVelocity = 0;
         StartCoroutine(FindPlayer());
         StartCoroutine(GetDirectionToPlayer());
         StartCoroutine(ActionController());
@@ -108,12 +120,6 @@ public class SwarmAttacker : Enemy
         }
     }
 
-    // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     void HandleRotation(Vector2 directionToUse)
     {
         float angle = Vector2.SignedAngle(transform.up, directionToUse);
@@ -122,11 +128,12 @@ public class SwarmAttacker : Enemy
     }
 
     /// <summary>
-    /// Avoid collisions with other enemies
+    /// If there is a hittable object in front, return a vector with a new direction
+    /// to evade the object
     /// </summary>
+    /// <returns>Null if no hit, otherwise forward new direction</returns>
     Vector2? GetEvadeDirection()
     {
-        List<Vector2> raycastDirections = new List<Vector2>();
         Vector3 offset = transform.up * circleCollider2D.radius * (transform.localScale.x + 0.01f);
         RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position + offset, transform.up, raycastDst, layerMaskToAvoid);
         Debug.DrawRay(transform.position + offset, transform.up * raycastDst, Color.blue);
@@ -135,8 +142,8 @@ public class SwarmAttacker : Enemy
         float step = 15;
         int itrCount = 1;
         int maxRays = 4;
-        Vector2 leftVectorDirection = Vector2.zero;
-        Vector2 rightVectorDirection = Vector2.zero;
+        Vector2 leftVectorDirection;
+        Vector2 rightVectorDirection;
         RaycastHit2D raycastHit2DLeft;
         RaycastHit2D raycastHit2DRight;
 
@@ -173,46 +180,24 @@ public class SwarmAttacker : Enemy
         }
 
         Vector2? newDirection;
-        newDirection = GetVectorBetweenXClosestVectors(evadeDirection, transform.up);
+        newDirection = GetExtendedVector(evadeDirection, transform.up);
         Debug.DrawRay(transform.position + offset, (Vector2)newDirection * raycastDst, Color.green);
 
         return hit ? newDirection : null;
     }
 
-    // Return angle between 2 closest vectors
-    Vector2 GetVectorBetweenXClosestVectors(Vector2 evadeDirection, Vector2 compareVector)
+    /// <summary>
+    /// Get a vector that is the same direction from the compareVector as evadeDirection, but at a larger angle
+    /// </summary>
+    /// <param name="evadeDirection">The direction from the compare vector</param>
+    /// <param name="compareVector">The base vector from which evadeDirection comes</param>
+    /// <returns>Vector the same as evadeDirection but farther</returns>
+    Vector2 GetExtendedVector(Vector2 evadeDirection, Vector2 compareVector)
     {
-        float angleFromAvgToUp = Vector2.SignedAngle(evadeDirection, compareVector);
-        Vector2 vectorToUse = Quaternion.Euler(0, 0, -angleFromAvgToUp) * evadeDirection;
+        float angleFromEvadeToCompare = Vector2.SignedAngle(evadeDirection, compareVector);
+        Vector2 extendedVector = Quaternion.Euler(0, 0, -angleFromEvadeToCompare) * evadeDirection;
 
-        return (vectorToUse * 2 + evadeDirection).normalized;
-    }
-
-    Vector2? GetClosestVector(List<Vector2> vectors, Vector2 compareVector)
-    {
-        float smallestDiff = float.MaxValue;
-        Vector2? closestVector = null;
-        for (int i = 0; i < vectors.Count; i++)
-        {
-            float angleToPlayer = Mathf.Atan2(compareVector.y, compareVector.x) * Mathf.Rad2Deg;
-            if (angleToPlayer < 0)
-            {
-                angleToPlayer += 360f;
-            }
-            float vectorAngle = Mathf.Atan2(vectors[i].y, vectors[i].x) * Mathf.Rad2Deg;
-            if (vectorAngle < 0)
-            {
-                vectorAngle += 360f;
-            }
-            float angleDiff = Mathf.Abs(Mathf.Abs(vectorAngle) - Mathf.Abs(angleToPlayer));
-            if (angleDiff < smallestDiff)
-            {
-                smallestDiff = angleDiff;
-                closestVector = vectors[i];
-            }
-        }
-
-        return closestVector;
+        return (extendedVector * 2 + evadeDirection).normalized;
     }
 
     void HandleAcceleration()

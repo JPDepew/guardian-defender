@@ -21385,6 +21385,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2702395774032424704, guid: 939281d97b0f0574089d4c1a715212e3,
+        type: 3}
+      propertyPath: raycastDst
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2702395774032424705, guid: 939281d97b0f0574089d4c1a715212e3,
         type: 3}
       propertyPath: m_Name
