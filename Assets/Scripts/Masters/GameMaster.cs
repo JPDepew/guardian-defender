@@ -21,13 +21,16 @@ public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance;
 
-    public GameObject alien;
-    public GameObject flyingSaucer;
     public GameObject ship;
     public GameObject human;
-    public GameObject watchAlien;
-    public ParticleSystem alienSpawn;
     public AudioMixer audioMixer;
+
+    // Enemies
+    public ParticleSystem alienSpawn;
+    public GameObject alien;
+    public GameObject flyingSaucer;
+    public GameObject watchAlien;
+    public GameObject swarmEnemy;
 
     Utilities utilities;
 
@@ -205,13 +208,10 @@ public class GameMaster : MonoBehaviour
 
     private IEnumerator InstantiateAliens()
     {
-        float camPosX = mainCamera.transform.position.x;
         for (int i = 0; i < initialNumberOfAliens; i++)
         {
-            float xRange = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
-            int yRange = (int)Random.Range(-verticalHalfSize + constants.bottomOffset, verticalHalfSize - constants.topOffset);
-
-            Vector2 alienPositon = new Vector2(xRange, yRange);
+            Vector2 alienPositon = GetRandomPosition();
+            // Work the part below into the GetRandomPosition function
             while (shipReference == null)
             {
                 yield return new WaitForSeconds(0.2f);
@@ -235,6 +235,17 @@ public class GameMaster : MonoBehaviour
             yield return new WaitForSeconds(6);
             audioSources[1].Play();
         }
+        // instatntiate on 2nd wave
+        if (waveCount % 2 == 0)
+        {
+            StartCoroutine(SpawnContainer());
+        }
+    }
+    
+    private IEnumerator SpawnContainer()
+    {
+        print("going");
+        yield return null;
     }
 
     IEnumerator SpawnAlien(Vector2 alienPosition)
@@ -249,6 +260,19 @@ public class GameMaster : MonoBehaviour
         currentWatchAlien = false;
         audioSources[0].Play();
         audioSources[1].Stop();
+    }
+
+    /// <summary>
+    /// Gets a position within the vertical camera bounds and the correct direction to the left and right
+    /// </summary>
+    /// <returns>New position Vector2</returns>
+    private Vector2 GetRandomPosition()
+    {
+        float camPosX = mainCamera.transform.position.x;
+        float xRange = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
+        int yRange = (int)Random.Range(-verticalHalfSize + constants.bottomOffset, verticalHalfSize - constants.topOffset);
+
+        return new Vector2(xRange, yRange);
     }
 
     /// <summary>
