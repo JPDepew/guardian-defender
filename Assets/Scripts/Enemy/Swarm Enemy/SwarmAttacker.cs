@@ -275,4 +275,10 @@ public class SwarmAttacker : Enemy
     {
         return base.DamageSelf(damage, hitPosition, bulletDirection);
     }
+
+    protected override void DestroySelf()
+    {
+        InvokeOnEnemyDestroyed();
+        base.DestroySelf();
+    }
 }

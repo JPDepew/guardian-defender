@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 3523095128311430355}
   - component: {fileID: 3523095128311430353}
   - component: {fileID: 3523095128311430352}
-  - component: {fileID: 3523095128311430190}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -357,23 +356,3 @@ MonoBehaviour:
   timeFreezeAmountText: {fileID: 0}
   timeFreezePanel: {fileID: 0}
   canvas: {fileID: 0}
---- !u!114 &3523095128311430190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3523095128311430187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649ae440c6e49ee47ac22aa547f00933, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  star: {fileID: 5684726227552786082, guid: a5c955a6a2854c446bade099931023a6, type: 3}
-  starContainer: {fileID: 0}
-  minZPos: 30
-  maxZPos: 130
-  minYPos: -17
-  maxYPos: 40
-  starCount: 100
-  wrapDstMultiplier: 2

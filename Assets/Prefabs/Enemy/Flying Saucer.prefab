@@ -116,7 +116,8 @@ MonoBehaviour:
   rotateTime: 0.05
   health: 0
   speed: 6
-  actionDstToPlayer: 7
+  shootSpeed: 2
+  actionDstToPlayer: 9
   easeToNewDirection: 0.3
   horizontalBounds: {x: 0, y: 0}
   bullet: {fileID: 1200172600666214, guid: dc8901e4ec44a00468d95eab44283462, type: 3}

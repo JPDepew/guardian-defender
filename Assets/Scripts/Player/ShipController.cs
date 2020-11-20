@@ -194,7 +194,7 @@ public class ShipController : MonoBehaviour
                     shipHumans.Add(human);
                     audioSources[4].Play();
                     human.SetToRescued(transform, shipHumans.Count);
-                    gameMaster?.InstantiateScorePopup(constants.catchHumanBonus, transform.position);
+                    gameMaster?.InstantiateScorePopup(constants.catchHumanBonus * shipHumans.Count, transform.position);
                 }
             }
             yield return new WaitForSecondsRealtime(.02f);

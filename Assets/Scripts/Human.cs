@@ -16,16 +16,12 @@ public class Human : Hittable
 
     private Transform currentGround;
     private float actualSpeed = 0;
-    private GameObject player;
-    private GameObject rightSide;
-    private GameObject leftSide;
     private float verticalHalfSize;
     private float verticalHalfSizeOffset = 0.8f;
     private bool shouldDie = true;
 
     private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
-    private BoxCollider2D boxCollider2D;
 
     private void Awake()
     {
@@ -38,7 +34,6 @@ public class Human : Hittable
         utilities = Utilities.instance;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
     }
 

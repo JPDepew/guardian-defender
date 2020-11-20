@@ -9,18 +9,22 @@ public class SwarmPart : Hittable
 
     private float rotateAmount;
     private SoundPlayer soundPlayer;
+    private SpriteRenderer spriteRenderer;
 
     protected override void Start()
     {
         base.Start();
         soundPlayer = GetComponent<SoundPlayer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         shouldWrap = false;
     }
 
     public void FlyOffDestroy(Vector2 parentPosition)
     {
+        GameObject parent = transform.parent.gameObject;
         rotateAmount = Random.Range(-rotationAmountMax, rotationAmountMax);
         transform.parent = null;
+        Destroy(parent);
         StartCoroutine(Explode(parentPosition));
     }
 
@@ -33,11 +37,12 @@ public class SwarmPart : Hittable
     IEnumerator Explode(Vector2 parentPosition)
     {
         Vector2 direction = (Vector2)transform.position - parentPosition;
-        while (true)
+        while (spriteRenderer.isVisible)
         {
             transform.Rotate(Vector3.back, rotateAmount * Time.deltaTime);
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
             yield return null;
         }
+        Destroy(gameObject);
     }
 }

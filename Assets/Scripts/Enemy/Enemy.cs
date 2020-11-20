@@ -23,6 +23,9 @@ public class Enemy : Hittable
     protected SoundPlayer soundPlayer;
     protected bool findingPlayer = false;
 
+    public delegate void OnDestroyed();
+    public static event OnDestroyed onEnemyDestroyed;
+
     bool isDestroyed = false;
 
     protected override void Start()
@@ -112,5 +115,10 @@ public class Enemy : Hittable
             transform.Rotate(new Vector3(0, 0, -directionToHitY * rotateAmount));
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    protected void InvokeOnEnemyDestroyed()
+    {
+        onEnemyDestroyed?.Invoke();
     }
 }

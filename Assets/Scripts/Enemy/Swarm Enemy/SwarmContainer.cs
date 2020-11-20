@@ -12,6 +12,7 @@ public class SwarmContainer : Enemy
     public float bottomBound = -2;
 
     public Transform swarmAttackContainer;
+    public GameObject body;
 
     List<Transform> engines;
     Rigidbody2D rigidbody2d;
@@ -23,15 +24,24 @@ public class SwarmContainer : Enemy
         base.Start();
         rigidbody2d = GetComponent<Rigidbody2D>();
         engines = GetComponentsInChildren<Transform>().Where(t => t.tag == "SwarmEngine").ToList();
-        StartCoroutine("MoveShip");
         metalChildren = GetComponentsInChildren<SwarmPart>();
         swarmAttackers = GetComponentsInChildren<SwarmAttacker>();
+
+        StartCoroutine(DelayedStart());
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
+    }
+
+    IEnumerator DelayedStart()
+    {
+        body.SetActive(false);
+        yield return new WaitForSeconds(1);
+        body.SetActive(true);
+        StartCoroutine("MoveShip");
     }
 
     public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection)

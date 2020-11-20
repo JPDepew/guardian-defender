@@ -19,8 +19,6 @@ public class Alien : Enemy
     private Human human;
     float verticalHalfSize;
 
-    public delegate void OnDestroyed();
-    public static event OnDestroyed onAlienDestroyed;
     public GameObject infectedAlien;
 
     protected override void Start()
@@ -178,7 +176,7 @@ public class Alien : Enemy
         {
             human.SetToFalling();
         }
-        onAlienDestroyed?.Invoke();
+        InvokeOnEnemyDestroyed();
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
         scoreText.text = "150";
         base.DestroySelf();

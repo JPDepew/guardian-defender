@@ -62,6 +62,7 @@ public class GameMaster : MonoBehaviour
     private int dstAliensCanSpawnFromPlayer = 3;
     private float verticalHalfSize = 0;
     private bool currentWatchAlien;
+    private int waveEnemyCount = 0;
 
     private Vector3 playerPosition;
     private Quaternion rotation;
@@ -84,7 +85,7 @@ public class GameMaster : MonoBehaviour
         uIAnimationsMaster = GetComponent<UIAnimationsMaster>();
 
         // Event listeners
-        Alien.onAlienDestroyed += OnAlienDestroyed;
+        Enemy.onEnemyDestroyed += OnAlienDestroyed;
         MutatedAlien.onMutatedAlienDestroyed += OnAlienDestroyed;
         Watch.onWatchDestroyed += OnWatchDestroyed;
         PlayerPowerups.onTimeFreeze += ToggleMusic;
@@ -161,6 +162,7 @@ public class GameMaster : MonoBehaviour
 
     IEnumerator InstantiateNewWave()
     {
+        waveEnemyCount = 0;
         if (waveCount > 0)
         {
             bonusText.gameObject.SetActive(true);
@@ -172,6 +174,8 @@ public class GameMaster : MonoBehaviour
         {
             bonusText.text = "";
         }
+
+        waveCount++;
 
         yield return new WaitForSeconds(bonusTextAnimator.GetCurrentAnimatorStateInfo(0).length);
 
@@ -185,9 +189,8 @@ public class GameMaster : MonoBehaviour
         bonusText.gameObject.SetActive(false);
         playerStats.IncreaseScoreBy(bonus);
         bonus = 0;
-        StartCoroutine(InstantiateAliens());
+        StartCoroutine(InstantiateEnemies());
         StartCoroutine(InstantiateHumans());
-        waveCount++;
     }
 
     private IEnumerator InstantiateHumans()
@@ -206,28 +209,11 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-    private IEnumerator InstantiateAliens()
+    private IEnumerator InstantiateEnemies()
     {
-        for (int i = 0; i < initialNumberOfAliens; i++)
-        {
-            Vector2 alienPositon = GetRandomPosition();
-            // Work the part below into the GetRandomPosition function
-            while (shipReference == null)
-            {
-                yield return new WaitForSeconds(0.2f);
-            }
-            // Making sure aliens don't spawn too close to the player
-            if ((alienPositon - (Vector2)shipReference.transform.position).magnitude < dstAliensCanSpawnFromPlayer)
-            {
-                i--; // This is probably really sketchy, I know... But it works really well...
-            }
-            else
-            {
-                StartCoroutine("SpawnAlien", alienPositon);
-            }
-            yield return null;
-        }
-        if (waveCount % 6 == 0 && !currentWatchAlien)
+        StartCoroutine(SpawnAliens());
+        StartCoroutine(SpawnSwarmContainers());
+        if (waveCount % 5 == 0 && waveCount != 0 && !currentWatchAlien)
         {
             currentWatchAlien = true;
             audioSources[0].Stop();
@@ -235,21 +221,38 @@ public class GameMaster : MonoBehaviour
             yield return new WaitForSeconds(6);
             audioSources[1].Play();
         }
-        // instatntiate on 2nd wave
-        if (waveCount % 2 == 0)
-        {
-            StartCoroutine(SpawnContainer());
-        }
-    }
-    
-    private IEnumerator SpawnContainer()
-    {
-        print("going");
-        yield return null;
     }
 
-    IEnumerator SpawnAlien(Vector2 alienPosition)
+    private IEnumerator SpawnSwarmContainers()
     {
+        if (waveCount % 1 == 0)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                waveEnemyCount += 6;
+                Vector2 position = GetRandomPosition();
+                Instantiate(swarmEnemy, position, transform.rotation);
+                yield return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Spawn an increasing number of Aliens every wave
+    /// </summary>
+    IEnumerator SpawnAliens()
+    {
+        for (int i = 0; i < initialNumberOfAliens; i++)
+        {
+            waveEnemyCount++;
+            StartCoroutine(SpawnAlien());
+            yield return null;
+        }
+    }
+
+    IEnumerator SpawnAlien()
+    {
+        Vector2 alienPosition = GetRandomPosition();
         Transform tempTransform = Instantiate(alienSpawn, alienPosition, transform.rotation).transform;
         yield return new WaitForSeconds(alienSpawn.main.duration);
         Instantiate(alien, tempTransform.position, transform.rotation);
@@ -264,15 +267,21 @@ public class GameMaster : MonoBehaviour
 
     /// <summary>
     /// Gets a position within the vertical camera bounds and the correct direction to the left and right
+    /// And not too close to the player
     /// </summary>
     /// <returns>New position Vector2</returns>
     private Vector2 GetRandomPosition()
     {
-        float camPosX = mainCamera.transform.position.x;
-        float xRange = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
-        int yRange = (int)Random.Range(-verticalHalfSize + constants.bottomOffset, verticalHalfSize - constants.topOffset);
+        Vector2 newPosition;
+        do
+        {
+            float camPosX = mainCamera.transform.position.x;
+            float xRange = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
+            int yRange = (int)Random.Range(-verticalHalfSize + constants.bottomOffset, verticalHalfSize - constants.topOffset);
+            newPosition = new Vector2(xRange, yRange);
+        } while (shipReference != null && (newPosition - (Vector2)shipReference.transform.position).magnitude < dstAliensCanSpawnFromPlayer);
 
-        return new Vector2(xRange, yRange);
+        return newPosition;
     }
 
     /// <summary>
@@ -287,11 +296,11 @@ public class GameMaster : MonoBehaviour
             if (waveCount % 1 == 0 && shipReference != null)
             {
                 int rand = Random.Range(0, 2);
-                int multiplier = rand == 1 ? 1 : -1;
-                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + multiplier * wrapDst / 2, 0), transform.rotation);
+                int sign = rand == 1 ? 1 : -1;
+                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + sign * (wrapDst - 2), 0), transform.rotation);
             }
         }
-        if (alienDestroyedCountTracker >= initialNumberOfAliens)
+        if (alienDestroyedCountTracker >= waveEnemyCount)
         {
             initialNumberOfAliens++;
             alienDestroyedCountTracker = 0;
@@ -368,7 +377,7 @@ public class GameMaster : MonoBehaviour
     // After reloading the scene, objects are still subscribed to events.
     private void OnDestroy()
     {
-        Alien.onAlienDestroyed -= OnAlienDestroyed;
+        Enemy.onEnemyDestroyed -= OnAlienDestroyed;
         MutatedAlien.onMutatedAlienDestroyed -= OnAlienDestroyed;
         Watch.onWatchDestroyed -= OnWatchDestroyed;
         PlayerPowerups.onTimeFreeze -= ToggleMusic;

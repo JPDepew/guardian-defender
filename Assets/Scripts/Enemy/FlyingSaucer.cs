@@ -5,6 +5,7 @@ using UnityEngine;
 public class FlyingSaucer : Enemy
 {
     public float speed;
+    public float shootSpeed;
     public float actionDstToPlayer = 7f;
     public float easeToNewDirection = 0.3f;
     public Vector2 horizontalBounds;
@@ -13,8 +14,10 @@ public class FlyingSaucer : Enemy
 
     PlayerStats playerStats;
 
+    private float currentSpeed;
     float verticalHalfSize;
     bool goToTopOfPlayer = true;
+    private bool shootingAtPlayer = false;
 
     protected override void Start()
     {
@@ -23,6 +26,7 @@ public class FlyingSaucer : Enemy
 
         StartCoroutine(StartEverything());
 
+        currentSpeed = speed;
         direction = Vector2.zero;
         verticalHalfSize = Camera.main.orthographicSize;
     }
@@ -33,7 +37,7 @@ public class FlyingSaucer : Enemy
 
         HandleOffScreenDirection();
         direction = Vector2.Lerp(direction, newDirection, easeToNewDirection);
-        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        transform.Translate(direction * currentSpeed * Time.deltaTime, Space.World);
 
         base.Update();
     }
@@ -82,10 +86,19 @@ public class FlyingSaucer : Enemy
                 {
                     float placement = goToTopOfPlayer ? 2 : -2;
                     newDirection = new Vector2(dirToPlayer.x, dirToPlayer.y + placement).normalized;
+                    if (!shootingAtPlayer)
+                    {
+                        StartCoroutine("ShootAtPlayer");
+                    }
                 }
                 else
                 {
                     newDirection = dirToPlayer.normalized;
+                    if (shootingAtPlayer)
+                    {
+                        StopCoroutine("ShootAtPlayer");
+                        shootingAtPlayer = false;
+                    }
                 }
             }
 
@@ -101,11 +114,9 @@ public class FlyingSaucer : Enemy
             {
                 newDirection = Vector2.left;
                 yield return FindPlayer();
-                //player = FindObjectOfType<ShipController>();
             }
             else
             {
-                ShootAtPlayer();
                 yield return new WaitForSeconds(3f);
                 goToTopOfPlayer = !goToTopOfPlayer;
             }
@@ -115,7 +126,7 @@ public class FlyingSaucer : Enemy
     protected override void DestroySelf()
     {
         // change this next
-        speed = 0;
+        currentSpeed = 0;
         audioSources[6].Stop();
         int randomNum = Random.Range(0, 1);
         if (randomNum == 0)
@@ -127,18 +138,24 @@ public class FlyingSaucer : Enemy
             }
             Instantiate(constants.powerups[randomNum], transform.position, transform.rotation);
         }
+        // TODO: Fix this up
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
         scoreText.text = "300";
         playerStats.IncreaseScoreBy(300);
         base.DestroySelf();
     }
 
-    void ShootAtPlayer()
+    IEnumerator ShootAtPlayer()
     {
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-        GameObject alienBullet = Instantiate(bullet, transform.position, transform.rotation);
-        AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
-        tempBullet.speed *= 1.5f;
-        tempBullet.direction = direction;
+        shootingAtPlayer = true;
+        while (true)
+        {
+            Vector2 direction = (player.transform.position - transform.position).normalized;
+            GameObject alienBullet = Instantiate(bullet, transform.position, transform.rotation);
+            AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
+            tempBullet.speed *= 1.5f;
+            tempBullet.direction = direction;
+            yield return new WaitForSeconds(shootSpeed);
+        }
     }
 }

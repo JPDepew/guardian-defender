@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Watch : Enemy
@@ -17,15 +16,13 @@ public class Watch : Enemy
     ShieldRotate[] rotators;
     float[] rotatorValues;
     private float speed = 0;
-    private float verticalHalfSize = 0;
 
-    public delegate void OnDestroyed();
-    public static event OnDestroyed onWatchDestroyed;
+    public delegate void OnWatchDestroyed();
+    public static event OnWatchDestroyed onWatchDestroyed;
 
     protected override void Start()
     {
         player = FindObjectOfType<ShipController>();
-        verticalHalfSize = Camera.main.orthographicSize;
         base.Start();
         rotators = GetComponentsInChildren<ShieldRotate>();
         rotatorValues = new float[rotators.Length + 1];

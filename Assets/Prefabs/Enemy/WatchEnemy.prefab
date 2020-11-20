@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 212645395914268704}
   - component: {fileID: 114580385291410270}
   - component: {fileID: 58731562690725690}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_3
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 212482259831681100}
   - component: {fileID: 114908016071419910}
   - component: {fileID: 58591151263577632}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_6
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 212722942770818584}
   - component: {fileID: 114612083311160392}
   - component: {fileID: 58583349957110692}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_8
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 212567785313544030}
   - component: {fileID: 114627383105179576}
   - component: {fileID: 58062723089763508}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_4
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 212512216646922906}
   - component: {fileID: 114182849806398734}
   - component: {fileID: 58583879157347254}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_5
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 212377418822442500}
   - component: {fileID: 114721307329411740}
   - component: {fileID: 58173935803297958}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_1
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -927,7 +927,7 @@ GameObject:
   - component: {fileID: 212247719946612096}
   - component: {fileID: 114337675524810820}
   - component: {fileID: 58234757418773908}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_2
   m_TagString: Watch
   m_Icon: {fileID: 0}
@@ -1090,10 +1090,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wrapDstMultiplier: 1
+  hit: {fileID: 1673419022545814, guid: 25636ce3cd791d74c86c90a6862f58a1, type: 3}
   scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
     type: 3}
   explosion: {fileID: 1486247667318856, guid: d38c94ba11494bd43833e4acf981e882, type: 3}
-  hit: {fileID: 1673419022545814, guid: 25636ce3cd791d74c86c90a6862f58a1, type: 3}
   maxHealth: 200
   bounceBackAmount: 0.4
   rotateAmount: 0
@@ -1633,7 +1633,7 @@ GameObject:
   - component: {fileID: 212428235323765942}
   - component: {fileID: 114933847155021632}
   - component: {fileID: 58886296498846306}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: WatchSheet_0
   m_TagString: Watch
   m_Icon: {fileID: 0}
