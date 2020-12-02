@@ -1747,7 +1747,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 15
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1895,6 +1895,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 952661583}
   nameInput: {fileID: 2021707295}
+  submitButton: {fileID: 1397261037}
 --- !u!114 &2091472396
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ public class Constants : MonoBehaviour
     public int rescueHumanBonus = 500;
     public int timeFreezeAmount = 800;
     public float explosionOffset = 15f;
+
     public List<PowerupObj> powerups = new List<PowerupObj>();
 
     string playerPrefHighScoreKey = "playerHighScore";

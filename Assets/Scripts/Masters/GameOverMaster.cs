@@ -8,6 +8,7 @@ public class GameOverMaster : MonoBehaviour
 {
     public Text scoreText;
     public InputField nameInput;
+    public Button submitButton;
 
     private bool submitting = false;
 
@@ -34,6 +35,9 @@ public class GameOverMaster : MonoBehaviour
     {
         if (!submitting)
         {
+            nameInput.interactable = false;
+            submitButton.interactable = false;
+            submitButton.GetComponentInChildren<Text>().text = "...";
             StartCoroutine(UploadScore());
         }
     }

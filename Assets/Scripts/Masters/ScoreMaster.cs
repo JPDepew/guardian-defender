@@ -19,11 +19,6 @@ public class ScoreMaster : MonoBehaviour
         StartCoroutine(GetScores());
     }
 
-    void Update()
-    {
-        
-    }
-
     IEnumerator AnimateEllipses()
     {
         while (!dataFetched)
@@ -42,7 +37,7 @@ public class ScoreMaster : MonoBehaviour
 
     IEnumerator GetScores()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("https://us-central1-guardian-scoreboard.cloudfunctions.net/get_scores/"))
+        using (UnityWebRequest www = UnityWebRequest.Get("https://us-central1-guardian-scoreboard.cloudfunctions.net/get_scores/?limit=60"))
         {
             yield return www.SendWebRequest();
 

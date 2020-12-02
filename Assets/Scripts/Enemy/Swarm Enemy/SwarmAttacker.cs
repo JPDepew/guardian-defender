@@ -278,7 +278,8 @@ public class SwarmAttacker : Enemy
 
     protected override void DestroySelf()
     {
-        InvokeOnEnemyDestroyed();
+        
+        InvokeOnEnemyDestroyed(100);
         base.DestroySelf();
     }
 }

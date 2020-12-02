@@ -171,12 +171,11 @@ public class Alien : Enemy
         Destroy(windows);
         audioSources[6].Stop();
 
-        PlayerStats.instance.IncreaseScoreBy(150);
         if (human)
         {
             human.SetToFalling();
         }
-        InvokeOnEnemyDestroyed();
+        InvokeOnEnemyDestroyed(150);
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
         scoreText.text = "150";
         base.DestroySelf();

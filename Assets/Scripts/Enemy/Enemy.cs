@@ -13,6 +13,7 @@ public class Enemy : Hittable
     public float rotateAmount = 2f;
     public float rotateTime = 0.2f;
     public float health;
+    public int destroyPoints;
     protected Vector2 direction;
     protected Vector2 newDirection;
     protected AudioSource[] audioSources;
@@ -23,7 +24,7 @@ public class Enemy : Hittable
     protected SoundPlayer soundPlayer;
     protected bool findingPlayer = false;
 
-    public delegate void OnDestroyed();
+    public delegate void OnDestroyed(int scoreIncreaseBy);
     public static event OnDestroyed onEnemyDestroyed;
 
     bool isDestroyed = false;
@@ -117,8 +118,8 @@ public class Enemy : Hittable
         }
     }
 
-    protected void InvokeOnEnemyDestroyed()
+    protected void InvokeOnEnemyDestroyed(int scoreIncrease)
     {
-        onEnemyDestroyed?.Invoke();
+        onEnemyDestroyed?.Invoke(scoreIncrease);
     }
 }

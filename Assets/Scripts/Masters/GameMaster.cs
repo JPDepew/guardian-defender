@@ -86,7 +86,6 @@ public class GameMaster : MonoBehaviour
 
         // Event listeners
         Enemy.onEnemyDestroyed += OnAlienDestroyed;
-        MutatedAlien.onMutatedAlienDestroyed += OnAlienDestroyed;
         Watch.onWatchDestroyed += OnWatchDestroyed;
         PlayerPowerups.onTimeFreeze += ToggleMusic;
 
@@ -225,9 +224,9 @@ public class GameMaster : MonoBehaviour
 
     private IEnumerator SpawnSwarmContainers()
     {
-        if (waveCount % 1 == 0)
+        if (waveCount % 2 == 0)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < waveCount / 2; i++)
             {
                 waveEnemyCount += 6;
                 Vector2 position = GetRandomPosition();
@@ -288,8 +287,9 @@ public class GameMaster : MonoBehaviour
     /// If all the aliens are destroyed, start a new wave.
     /// If there are only 2 left, and it is an even wave, instantiate a saucer.
     /// </summary>
-    private void OnAlienDestroyed()
+    private void OnAlienDestroyed(int scoreIncrease)
     {
+        playerStats.IncreaseScoreBy(scoreIncrease);
         alienDestroyedCountTracker++;
         if (alienDestroyedCountTracker == initialNumberOfAliens - 2)
         {
@@ -378,7 +378,6 @@ public class GameMaster : MonoBehaviour
     private void OnDestroy()
     {
         Enemy.onEnemyDestroyed -= OnAlienDestroyed;
-        MutatedAlien.onMutatedAlienDestroyed -= OnAlienDestroyed;
         Watch.onWatchDestroyed -= OnWatchDestroyed;
         PlayerPowerups.onTimeFreeze -= ToggleMusic;
     }

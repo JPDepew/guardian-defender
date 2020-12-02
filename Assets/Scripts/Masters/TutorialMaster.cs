@@ -141,6 +141,10 @@ public class TutorialMaster : MonoBehaviour
             yield return null;
         }
 
+        // Make sure the human is not hittable if the player stupidly shoots at it
+        BoxCollider2D humanBoxCollider2D = humanRef.transform.GetComponent<BoxCollider2D>();
+        humanBoxCollider2D.enabled = false;
+
         instructionsText.text = "Nice";
         yield return new WaitForSeconds(0.8f);
         instructionsText.text = "Wait";
@@ -150,6 +154,7 @@ public class TutorialMaster : MonoBehaviour
         instructionsText.text = "Oh crap";
         yield return new WaitForSeconds(0.8f);
 
+        humanBoxCollider2D.enabled = true;
         Human humanScript = humanRef.GetComponent<Human>();
 
         if (!shipController.HasHumans() && humanScript.GetState() != Human.State.GROUNDED)

@@ -44,7 +44,7 @@ public class Human : Hittable
 
         if (curState == State.FALLING)
         {
-            transform.parent = currentGround;
+            //transform.parent = currentGround;
             if (transform.position.y > -verticalHalfSize + verticalHalfSizeOffset)
             {
                 actualSpeed += acceleration;
@@ -73,7 +73,7 @@ public class Human : Hittable
             {
                 transform.parent.GetComponent<ShipController>().RemoveHuman(GetComponent<Human>());
                 audioSource.Play();
-                transform.parent = currentGround;
+                transform.parent = null;
                 curState = State.GROUNDED;
             }
         }
@@ -81,7 +81,7 @@ public class Human : Hittable
         {
             // default
             gameObject.layer = 0;
-            transform.parent = currentGround;
+            //transform.parent = currentGround;
         }
         else
         {
@@ -98,7 +98,6 @@ public class Human : Hittable
     {
         shouldDie = true;
         float correctedPos = transform.position.y + verticalHalfSize;
-        float dstToGround = verticalHalfSize * 2 - correctedPos + verticalHalfSizeOffset;
         if (correctedPos < dieOffset)
         {
             //human can live if hit ground
@@ -143,12 +142,6 @@ public class Human : Hittable
 
     protected void DestroySelf()
     {
-        //spriteRenderer.color = new Color(0, 0, 0, 0);
-        //boxCollider2D.enabled = false;
-        //curState = State.DEAD;
-        //Instantiate(explosion, transform.position, transform.rotation);
-        //audioSources[0].Play();
-        //yield return new WaitForSeconds(3f);
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }

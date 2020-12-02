@@ -17,8 +17,8 @@ public class MutatedAlien : Enemy
     public float disinfectHealth = 3;
     public float dstToAttack = 3f;
 
-    public delegate void OnDestroyed();
-    public static event OnDestroyed onMutatedAlienDestroyed;
+    //public delegate void OnDestroyed();
+    //public static event OnDestroyed onMutatedAlienDestroyed;
 
     float newSpeed = 8;
     float speed = 8;
@@ -68,8 +68,8 @@ public class MutatedAlien : Enemy
         soundPlayer.PlayRandomSoundFromRange(0, 1);
         if (disinfectHealth <= 0)
         {
-            onMutatedAlienDestroyed?.Invoke();
             speed = speed / 2;
+            // refactor all this
             GameObject temp = Instantiate(disinfectMask, new Vector2(transform.position.x, transform.position.y + 0.3f), transform.rotation);
             temp.transform.parent = transform;
             StartCoroutine(DestroyAfterDelay());
@@ -97,8 +97,13 @@ public class MutatedAlien : Enemy
         }
     }
 
+    /// <summary>
+    /// Destroy used in the case of disinfection, delayed so that the sprite mask on the 
+    /// mutated alien fade in
+    /// </summary>
     IEnumerator DestroyAfterDelay()
     {
+        InvokeOnEnemyDestroyed(50);
         GetComponent<PolygonCollider2D>().enabled = false;
         yield return new WaitForSeconds(destroyDelay);
         GameObject newHuman = Instantiate(human, new Vector2(transform.position.x, transform.position.y - disinfectHumanOffset), Quaternion.Euler(Vector2.zero));
@@ -108,8 +113,7 @@ public class MutatedAlien : Enemy
 
     protected override void DestroySelf()
     {
-        PlayerStats.instance.IncreaseScoreBy(50);
-        onMutatedAlienDestroyed?.Invoke();
+        InvokeOnEnemyDestroyed(200);
         base.DestroySelf();
     }
 

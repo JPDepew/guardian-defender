@@ -21,6 +21,24 @@ public class UI : MonoBehaviour
         StartCoroutine(DelayedLoad(2));
     }
 
+    public void LoadHelp()
+    {
+        audioSource[0].Play();
+        StartCoroutine(DelayedLoad("Help"));
+    }
+
+    public void LoadMenu()
+    {
+        audioSource[0].Play();
+        StartCoroutine(DelayedLoad("Menu"));
+    }
+
+    public void LoadTutorial()
+    {
+        audioSource[0].Play();
+        StartCoroutine(DelayedLoad("Tutorial"));
+    }
+
     public void ShowInstructions()
     {
         audioSource[0].Play();
@@ -48,6 +66,12 @@ public class UI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene(buildIndex);
+    }
+
+    IEnumerator DelayedLoad(string buildName)
+    {
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene(buildName);
     }
 
     IEnumerator CycleInstructions()
