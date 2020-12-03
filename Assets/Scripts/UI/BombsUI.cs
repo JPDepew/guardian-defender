@@ -39,8 +39,11 @@ public class BombsUI : MonoBehaviour
 
     void OnBomb()
     {
-        GameObject bombToRemove = bombs.Pop();
-        Destroy(bombToRemove);
+        if (bombs.Count > 0)
+        {
+            GameObject bombToRemove = bombs.Pop();
+            Destroy(bombToRemove);
+        }
     }
 
     private void OnDestroy()

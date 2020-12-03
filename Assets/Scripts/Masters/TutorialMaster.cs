@@ -12,10 +12,12 @@ public class TutorialMaster : MonoBehaviour
     public GameObject pausePanel;
     public Text instructionsText;
     public GameObject greenCircle;
+    public GameObject pauseCanvas;
 
     private AudioSource ambience;
     private ShipController shipController;
     private int arrowKeysPressed = 0;
+    private Utilities utilities;
 
     void Start()
     {
@@ -23,8 +25,33 @@ public class TutorialMaster : MonoBehaviour
         shipController = playerShip.GetComponent<ShipController>();
         shipController.demo = true;
         ambience = GetComponent<AudioSource>();
+        utilities = Utilities.instance;
 
         StartCoroutine(TutorialController());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
+
+    private void TogglePause()
+    {
+        if (utilities.gameState == Utilities.GameState.STOPPED)
+        {
+            utilities.gameState = Utilities.GameState.RUNNING;
+            Time.timeScale = 1;
+            pauseCanvas.SetActive(false);
+        }
+        else
+        {
+            utilities.gameState = Utilities.GameState.STOPPED;
+            Time.timeScale = 0;
+            pauseCanvas.SetActive(true);
+        }
     }
 
     private IEnumerator TutorialController()

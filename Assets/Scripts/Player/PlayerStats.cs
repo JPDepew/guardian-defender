@@ -58,7 +58,13 @@ public class PlayerStats : MonoBehaviour
 
     public bool IsPowerupActive(Powerup powerupEnum)
     {
-        return powerups[PowerupKeyByEnum(powerupEnum)];
+        bool isActive = false;
+        PowerupObj powerupObj = PowerupKeyByEnum(powerupEnum);
+        if (powerupObj)
+        {
+            powerups.TryGetValue(powerupObj, out isActive);
+        }
+        return isActive;
     }
 
     public int NumPowerupsActive()
