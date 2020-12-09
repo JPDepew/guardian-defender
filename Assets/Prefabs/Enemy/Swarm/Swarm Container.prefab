@@ -349,6 +349,7 @@ MonoBehaviour:
   rotateAmount: 2
   rotateTime: 0.2
   health: 0
+  destroyPoints: 200
 --- !u!114 &1106953836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33870,6 +33871,7 @@ MonoBehaviour:
   rotateAmount: 2
   rotateTime: 0.2
   health: 0
+  destroyPoints: 0
   minDiffValue: 25
   thrusterStrength: 0.1
   thrusterLength: 20

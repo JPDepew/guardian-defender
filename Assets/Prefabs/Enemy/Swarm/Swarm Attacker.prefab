@@ -4877,7 +4877,8 @@ MonoBehaviour:
   rotateAmount: 2
   rotateTime: 0.2
   health: 0
-  lerpTime: 0.1
+  destroyPoints: 100
+  lerpTime: 15
   acceleration: 0.03
   maxVelocity: 5
   maxDstToPlayer: 4.5

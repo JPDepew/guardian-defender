@@ -123,7 +123,7 @@ public class SwarmAttacker : Enemy
     void HandleRotation(Vector2 directionToUse)
     {
         float angle = Vector2.SignedAngle(transform.up, directionToUse);
-        float angleToRotate = Mathf.Lerp(0, angle, lerpTime);
+        float angleToRotate = Mathf.Lerp(0, angle, lerpTime * Time.deltaTime);
         transform.Rotate(Vector3.forward, angleToRotate);
     }
 
@@ -279,7 +279,7 @@ public class SwarmAttacker : Enemy
     protected override void DestroySelf()
     {
         
-        InvokeOnEnemyDestroyed(100);
+        InvokeOnEnemyDestroyed(destroyPoints);
         base.DestroySelf();
     }
 }

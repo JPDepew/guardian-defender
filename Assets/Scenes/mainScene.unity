@@ -340,63 +340,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54128553}
   m_CullTransparentMesh: 0
---- !u!1001 &76876583
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1335039726127972, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_Name
-      value: BoostPowerup
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.6935258
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.1699176
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299938799192882, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
 --- !u!1 &167867373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,63 +2699,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1001 &1583082399
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1458180464156824, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_Name
-      value: TimeFreezePowerup
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -4.376408
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -3.38569
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325748653195650, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
 --- !u!1 &1611570421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3675,6 +3561,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameMaster
       objectReference: {fileID: 0}
+    - target: {fileID: 3523095128311430189, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430352, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: timeFreezeAmountText
@@ -3695,5 +3586,10 @@ PrefabInstance:
       propertyPath: powerupInstructions
       value: 
       objectReference: {fileID: 2004980638}
+    - target: {fileID: 3523095128311430354, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5112bc0481ecb82408edbf3d88f2ac5e, type: 3}

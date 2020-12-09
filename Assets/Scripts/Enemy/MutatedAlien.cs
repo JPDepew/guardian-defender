@@ -103,7 +103,7 @@ public class MutatedAlien : Enemy
     /// </summary>
     IEnumerator DestroyAfterDelay()
     {
-        InvokeOnEnemyDestroyed(50);
+        InvokeOnEnemyDestroyed(destroyPoints);
         GetComponent<PolygonCollider2D>().enabled = false;
         yield return new WaitForSeconds(destroyDelay);
         GameObject newHuman = Instantiate(human, new Vector2(transform.position.x, transform.position.y - disinfectHumanOffset), Quaternion.Euler(Vector2.zero));
@@ -113,7 +113,7 @@ public class MutatedAlien : Enemy
 
     protected override void DestroySelf()
     {
-        InvokeOnEnemyDestroyed(200);
+        InvokeOnEnemyDestroyed(destroyPoints);
         base.DestroySelf();
     }
 

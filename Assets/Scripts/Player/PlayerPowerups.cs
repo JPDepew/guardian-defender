@@ -125,6 +125,7 @@ public class PlayerPowerups : MonoBehaviour
         {
             float newValue = Time.timeScale + fadeSpeed * sign;
             Time.timeScale = Mathf.Clamp(newValue, min, 1);
+            Time.fixedDeltaTime = sign > 0 ? 0.02f : 0.001f;
             shouldChange = false;
             yield return null;
         }

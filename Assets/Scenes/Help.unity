@@ -130,8 +130,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 20438585}
-  - component: {fileID: 20438584}
   - component: {fileID: 20438583}
+  - component: {fileID: 20438584}
   m_Layer: 0
   m_Name: HelpMaster
   m_TagString: Untagged
@@ -171,10 +171,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 20438582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05024dcc6a603844e8552c7f8efdc22f, type: 3}
+  m_Script: {fileID: 11500000, guid: f895bd00be312524cb0c2a698fa31210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 761527521}
 --- !u!4 &20438585
 Transform:
   m_ObjectHideFlags: 0

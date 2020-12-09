@@ -214,6 +214,10 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(SpawnSwarmContainers());
         if (waveCount % 5 == 0 && waveCount != 0 && !currentWatchAlien)
         {
+            while(shipReference == null)
+            {
+                yield return null;
+            }
             currentWatchAlien = true;
             audioSources[0].Stop();
             Instantiate(watchAlien, new Vector2(shipReference.transform.position.x + 4, mainCamera.orthographicSize + 3), watchAlien.transform.rotation);
@@ -228,7 +232,7 @@ public class GameMaster : MonoBehaviour
         {
             for (int i = 0; i < waveCount / 2; i++)
             {
-                waveEnemyCount += 6;
+                waveEnemyCount += 7;
                 Vector2 position = GetRandomPosition();
                 Instantiate(swarmEnemy, position, transform.rotation);
                 yield return null;
@@ -332,9 +336,9 @@ public class GameMaster : MonoBehaviour
 
     private void EndGame()
     {
-        SceneManager.LoadScene(1);
         Time.timeScale = 1;
         utilities.gameState = Utilities.GameState.STOPPED;
+        SceneManager.LoadScene(1);
     }
 
     public void RespawnPlayer()

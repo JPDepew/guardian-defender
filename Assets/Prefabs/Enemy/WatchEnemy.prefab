@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: -10
+  rotationSpeed: -400
 --- !u!58 &58731562690725690
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 3
+  rotationSpeed: 100
 --- !u!58 &58591151263577632
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 5
+  rotationSpeed: 200
 --- !u!58 &58583349957110692
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
+  rotationSpeed: 400
 --- !u!58 &58062723089763508
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 8
+  rotationSpeed: 300
 --- !u!58 &58583879157347254
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -898,7 +898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
+  rotationSpeed: 400
 --- !u!58 &58173935803297958
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: -10
+  rotationSpeed: -400
 --- !u!58 &58234757418773908
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1099,6 +1099,7 @@ MonoBehaviour:
   rotateAmount: 0
   rotateTime: 0
   health: 0
+  destroyPoints: 0
   hitEnemy: {fileID: 1606847323962702, guid: fb027312b7afb3144a6e387c4a4ff22c, type: 3}
   normalSpeed: 5
   chaseSpeed: 17
@@ -1716,7 +1717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78019a1f9dda934ab629b9c4bceb7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
+  rotationSpeed: 400
 --- !u!58 &58886296498846306
 CircleCollider2D:
   m_ObjectHideFlags: 0

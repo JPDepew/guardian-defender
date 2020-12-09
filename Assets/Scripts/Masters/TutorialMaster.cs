@@ -36,6 +36,19 @@ public class TutorialMaster : MonoBehaviour
         {
             TogglePause();
         }
+        HandleLoadMenu();
+    }
+
+    void HandleLoadMenu()
+    {
+        if (utilities.gameState == Utilities.GameState.STOPPED)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                TogglePause();
+                SceneManager.LoadScene("Menu");
+            }
+        }
     }
 
     private void TogglePause()

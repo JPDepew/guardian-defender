@@ -119,6 +119,7 @@ MonoBehaviour:
   rotateAmount: 5
   rotateTime: 0.1
   health: 0
+  destroyPoints: 150
   curState: 0
   speed: 2
   abductionSpeed: 1.4

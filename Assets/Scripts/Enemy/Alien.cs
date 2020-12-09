@@ -175,9 +175,9 @@ public class Alien : Enemy
         {
             human.SetToFalling();
         }
-        InvokeOnEnemyDestroyed(150);
+        InvokeOnEnemyDestroyed(destroyPoints);
         scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
-        scoreText.text = "150";
+        scoreText.text = destroyPoints.ToString();
         base.DestroySelf();
     }
 }
