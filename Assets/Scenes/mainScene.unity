@@ -3561,11 +3561,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameMaster
       objectReference: {fileID: 0}
-    - target: {fileID: 3523095128311430189, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430352, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: timeFreezeAmountText
@@ -3586,10 +3581,5 @@ PrefabInstance:
       propertyPath: powerupInstructions
       value: 
       objectReference: {fileID: 2004980638}
-    - target: {fileID: 3523095128311430354, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5112bc0481ecb82408edbf3d88f2ac5e, type: 3}

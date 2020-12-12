@@ -76,6 +76,10 @@ public class PlayerStats : MonoBehaviour
     {
         PowerupObj powerup = PowerupKeyByEnum(powerupEnum);
         powerups[powerup] = true;
+        if (powerupEnum == Powerup.ExtraLife)
+        {
+            lives++;
+        }
         if (powerupEnum == Powerup.Bomb)
         {
             bombsCount++;

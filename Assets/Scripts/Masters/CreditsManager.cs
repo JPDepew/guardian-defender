@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CreditsManager : MonoBehaviour {
+public class CreditsManager : MonoBehaviour
+{
 
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Q))
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene(1);
+            LoadMenu();
         }
-	}
+    }
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
 }
+
