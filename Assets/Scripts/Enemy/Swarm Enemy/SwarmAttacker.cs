@@ -20,7 +20,6 @@ public class SwarmAttacker : Enemy
     public LayerMask layerMaskToAvoid;
 
     float verticalHalfSize;
-    bool avoidingEnemy = false;
     Vector2 directionToUse;
 
     enum SwarmAttackState { CHASING, SHOOTING, INACTIVE };

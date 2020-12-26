@@ -35,13 +35,13 @@ public class GroundLineRenderer : MonoBehaviour
         if (farRightPosX - mainCamPosX < dstFromCam - 1)
         {
             pointPositions.RemoveAt(0);
-            pointPositions.Add(new Vector3(farRightPosX + 1, GetYOffset()));
+            pointPositions.Add(new Vector3(farRightPosX + 1, GetYOffset(farRightPosX + 1)));
             UpdateLineRenderer();
         }
         else if (mainCamPosX - farLeftPosX < dstFromCam - 1)
         {
             pointPositions.RemoveAt(lineRenderer.positionCount - 1);
-            pointPositions.Insert(0, new Vector3(farLeftPosX - 1, GetYOffset()));
+            pointPositions.Insert(0, new Vector3(farLeftPosX - 1, GetYOffset(farLeftPosX - 1)));
             UpdateLineRenderer();
         }
     }
@@ -52,7 +52,9 @@ public class GroundLineRenderer : MonoBehaviour
         lineRenderer.positionCount = size;
         for (int i = 0; i < size; i++)
         {
-            float yOffset = Random.Range(0, 1.5f);
+            float yOffset = GetYOffset(initialPos);//  Random.Range(0, 1.5f);
+            //sin(2 * x) + sin(pi * x)   /// 6t^5 - 15t^4 + 10t^3
+            //6 * Mathf.Pow(initialPos, 5) - 15 * Mathf.Pow(initialPos, 4) + 10 * Mathf.Pow(initialPos, 3);
             lineRenderer.SetPosition(i, new Vector3(initialPos, yOffset));
             pointPositions.Add(new Vector3(initialPos, yOffset));
             initialPos++;
@@ -67,8 +69,10 @@ public class GroundLineRenderer : MonoBehaviour
         }
     }
 
-    float GetYOffset()
+    float GetYOffset(float xPos)
     {
-        return Random.Range(0, maxYOffset);
+        float pointyness = 1.5f;
+        xPos = Mathf.Abs(xPos);
+        return Mathf.Clamp(Mathf.Sin(pointyness * xPos) + Mathf.Sin(Mathf.PI * xPos / 6) + 0.7f, 0, 5);//  Random.Range(0, 1.5f);// Random.Range(0, maxYOffset);
     }
 }

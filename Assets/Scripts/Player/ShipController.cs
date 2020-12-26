@@ -194,7 +194,10 @@ public class ShipController : MonoBehaviour
                     shipHumans.Add(human);
                     audioSources[4].Play();
                     human.SetToRescued(transform, shipHumans.Count);
-                    gameMaster?.InstantiateScorePopup(constants.catchHumanBonus * shipHumans.Count, transform.position);
+                    if (gameMaster)
+                    {
+                        gameMaster.InstantiateScorePopup(constants.catchHumanBonus * shipHumans.Count, transform.position);
+                    }
                 }
             }
             yield return new WaitForSecondsRealtime(.02f);
@@ -458,7 +461,10 @@ public class ShipController : MonoBehaviour
 
     public void RemoveHuman(Human human)
     {
-        gameMaster?.InstantiateScorePopup(constants.rescueHumanBonus, transform.position);
+        if (gameMaster)
+        {
+            gameMaster.InstantiateScorePopup(constants.rescueHumanBonus, transform.position);
+        }
         audioSources[4].pitch = 1;
         audioSources[4].Play();
         shipHumans.Remove(human);

@@ -38,6 +38,11 @@ public class UI : MonoBehaviour
         audioSource[0].Play();
         StartCoroutine(DelayedLoad("Tutorial"));
     }
+    public void LoadScoreBoard()
+    {
+        audioSource[0].Play();
+        StartCoroutine(DelayedLoad("ScoreBoard"));
+    }
 
     public void ShowInstructions()
     {

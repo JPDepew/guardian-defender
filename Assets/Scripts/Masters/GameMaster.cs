@@ -148,7 +148,15 @@ public class GameMaster : MonoBehaviour
         utilities.gameState = Utilities.GameState.RUNNING;
         alienDestroyedCountTracker = 0;
         shipReference = Instantiate(ship);
-        Application.targetFrameRate = 60;
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            Application.targetFrameRate = -1;
+        }
+        else
+        {
+            Application.targetFrameRate = 60;
+        }
 
         StartCoroutine(InstantiateNewWave());
     }
@@ -214,7 +222,7 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(SpawnSwarmContainers());
         if (waveCount % 5 == 0 && waveCount != 0 && !currentWatchAlien)
         {
-            while(shipReference == null)
+            while (shipReference == null)
             {
                 yield return null;
             }
@@ -360,7 +368,7 @@ public class GameMaster : MonoBehaviour
 
     public void InstantiateScorePopup(int scoreIncrease, Vector3 position)
     {
-        uIAnimationsMaster.InstanatiateScorePopup(scoreIncrease, position);
+        uIAnimationsMaster?.InstanatiateScorePopup(scoreIncrease, position);
     }
 
     IEnumerator RespawnPlayerTimer()

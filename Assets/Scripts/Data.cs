@@ -24,13 +24,10 @@ public class Data : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        //score = 0;
     }
 
     public void ResetScore()
     {
         score = 0;
     }
-
 }
