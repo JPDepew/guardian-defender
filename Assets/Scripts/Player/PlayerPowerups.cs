@@ -159,6 +159,6 @@ public class PlayerPowerups : MonoBehaviour
 
     private bool IsTimeFreezeActive()
     {
-        return playerStats.IsPowerupActive(Powerup.TimeFreeze) && playerStats.timeFreezeAmountRemaining > 0;
+        return playerStats.timeFreezeAmountRemaining > 0;
     }
 }

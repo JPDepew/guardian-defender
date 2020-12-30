@@ -89,7 +89,21 @@ public class Enemy : Hittable
 
     protected virtual void DestroySelf()
     {
-        Instantiate(explosion, new Vector3(transform.position.x,transform.position.y, constants.explosionOffset), transform.rotation);
+        DestroySelf(true);
+    }
+
+    protected virtual void DestroySelf(bool invokeEvent)
+    {
+        if (invokeEvent)
+        {
+            InvokeOnEnemyDestroyed(destroyPoints);
+        }
+        if (scoreText)
+        {
+            scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
+            scoreText.text = destroyPoints.ToString();
+        }
+        Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, constants.explosionOffset), transform.rotation);
         Destroy(gameObject);
     }
 

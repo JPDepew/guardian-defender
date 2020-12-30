@@ -113,7 +113,6 @@ public class MutatedAlien : Enemy
 
     protected override void DestroySelf()
     {
-        InvokeOnEnemyDestroyed(destroyPoints);
         base.DestroySelf();
     }
 

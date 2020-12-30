@@ -7,6 +7,8 @@ public class PowerupObj : ScreenWrappingObject
     public Powerup powerupEnum;
     public string powerupName;
     public KeyCode keyCode;
+    public int minWave = 0;
+    public bool enableable = true;
 
     private PlayerStats playerStats;
 
@@ -23,14 +25,15 @@ public class PowerupObj : ScreenWrappingObject
     {
         if (other.tag == "Player")
         {
-            // Set powerup to active
-            PowerupObj powerupObj = playerStats.powerups.FirstOrDefault(x => x.Key.powerupEnum == powerupEnum).Key;
-            playerStats.powerups[powerupObj] = true;
-            
-            // Invoke method to set active on the player
-            onGetPowerup?.Invoke(powerupEnum);
-            Instantiate(explosion, transform.position, transform.rotation);
-            Destroy(gameObject);
+            Activate();
         }
+    }
+
+    public void Activate()
+    {
+        // Invoke method to set active on the player
+        onGetPowerup?.Invoke(powerupEnum);
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }

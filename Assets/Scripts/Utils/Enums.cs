@@ -2,4 +2,4 @@
 /// Enums for the project
 /// </summary>
 
-public enum Powerup { Laser, Shield, Boost, Bomb, TimeFreeze, ExtraLife }
+public enum Powerup { Laser, Shield, Boost, Bomb, TimeFreeze, ExtraLife, AutoShot }

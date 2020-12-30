@@ -31,7 +31,6 @@ public class SwarmGlass : Enemy
     protected override void DestroySelf()
     {
         // Tell Parent glass to destroy self
-        InvokeOnEnemyDestroyed(destroyPoints);
         swarmContainer.StartDestroy();
         base.DestroySelf();
     }

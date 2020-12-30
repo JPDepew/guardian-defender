@@ -156,8 +156,12 @@ public class ShipController : MonoBehaviour
             direction = Vector2.zero;
         }
 
+        bool autoShot = playerStats.IsPowerupActive(Powerup.AutoShot);
+        bool shootInput = autoShot ? Input.GetKey(KeyCode.Z) : Input.GetKeyDown(KeyCode.Z);
+        bool disinfectInput = autoShot ? Input.GetKey(KeyCode.X) : Input.GetKeyDown(KeyCode.X);
+
         // Shooting
-        if (Input.GetKeyDown(KeyCode.Z) && canShoot)
+        if (shootInput && canShoot)
         {
             if (!playerStats.IsPowerupActive(Powerup.Laser))
             {
@@ -165,14 +169,12 @@ public class ShipController : MonoBehaviour
             }
             else
             {
-                audioSources[2].Play();
-
                 StartCoroutine(ShootBigLaser());
                 canShoot = false;
                 StartCoroutine(WaitBetweenShooting(false));
             }
         }
-        if (Input.GetKeyDown(KeyCode.X) && canShoot)
+        if (disinfectInput && canShoot)
         {
             ShootBullet(bulletDisinfect);
         }
@@ -206,7 +208,6 @@ public class ShipController : MonoBehaviour
 
     void ShootBullet(GameObject bullet)
     {
-        audioSources[0].Play();
         GameObject tempBullet = Instantiate(bullet, gunPosition.transform.position, transform.rotation);
 
         tempBullet.transform.localScale = leftShip.activeSelf == true ?
@@ -432,6 +433,10 @@ public class ShipController : MonoBehaviour
 
     IEnumerator ShootBigLaser()
     {
+        if (!playerStats.IsPowerupActive(Powerup.AutoShot))
+        {
+            audioSources[2].Play();
+        }
         yield return new WaitForSecondsRealtime(0.1f);
         GameObject tempBullet = Instantiate(bigLaser, gunPosition.transform.position, transform.rotation);
         tempBullet.transform.localScale = leftShip.activeSelf == true ?
@@ -441,7 +446,11 @@ public class ShipController : MonoBehaviour
 
     IEnumerator WaitBetweenShooting(bool disinfect)
     {
-        float waitTime = playerStats.IsPowerupActive(Powerup.Laser) && !disinfect ? 0.45f : 0.1f;
+        float waitTime = 0.01f;
+        if (!playerStats.IsPowerupActive(Powerup.AutoShot))
+        {
+            waitTime = playerStats.IsPowerupActive(Powerup.Laser) && !disinfect ? 0.45f : 0.1f;
+        }
         yield return new WaitForSecondsRealtime(waitTime);
         canShoot = true;
     }

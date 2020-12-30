@@ -128,21 +128,9 @@ public class FlyingSaucer : Enemy
         // change this next
         currentSpeed = 0;
         audioSources[6].Stop();
-        int randomNum = Random.Range(0, 1);
-        if (randomNum == 0)
-        {
-            randomNum = Random.Range(0, constants.powerups.Count);
-            while (playerStats.IsPowerupActive(constants.powerups[randomNum].powerupEnum) && playerStats.NumPowerupsActive() < playerStats.powerups.Count - 1)
-            {
-                randomNum = (randomNum + 1) % (playerStats.powerups.Count - 1);
-            }
-            Instantiate(constants.powerups[randomNum], transform.position, transform.rotation);
-        }
-        // TODO: Fix this up
-        scoreText = Instantiate(scoreText, new Vector3(transform.position.x, transform.position.y, -5), transform.rotation);
-        scoreText.text = "300";
-        playerStats.IncreaseScoreBy(300);
-        base.DestroySelf();
+        PowerupObj powerup = playerStats.GetRandomPowerup();
+        Instantiate(powerup, transform.position, transform.rotation);
+        base.DestroySelf(false);
     }
 
     IEnumerator ShootAtPlayer()

@@ -3562,19 +3562,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: canvas
+      propertyPath: scoreText
       value: 
-      objectReference: {fileID: 1770388714}
-    - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
-        type: 3}
-      propertyPath: waveText
-      value: 
-      objectReference: {fileID: 698913988}
-    - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
-        type: 3}
-      propertyPath: bonusText
-      value: 
-      objectReference: {fileID: 1582100742}
+      objectReference: {fileID: 835270265}
     - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: livesText
@@ -3582,14 +3572,14 @@ PrefabInstance:
       objectReference: {fileID: 1636475097}
     - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: scoreText
+      propertyPath: bonusText
       value: 
-      objectReference: {fileID: 835270265}
+      objectReference: {fileID: 1582100742}
     - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: pauseCanvas
+      propertyPath: waveText
       value: 
-      objectReference: {fileID: 54128553}
+      objectReference: {fileID: 698913988}
     - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: instructionsText
@@ -3600,10 +3590,20 @@ PrefabInstance:
       propertyPath: respawnCountdownText
       value: 
       objectReference: {fileID: 662059750}
-    - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+    - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 1
+      propertyPath: pauseCanvas
+      value: 
+      objectReference: {fileID: 54128553}
+    - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1770388714}
+    - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: initialNumberOfAliens
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
@@ -3622,11 +3622,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -3639,6 +3634,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
@@ -3663,13 +3668,13 @@ PrefabInstance:
     - target: {fileID: 3523095128311430189, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430352, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: canvas
+      propertyPath: timeFreezeAmountText
       value: 
-      objectReference: {fileID: 1770388714}
+      objectReference: {fileID: 1230034985}
     - target: {fileID: 3523095128311430352, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: timeFreezePanel
@@ -3677,13 +3682,18 @@ PrefabInstance:
       objectReference: {fileID: 286169212}
     - target: {fileID: 3523095128311430352, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
-      propertyPath: timeFreezeAmountText
+      propertyPath: canvas
       value: 
-      objectReference: {fileID: 1230034985}
+      objectReference: {fileID: 1770388714}
     - target: {fileID: 3523095128311430353, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: powerupInstructions
       value: 
       objectReference: {fileID: 2004980638}
+    - target: {fileID: 3523095128311430354, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5112bc0481ecb82408edbf3d88f2ac5e, type: 3}

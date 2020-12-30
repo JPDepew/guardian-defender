@@ -131,10 +131,7 @@ public class Watch : Enemy
 
     protected override void DestroySelf()
     {
-        TextMesh temp = Instantiate(scoreText, transform.position, transform.rotation);
-        temp.text = "10000";
-        PlayerStats.instance.IncreaseScoreBy(10000);
-        base.DestroySelf();
+        base.DestroySelf(false);
     }
 
     private void OnDestroy()

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -75,7 +74,10 @@ public class PlayerStats : MonoBehaviour
     void OnPowerupActivate(Powerup powerupEnum)
     {
         PowerupObj powerup = PowerupKeyByEnum(powerupEnum);
-        powerups[powerup] = true;
+        if (powerup.enableable)
+        {
+            powerups[powerup] = true;
+        }
         if (powerupEnum == Powerup.ExtraLife)
         {
             lives++;
@@ -122,5 +124,21 @@ public class PlayerStats : MonoBehaviour
             if (key.powerupEnum == Powerup.TimeFreeze) continue;
             powerups[key] = false;
         }
+    }
+
+    /// <summary>
+    /// Get a random powerup that is currently available
+    /// Powerup must not be enabled and must be available for the current wave number
+    /// </summary>
+    /// <returns>Powerup to use</returns>
+    public PowerupObj GetRandomPowerup()
+    {
+        int waveNumber = GameMaster.instance.waveCount;
+        List<PowerupObj> availablePowerups = powerups.Where(
+            x => x.Value == false && x.Key.minWave <= waveNumber
+        ).Select(x => x.Key).ToList();
+
+        int randomNum = Random.Range(0, availablePowerups.Count);
+        return availablePowerups[randomNum];
     }
 }

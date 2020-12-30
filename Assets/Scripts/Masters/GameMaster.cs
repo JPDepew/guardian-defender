@@ -56,7 +56,7 @@ public class GameMaster : MonoBehaviour
     private AudioSource[] audioSources;
     private UIAnimationsMaster uIAnimationsMaster;
 
-    private float waveCount = 0f;
+    public int waveCount { get; private set; }
     private int bonus;
     private int alienDestroyedCountTracker;
     private int dstAliensCanSpawnFromPlayer = 3;
