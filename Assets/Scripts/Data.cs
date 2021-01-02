@@ -5,6 +5,7 @@ using UnityEngine;
 public class Data : MonoBehaviour
 {
     public int score { get; set; }
+    public bool konamiEnabled = false;
 
     public static Data Instance
     {
@@ -29,5 +30,6 @@ public class Data : MonoBehaviour
     public void ResetScore()
     {
         score = 0;
+        konamiEnabled = false;
     }
 }

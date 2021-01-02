@@ -12,6 +12,7 @@ public class ShipController : MonoBehaviour
     public GameObject explosion;
     public GameObject healthIndicator;
     public GameObject leftShip;
+    public GameObject rammer;
 
     public LayerMask layerMask;
 
@@ -111,6 +112,10 @@ public class ShipController : MonoBehaviour
         if (powerupName == Powerup.Boost)
         {
             boostParticleSystem.gameObject.SetActive(true);
+        }
+        if (powerupName == Powerup.Rammer)
+        {
+            rammer.SetActive(true);
         }
     }
 
@@ -242,9 +247,7 @@ public class ShipController : MonoBehaviour
         // Side to side movement
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            healthIndicatorParent.localScale = new Vector2(-Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
-            leftShip.SetActive(true);
-            spriteRenderer.enabled = false;
+            HandleFlippingLeft();
             if (direction.x > -maxHorizontalSpeed * boostMultiplier)
             {
                 direction += horizontalAcceleration * Vector2.left * boostMultiplier;
@@ -258,9 +261,7 @@ public class ShipController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            healthIndicatorParent.localScale = new Vector2(Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
-            leftShip.SetActive(false);
-            spriteRenderer.enabled = true;
+            HandleFlippingRight();
             if (direction.x < maxHorizontalSpeed * boostMultiplier)
             {
                 direction += horizontalAcceleration * Vector2.right * boostMultiplier;
@@ -286,6 +287,22 @@ public class ShipController : MonoBehaviour
                 direction = new Vector2(0, direction.y);
             }
         }
+    }
+
+    void HandleFlippingRight()
+    {
+        healthIndicatorParent.localScale = new Vector2(Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
+        rammer.transform.localScale = new Vector2(Mathf.Abs(rammer.transform.localScale.x), rammer.transform.localScale.y);
+        leftShip.SetActive(false);
+        spriteRenderer.enabled = true;
+    }
+
+    void HandleFlippingLeft()
+    {
+        healthIndicatorParent.localScale = new Vector2(-Mathf.Abs(healthIndicatorParent.localScale.x), healthIndicatorParent.localScale.y);
+        rammer.transform.localScale = new Vector2(-Mathf.Abs(rammer.transform.localScale.x), rammer.transform.localScale.y);
+        leftShip.SetActive(true);
+        spriteRenderer.enabled = false;
     }
 
     void HandleParticleSystemsMoveLeft()
