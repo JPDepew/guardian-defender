@@ -17,6 +17,7 @@ TagManager:
   - SwarmTop
   - SwarmBottom
   - Engine
+  - Ground Line Renderer
   layers:
   - Default
   - TransparentFX

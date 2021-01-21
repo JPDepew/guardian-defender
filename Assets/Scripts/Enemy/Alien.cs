@@ -18,16 +18,19 @@ public class Alien : Enemy
 
     private Human human;
     float verticalHalfSize;
+    private bool miniatureAlien = false;
 
     public GameObject infectedAlien;
+    private GameMaster gameMaster;
 
     protected override void Start()
     {
         base.Start();
 
         curState = State.PATROLLING;
-        direction = Vector2.zero;// = Random.insideUnitCircle.normalized;
+        direction = Vector2.zero;
         verticalHalfSize = Camera.main.orthographicSize;
+        gameMaster = GameMaster.instance;
         StartCoroutine("ChangeDirection");
         StartCoroutine("AvoidWalls");
     }
@@ -43,6 +46,13 @@ public class Alien : Enemy
         base.Update();
     }
 
+    public override void KonamiAction()
+    {
+        base.KonamiAction();
+        health = 1;
+        speed *= 1.5f;
+    }
+
     public void ChaseHuman(Human human)
     {
         curState = State.CHASING;
@@ -53,7 +63,7 @@ public class Alien : Enemy
 
     private float GetSpeed()
     {
-        switch(curState)
+        switch (curState)
         {
             case State.ABDUCTING:
                 return abductionSpeed;
@@ -175,6 +185,24 @@ public class Alien : Enemy
         {
             human.SetToFalling();
         }
+        if (konami && !miniatureAlien)
+        {
+            int alienCount = 6;
+            gameMaster.IncreaseWaveEnemyCount(alienCount);
+            for (int i = 0; i < alienCount; i++)
+            {
+                GameObject alien = Instantiate(gameMaster.alien, transform.position, Quaternion.identity);
+                alien.GetComponent<Alien>().SetKonamiAlien();
+            }
+        }
         base.DestroySelf();
+    }
+
+    public void SetKonamiAlien()
+    {
+        transform.localScale *= 0.4f;
+        miniatureAlien = true;
+        speed *= 1.5f;
+        maxHealth = 1;
     }
 }

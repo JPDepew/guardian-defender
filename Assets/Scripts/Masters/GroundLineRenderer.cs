@@ -5,6 +5,11 @@ using UnityEngine;
 public class GroundLineRenderer : MonoBehaviour
 {
     public float maxYOffset = 1.5f;
+    public float basePointyness = 1.5f;
+    public float added = 0.7f;
+    public float divisor = 6;
+    public float offset = 8;
+    public int layers = 3;
 
     List<Vector3> pointPositions;
     LineRenderer lineRenderer;
@@ -35,13 +40,13 @@ public class GroundLineRenderer : MonoBehaviour
         if (farRightPosX - mainCamPosX < dstFromCam - 1)
         {
             pointPositions.RemoveAt(0);
-            pointPositions.Add(new Vector3(farRightPosX + 1, GetYOffset(farRightPosX + 1)));
+            pointPositions.Add(new Vector3(farRightPosX + 1, GetYPoint(farRightPosX + 1)));
             UpdateLineRenderer();
         }
         else if (mainCamPosX - farLeftPosX < dstFromCam - 1)
         {
             pointPositions.RemoveAt(lineRenderer.positionCount - 1);
-            pointPositions.Insert(0, new Vector3(farLeftPosX - 1, GetYOffset(farLeftPosX - 1)));
+            pointPositions.Insert(0, new Vector3(farLeftPosX - 1, GetYPoint(farLeftPosX - 1)));
             UpdateLineRenderer();
         }
     }
@@ -52,27 +57,37 @@ public class GroundLineRenderer : MonoBehaviour
         lineRenderer.positionCount = size;
         for (int i = 0; i < size; i++)
         {
-            float yOffset = GetYOffset(initialPos);//  Random.Range(0, 1.5f);
+            float yPos = GetYPoint(initialPos);
             //sin(2 * x) + sin(pi * x)   /// 6t^5 - 15t^4 + 10t^3
             //6 * Mathf.Pow(initialPos, 5) - 15 * Mathf.Pow(initialPos, 4) + 10 * Mathf.Pow(initialPos, 3);
-            lineRenderer.SetPosition(i, new Vector3(initialPos, yOffset));
-            pointPositions.Add(new Vector3(initialPos, yOffset));
+            lineRenderer.SetPosition(i, new Vector3(initialPos, yPos));
+            pointPositions.Add(new Vector3(initialPos, yPos));
             initialPos++;
         }
     }
 
     void UpdateLineRenderer()
     {
-        for(int i = 0; i < lineRenderer.positionCount; i++)
+        for (int i = 0; i < lineRenderer.positionCount; i++)
         {
             lineRenderer.SetPosition(i, pointPositions[i]);
         }
     }
 
-    float GetYOffset(float xPos)
+    public float GetYPoint(float xPos)
     {
-        float pointyness = 1.5f;
+        float yOffset = 0;
+        for (int i = 0; i < layers; i++)
+        {
+            yOffset += GetYOffset(xPos + i * offset, basePointyness + 0.5f * i);
+        }
+        return yOffset;
+    }
+
+    float GetYOffset(float xPos, float pointyness)
+    {
         xPos = Mathf.Abs(xPos);
-        return Mathf.Clamp(Mathf.Sin(pointyness * xPos) + Mathf.Sin(Mathf.PI * xPos / 6) + 0.7f, 0, 5);//  Random.Range(0, 1.5f);// Random.Range(0, maxYOffset);
+        float result = Mathf.Sin(pointyness * xPos) + Mathf.Sin(Mathf.PI * xPos / divisor) + added;
+        return Mathf.Clamp(result, 0, 5);
     }
 }

@@ -33,6 +33,7 @@ public class GameMaster : MonoBehaviour
     public GameObject swarmEnemy;
 
     Utilities utilities;
+    Data data;
 
     public float initialNumberOfHumans;
     public float initialNumberOfAliens;
@@ -79,6 +80,7 @@ public class GameMaster : MonoBehaviour
         // setting instance refs
         playerStats = PlayerStats.instance;
         utilities = Utilities.instance;
+        data = Data.Instance;
         constants = Constants.instance;
         wrapDst = constants.wrapDst;
         mainCamera = Camera.main;
@@ -261,6 +263,9 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiate alien particle system and then instantiate alien
+    /// </summary>
     IEnumerator SpawnAlien()
     {
         Vector2 alienPosition = GetRandomPosition();
@@ -444,5 +449,10 @@ public class GameMaster : MonoBehaviour
         {
             audioSources[0].UnPause();
         }
+    }
+
+    public void IncreaseWaveEnemyCount(int increaseAmt)
+    {
+        waveEnemyCount += increaseAmt;
     }
 }

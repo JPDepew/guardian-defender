@@ -149,6 +149,7 @@ MonoBehaviour:
   powerupName: Boost
   keyCode: 304
   minWave: 2
+  enableable: 1
 --- !u!50 &50421277739173258
 Rigidbody2D:
   serializedVersion: 4

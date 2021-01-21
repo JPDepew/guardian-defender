@@ -118,7 +118,7 @@ MonoBehaviour:
   health: 0
   destroyPoints: 300
   speed: 6
-  shootSpeed: 2
+  shootWaitTime: 2
   actionDstToPlayer: 9
   easeToNewDirection: 0.3
   horizontalBounds: {x: 0, y: 0}

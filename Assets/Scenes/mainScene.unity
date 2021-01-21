@@ -517,6 +517,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxYOffset: 1.5
+  basePointyness: 1.5
+  added: 0.7
+  divisor: 6
+  offset: 8
+  layers: 3
 --- !u!120 &265965944
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1865,6 +1870,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxYOffset: 1.5
+  basePointyness: 1.5
+  added: 0.7
+  divisor: 6
+  offset: 8
+  layers: 3
 --- !u!120 &1138374849
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2977,7 +2987,7 @@ GameObject:
   - component: {fileID: 1766292219}
   m_Layer: 12
   m_Name: Ground Line Renderer
-  m_TagString: Untagged
+  m_TagString: Ground Line Renderer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3185,6 +3195,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxYOffset: 1.5
+  basePointyness: 1
+  added: 0
+  divisor: 6
+  offset: 2.5
+  layers: 3
 --- !u!1 &1770388714
 GameObject:
   m_ObjectHideFlags: 0

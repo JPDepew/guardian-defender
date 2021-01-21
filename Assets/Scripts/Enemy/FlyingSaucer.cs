@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FlyingSaucer : Enemy
 {
     public float speed;
-    public float shootSpeed;
+    public float shootWaitTime;
     public float actionDstToPlayer = 7f;
     public float easeToNewDirection = 0.3f;
     public Vector2 horizontalBounds;
@@ -40,6 +39,12 @@ public class FlyingSaucer : Enemy
         transform.Translate(direction * currentSpeed * Time.deltaTime, Space.World);
 
         base.Update();
+    }
+    public override void KonamiAction()
+    {
+        base.KonamiAction();
+        speed *= 1.5f;
+        shootWaitTime = shootWaitTime / 4;
     }
 
     private void HandleOffScreenDirection()
@@ -84,7 +89,13 @@ public class FlyingSaucer : Enemy
                 float dstToPlayer = dirToPlayer.magnitude;
                 if (dstToPlayer < actionDstToPlayer)
                 {
+
                     float placement = goToTopOfPlayer ? 2 : -2;
+                    if (konami)
+                    {
+                        float rotation = goToTopOfPlayer ? 10 : -10;
+                        transform.Rotate(new Vector3(0, 0, rotation));
+                    }
                     newDirection = new Vector2(dirToPlayer.x, dirToPlayer.y + placement).normalized;
                     if (!shootingAtPlayer)
                     {
@@ -117,7 +128,8 @@ public class FlyingSaucer : Enemy
             }
             else
             {
-                yield return new WaitForSeconds(3f);
+                float waitTime = konami ? 1 : 3;
+                yield return new WaitForSeconds(waitTime);
                 goToTopOfPlayer = !goToTopOfPlayer;
             }
         }
@@ -143,7 +155,7 @@ public class FlyingSaucer : Enemy
             AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
             tempBullet.speed *= 1.5f;
             tempBullet.direction = direction;
-            yield return new WaitForSeconds(shootSpeed);
+            yield return new WaitForSeconds(shootWaitTime);
         }
     }
 }

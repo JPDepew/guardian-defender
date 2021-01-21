@@ -12,12 +12,16 @@ public class Human : Hittable
     public float dieOffset = 1;
     public float humanToHumanOffset = 0.2f;
     public float initialShipOffset = 0.5f;
+    public float moveSpeed = 3;
     public GameObject explosion;
+    public GroundLineRenderer frontGroundLineRenderer;
 
     private Transform currentGround;
     private float actualSpeed = 0;
     private float verticalHalfSize;
     private float verticalHalfSizeOffset = 0.8f;
+    private float groundLineRendererPosY;
+    int moveDirection;
     private bool shouldDie = true;
 
     private AudioSource audioSource;
@@ -35,6 +39,13 @@ public class Human : Hittable
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
+        groundLineRendererPosY = frontGroundLineRenderer.transform.position.y;
+
+        float randomMovement = Random.Range(0.8f, 1.2f);
+        moveSpeed *= randomMovement;
+
+        moveDirection = Random.Range(0, 2) > 0 ? 1 : -1;
     }
 
     protected override void Update()
@@ -44,7 +55,6 @@ public class Human : Hittable
 
         if (curState == State.FALLING)
         {
-            //transform.parent = currentGround;
             if (transform.position.y > -verticalHalfSize + verticalHalfSizeOffset)
             {
                 actualSpeed += acceleration;
@@ -79,15 +89,23 @@ public class Human : Hittable
         }
         if (curState == State.GROUNDED)
         {
-            // default
             gameObject.layer = 0;
-            //transform.parent = currentGround;
+            HandleMovement();
         }
         else
         {
             // hittable
             gameObject.layer = 8;
         }
+    }
+
+    void HandleMovement()
+    {
+        float yOffset = frontGroundLineRenderer.GetYPoint(transform.position.x);
+        float negativeOffset = 0.4f;
+        float targetYMovement = groundLineRendererPosY + yOffset - negativeOffset - transform.position.y;//, -moveSpeed * Time.deltaTime, moveSpeed * Time.deltaTime);
+        Vector2 targetPos = new Vector2(transform.position.x + moveSpeed * moveDirection * Time.deltaTime, transform.position.y + targetYMovement * Time.deltaTime);
+        transform.position = Vector2.Lerp(transform.position, targetPos, 0.5f);
     }
 
     /// <summary>

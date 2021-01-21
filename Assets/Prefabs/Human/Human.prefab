@@ -51,6 +51,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -145,12 +146,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea09dc6213b67742ba11b33cf36f502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wrapDstMultiplier: 1
+  hit: {fileID: 0}
   curState: 0
   acceleration: 0.03
   dieOffset: 2
   humanToHumanOffset: 0.05
   initialShipOffset: 0.5
+  moveSpeed: 0.1
   explosion: {fileID: 1952611018994752, guid: 68bcf3124be9b1e42a0f79f6fa69f76f, type: 3}
+  frontGroundLineRenderer: {fileID: 0}
 --- !u!82 &82063126780809228
 AudioSource:
   m_ObjectHideFlags: 0
@@ -293,6 +298,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -2,7 +2,7 @@
 
 public class Konami : MonoBehaviour
 {
-    Data data = Data.Instance;
+    Data data;
     KeyCode[] keyCodes = new KeyCode[] {
         KeyCode.UpArrow,
         KeyCode.UpArrow,
@@ -17,13 +17,22 @@ public class Konami : MonoBehaviour
     };
     int keyCodeIndex = 0;
 
+    public delegate void OnKonami();
+    public static event OnKonami onKonamiEnabled;
+
+    private void Start()
+    {
+        data = Data.Instance;
+    }
+
     void Update()
     {
         if (keyCodeIndex >= keyCodes.Length)
         {
             // Konami surprise!!
-            print("Konami surpirse");
+            onKonamiEnabled?.Invoke();
             data.konamiEnabled = true;
+            keyCodeIndex = 0;
         }
         else
         {

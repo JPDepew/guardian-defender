@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ScreenWrappingObject : MonoBehaviour
 {
     public float wrapDstMultiplier = 1;
     protected Constants constants;
+    Data data;
 
     protected bool shouldWrap = true;
+    protected bool konami = false;
 
     private Transform mainCam;
     private float wrapDst = 100;
@@ -15,8 +15,19 @@ public class ScreenWrappingObject : MonoBehaviour
     protected virtual void Start()
     {
         constants = Constants.instance;
+        data = Data.Instance;
+        if (data.konamiEnabled)
+        {
+            KonamiAction();
+        }
         mainCam = Camera.main.transform;
         wrapDst = constants.wrapDst * wrapDstMultiplier;
+        Konami.onKonamiEnabled += KonamiAction;
+    }
+
+    private void OnDestroy()
+    {
+        Konami.onKonamiEnabled -= KonamiAction;
     }
 
     protected virtual void Update()
@@ -32,5 +43,10 @@ public class ScreenWrappingObject : MonoBehaviour
         {
             transform.position = new Vector3(mainCam.position.x - wrapDst + 1, transform.position.y, transform.position.z);
         }
+    }
+
+    public virtual void KonamiAction()
+    {
+        konami = true;
     }
 }
