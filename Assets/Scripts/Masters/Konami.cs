@@ -27,7 +27,7 @@ public class Konami : MonoBehaviour
 
     void Update()
     {
-        if (keyCodeIndex >= keyCodes.Length)
+        if (keyCodeIndex >= keyCodes.Length && !data.konamiEnabled)
         {
             // Konami surprise!!
             onKonamiEnabled?.Invoke();
@@ -36,7 +36,7 @@ public class Konami : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(keyCodes[keyCodeIndex]))
+            if (keyCodeIndex < keyCodes.Length && Input.GetKeyDown(keyCodes[keyCodeIndex]))
             {
                 keyCodeIndex++;
             }

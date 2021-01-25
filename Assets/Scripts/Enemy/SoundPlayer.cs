@@ -30,7 +30,10 @@ public class SoundPlayer : MonoBehaviour
     public void PlayRandomSoundFromRange(int minSoundIndex, int maxSoundIndex)
     {
         int index = Random.Range(minSoundIndex, maxSoundIndex + 1);
-        audioSources[index].Play();
+        if (audioSources[index].isActiveAndEnabled)
+        {
+            audioSources[index].Play();
+        }
     }
 
     /// <param name="minSoundIndex">The minimum sound index to play [inclusive]</param>

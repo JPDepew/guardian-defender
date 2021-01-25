@@ -150,11 +150,14 @@ public class FlyingSaucer : Enemy
         shootingAtPlayer = true;
         while (true)
         {
-            Vector2 direction = (player.transform.position - transform.position).normalized;
-            GameObject alienBullet = Instantiate(bullet, transform.position, transform.rotation);
-            AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
-            tempBullet.speed *= 1.5f;
-            tempBullet.direction = direction;
+            if (player)
+            {
+                Vector2 direction = (player.transform.position - transform.position).normalized;
+                GameObject alienBullet = Instantiate(bullet, transform.position, transform.rotation);
+                AlienBullet tempBullet = alienBullet.GetComponent<AlienBullet>();
+                tempBullet.speed *= 1.5f;
+                tempBullet.direction = direction;
+            }
             yield return new WaitForSeconds(shootWaitTime);
         }
     }

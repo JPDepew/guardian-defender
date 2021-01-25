@@ -32,8 +32,13 @@ public class PowerupObj : ScreenWrappingObject
     public void Activate()
     {
         // Invoke method to set active on the player
-        onGetPowerup?.Invoke(powerupEnum);
+        InvokePowerup();
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
+    }
+
+    public void InvokePowerup()
+    {
+        onGetPowerup?.Invoke(powerupEnum);
     }
 }

@@ -187,7 +187,7 @@ public class Alien : Enemy
         }
         if (konami && !miniatureAlien)
         {
-            int alienCount = 6;
+            int alienCount = 3;
             gameMaster.IncreaseWaveEnemyCount(alienCount);
             for (int i = 0; i < alienCount; i++)
             {

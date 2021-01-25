@@ -4,19 +4,6 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[System.Serializable]
-class UserScore
-{
-    public string name;
-    public int score;
-}
-
-[System.Serializable]
-class RootUserScores
-{
-    public UserScore[] userScores;
-}
-
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance;
@@ -308,15 +295,7 @@ public class GameMaster : MonoBehaviour
     {
         playerStats.IncreaseScoreBy(scoreIncrease);
         alienDestroyedCountTracker++;
-        if (alienDestroyedCountTracker == initialNumberOfAliens - 2)
-        {
-            if (waveCount % 1 == 0 && shipReference != null)
-            {
-                int rand = Random.Range(0, 2);
-                int sign = rand == 1 ? 1 : -1;
-                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + sign * (wrapDst - 2), 0), transform.rotation);
-            }
-        }
+        InstantiateFlyingSaucer();
         if (alienDestroyedCountTracker >= waveEnemyCount)
         {
             initialNumberOfAliens++;
@@ -325,6 +304,31 @@ public class GameMaster : MonoBehaviour
             if (this != null)
             {
                 StartCoroutine(InstantiateNewWave());
+            }
+        }
+    }
+
+    /// <summary>
+    /// Decide if to instantiate a flying saucer. If in konami mode, instantate it every 3rd destroyed alien.
+    /// </summary>
+    void InstantiateFlyingSaucer()
+    {
+        bool shouldInstantiateSaucer = false;
+        if (data.konamiEnabled)
+        {
+            shouldInstantiateSaucer = alienDestroyedCountTracker % 3 == 0;
+        }
+        else
+        {
+            shouldInstantiateSaucer = alienDestroyedCountTracker == initialNumberOfAliens - 2;
+        }
+        if (shouldInstantiateSaucer)
+        {
+            if (waveCount % 1 == 0 && shipReference != null)
+            {
+                int rand = Random.Range(0, 2);
+                int sign = rand == 1 ? 1 : -1;
+                Instantiate(flyingSaucer, new Vector2(shipReference.transform.position.x + sign * (wrapDst - 2), 0), transform.rotation);
             }
         }
     }

@@ -14,6 +14,7 @@ public class PlayerStats : MonoBehaviour
     public bool completedTutorial = false;
 
     Constants constants;
+    Data data;
 
     private int scoreTracker;
 
@@ -23,11 +24,13 @@ public class PlayerStats : MonoBehaviour
 
         lives = 3;
         PowerupObj.onGetPowerup += OnPowerupActivate;
+        //Konami.onKonamiEnabled += ActivateAllPowerups;
     }
 
     private void Start()
     {
         constants = Constants.instance;
+        data = Data.Instance;
         foreach (PowerupObj powerup in Constants.instance.powerups)
         {
             powerups.Add(powerup, false);
@@ -37,6 +40,7 @@ public class PlayerStats : MonoBehaviour
     private void OnDestroy()
     {
         PowerupObj.onGetPowerup -= OnPowerupActivate;
+        //Konami.onKonamiEnabled -= ActivateAllPowerups;
     }
 
     public int GetLives()
@@ -135,10 +139,19 @@ public class PlayerStats : MonoBehaviour
     {
         int waveNumber = GameMaster.instance.waveCount;
         List<PowerupObj> availablePowerups = powerups.Where(
-            x => x.Value == false && x.Key.minWave <= waveNumber
+            x => x.Value == false && (x.Key.minWave <= waveNumber || data.konamiEnabled)
         ).Select(x => x.Key).ToList();
 
         int randomNum = Random.Range(0, availablePowerups.Count);
         return availablePowerups[randomNum];
+    }
+
+    void ActivateAllPowerups()
+    {
+        List<PowerupObj> powerupObjects = powerups.Keys.ToList();
+        foreach (PowerupObj powerupObj in powerupObjects)
+        {
+            powerupObj.InvokePowerup();
+        }
     }
 }

@@ -320,7 +320,7 @@ MonoBehaviour:
   powerupEnum: 7
   powerupName: Rammer
   keyCode: 0
-  minWave: 10
+  minWave: 5
   enableable: 1
 --- !u!50 &2409988338193500963
 Rigidbody2D:

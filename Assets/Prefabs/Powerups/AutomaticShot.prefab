@@ -52,7 +52,7 @@ MonoBehaviour:
   powerupEnum: 6
   powerupName: Auto Shot
   keyCode: 0
-  minWave: 20
+  minWave: 5
   enableable: 1
 --- !u!50 &1937805921904681714
 Rigidbody2D:

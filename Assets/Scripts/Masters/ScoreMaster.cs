@@ -4,6 +4,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+[System.Serializable]
+class UserScore
+{
+    public string name;
+    public int score;
+}
+
+[System.Serializable]
+class RootUserScores
+{
+    public UserScore[] userScores;
+}
+
 public class ScoreMaster : MonoBehaviour
 {
     public int scoreRows = 10;
