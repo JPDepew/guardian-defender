@@ -43,6 +43,7 @@ public class GameMaster : MonoBehaviour
     private Animator bonusTextAnimator;
     private AudioSource[] audioSources;
     private UIAnimationsMaster uIAnimationsMaster;
+    private GroundLineRenderer frontGroundLineRenderer;
 
     public int waveCount { get; private set; }
     private int bonus;
@@ -72,6 +73,7 @@ public class GameMaster : MonoBehaviour
         wrapDst = constants.wrapDst;
         mainCamera = Camera.main;
         uIAnimationsMaster = GetComponent<UIAnimationsMaster>();
+        frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
 
         // Event listeners
         Enemy.onEnemyDestroyed += OnAlienDestroyed;
@@ -194,10 +196,9 @@ public class GameMaster : MonoBehaviour
         float camPosX = mainCamera.transform.position.x;
         for (int i = 0; i < initialNumberOfHumans; i++)
         {
-            float xRange = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
-            float yRange = -verticalHalfSize + constants.bottomOffset;
-
-            Vector2 humanPositon = new Vector2(xRange, yRange);
+            float xPos = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
+            float yPos = frontGroundLineRenderer.GetWorldYPoint(xPos) - constants.negativeHumanOffset;
+            Vector2 humanPositon = new Vector2(xPos, yPos);
 
             Instantiate(human, humanPositon, transform.rotation);
 

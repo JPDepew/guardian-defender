@@ -17,7 +17,6 @@ public class GroundLineRenderer : MonoBehaviour
     float dstFromCam;
     int size;
 
-
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -72,6 +71,11 @@ public class GroundLineRenderer : MonoBehaviour
         {
             lineRenderer.SetPosition(i, pointPositions[i]);
         }
+    }
+
+    public float GetWorldYPoint(float xPos)
+    {
+        return GetYPoint(xPos) + transform.position.y;
     }
 
     public float GetYPoint(float xPos)

@@ -7,6 +7,7 @@ public class Human : Hittable
     public enum State { GROUNDED, ABDUCTED, FALLING, RESCUED, DEAD, DEMO }
     public State curState;
     Utilities utilities;
+    Constants constants;
 
     public float acceleration = 0.01f;
     public float dieOffset = 1;
@@ -18,29 +19,22 @@ public class Human : Hittable
 
     private Transform currentGround;
     private float actualSpeed = 0;
-    private float verticalHalfSize;
-    private float verticalHalfSizeOffset = 0.8f;
-    private float groundLineRendererPosY;
     int moveDirection;
     private bool shouldDie = true;
+    private float linePosY;
 
     private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
-
-    private void Awake()
-    {
-        verticalHalfSize = Camera.main.orthographicSize;
-    }
 
     protected override void Start()
     {
         base.Start();
         utilities = Utilities.instance;
+        constants = Constants.instance;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
-        groundLineRendererPosY = frontGroundLineRenderer.transform.position.y;
 
         float randomMovement = Random.Range(0.8f, 1.2f);
         moveSpeed *= randomMovement;
@@ -52,10 +46,10 @@ public class Human : Hittable
     {
         base.Update();
         if (utilities.gameState == Utilities.GameState.STOPPED) return;
-
+        linePosY = frontGroundLineRenderer.GetWorldYPoint(transform.position.x) - constants.negativeHumanOffset;
         if (curState == State.FALLING)
         {
-            if (transform.position.y > -verticalHalfSize + verticalHalfSizeOffset)
+            if (transform.position.y > linePosY)
             {
                 actualSpeed += acceleration;
                 transform.Translate(Vector2.down * actualSpeed * Time.deltaTime, Space.World);
@@ -79,7 +73,7 @@ public class Human : Hittable
         }
         if (curState == State.RESCUED)
         {
-            if (transform.position.y <= -verticalHalfSize + verticalHalfSizeOffset)
+            if (transform.position.y <= linePosY)
             {
                 transform.parent.GetComponent<ShipController>().RemoveHuman(GetComponent<Human>());
                 audioSource.Play();
@@ -101,9 +95,7 @@ public class Human : Hittable
 
     void HandleMovement()
     {
-        float yOffset = frontGroundLineRenderer.GetYPoint(transform.position.x);
-        float negativeOffset = 0.4f;
-        float targetYMovement = groundLineRendererPosY + yOffset - negativeOffset - transform.position.y;//, -moveSpeed * Time.deltaTime, moveSpeed * Time.deltaTime);
+        float targetYMovement = linePosY - transform.position.y;
         Vector2 targetPos = new Vector2(transform.position.x + moveSpeed * moveDirection * Time.deltaTime, transform.position.y + targetYMovement * Time.deltaTime);
         transform.position = Vector2.Lerp(transform.position, targetPos, 0.5f);
     }
@@ -115,8 +107,8 @@ public class Human : Hittable
     public void SetToFalling()
     {
         shouldDie = true;
-        float correctedPos = transform.position.y + verticalHalfSize;
-        if (correctedPos < dieOffset)
+        float posAboveGround = transform.position.y - linePosY;
+        if (posAboveGround < dieOffset)
         {
             //human can live if hit ground
             shouldDie = false;

@@ -150,7 +150,7 @@ MonoBehaviour:
   hit: {fileID: 0}
   curState: 0
   acceleration: 0.03
-  dieOffset: 2
+  dieOffset: 1
   humanToHumanOffset: 0.05
   initialShipOffset: 0.5
   moveSpeed: 0.1

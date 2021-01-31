@@ -16,6 +16,8 @@ public class Constants : MonoBehaviour
     public int rescueHumanBonus = 500;
     public int timeFreezeAmount = 800;
     public float explosionOffset = 15f;
+    // The offset humans are below the ground
+    public float negativeHumanOffset = 0.4f;
 
     public List<PowerupObj> powerups = new List<PowerupObj>();
 
