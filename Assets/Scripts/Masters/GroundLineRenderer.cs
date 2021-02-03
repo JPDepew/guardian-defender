@@ -78,6 +78,29 @@ public class GroundLineRenderer : MonoBehaviour
         return GetYPoint(xPos) + transform.position.y;
     }
 
+    /// <summary>
+    /// Calculate the y point no according to the equation, but according to the point on the rendered line
+    /// </summary>
+    /// <param name="xPos">X position in question</param>
+    /// <returns>Y position on line renderer</returns>
+    public float GetWorldYPointRounded(float xPos)
+    {
+        float leftmostXPoint = Mathf.Floor(xPos);
+        float leftmostYPoint = GetYPoint(leftmostXPoint);
+        float rightmostXPoint = Mathf.Ceil(xPos);
+        float rightmostYPoint = GetYPoint(rightmostXPoint);
+        float graphXPos = xPos - leftmostXPoint;
+
+        float slope = (rightmostYPoint - leftmostYPoint) / (rightmostXPoint - leftmostXPoint);
+
+        float yPos = slope * graphXPos + leftmostYPoint;
+        if (float.IsNaN(yPos))
+        {
+            return transform.position.y;
+        }
+        return yPos + transform.position.y;
+    }
+
     public float GetYPoint(float xPos)
     {
         float yOffset = 0;

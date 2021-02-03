@@ -3616,6 +3616,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1770388714}
+    - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: initialNumberOfHumans
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430185, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: m_LocalPosition.x

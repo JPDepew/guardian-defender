@@ -13,12 +13,14 @@ public class Alien : Enemy
     public float easeToNewDirection = 0.3f;
     public float humanOffset = 0.8f;
     public Vector2 horizontalBounds;
+    public bool isMiniatureAlien = false;
+
+    public GameObject miniatureAlien;
 
     public SpriteRenderer windows;
 
     private Human human;
     float verticalHalfSize;
-    private bool miniatureAlien = false;
 
     public GameObject infectedAlien;
     private GameMaster gameMaster;
@@ -185,24 +187,15 @@ public class Alien : Enemy
         {
             human.SetToFalling();
         }
-        if (konami && !miniatureAlien)
+        if (konami && !isMiniatureAlien)
         {
             int alienCount = 3;
             gameMaster.IncreaseWaveEnemyCount(alienCount);
             for (int i = 0; i < alienCount; i++)
             {
-                GameObject alien = Instantiate(gameMaster.alien, transform.position, Quaternion.identity);
-                alien.GetComponent<Alien>().SetKonamiAlien();
+                GameObject alien = Instantiate(miniatureAlien, transform.position, Quaternion.identity);
             }
         }
         base.DestroySelf();
-    }
-
-    public void SetKonamiAlien()
-    {
-        transform.localScale *= 0.4f;
-        miniatureAlien = true;
-        speed *= 1.5f;
-        maxHealth = 1;
     }
 }

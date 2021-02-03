@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Human : Hittable
 {
     public enum State { GROUNDED, ABDUCTED, FALLING, RESCUED, DEAD, DEMO }
     public State curState;
     Utilities utilities;
-    Constants constants;
 
     public float acceleration = 0.01f;
     public float dieOffset = 1;
@@ -26,15 +23,19 @@ public class Human : Hittable
     private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
+        utilities = Utilities.instance;
+    }
+
     protected override void Start()
     {
         base.Start();
-        utilities = Utilities.instance;
-        constants = Constants.instance;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
 
         float randomMovement = Random.Range(0.8f, 1.2f);
         moveSpeed *= randomMovement;
@@ -46,7 +47,7 @@ public class Human : Hittable
     {
         base.Update();
         if (utilities.gameState == Utilities.GameState.STOPPED) return;
-        linePosY = frontGroundLineRenderer.GetWorldYPoint(transform.position.x) - constants.negativeHumanOffset;
+        linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x) - constants.negativeHumanOffset;
         if (curState == State.FALLING)
         {
             if (transform.position.y > linePosY)
