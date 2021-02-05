@@ -28,6 +28,7 @@ public class Human : Hittable
         base.Awake();
         frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
         utilities = Utilities.instance;
+        linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x) - constants.negativeHumanOffset;
     }
 
     protected override void Start()
@@ -108,13 +109,13 @@ public class Human : Hittable
     public void SetToFalling()
     {
         shouldDie = true;
+        transform.SetParent(null);
         float posAboveGround = transform.position.y - linePosY;
         if (posAboveGround < dieOffset)
         {
             //human can live if hit ground
             shouldDie = false;
         }
-        transform.SetParent(null);
         curState = State.FALLING;
     }
 

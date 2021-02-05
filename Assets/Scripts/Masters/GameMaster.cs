@@ -135,7 +135,7 @@ public class GameMaster : MonoBehaviour
 
     private void StartGame()
     {
-        Data.Instance.score = 0;
+        Data.Instance.ResetAll();
         utilities.gameState = Utilities.GameState.RUNNING;
         alienDestroyedCountTracker = 0;
         shipReference = Instantiate(ship);

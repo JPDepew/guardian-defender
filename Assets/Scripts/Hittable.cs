@@ -6,6 +6,11 @@ public class Hittable : ScreenWrappingObject {
 
     public GameObject hit;
 
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     /// <param name="damage">The damage amount to apply</param>
     /// <param name="hitPosition">The position a hit was received at</param>
     /// <param name="bulletDirection">The direction the hit was travelling ing</param>

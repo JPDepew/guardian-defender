@@ -27,7 +27,7 @@ public class Data : MonoBehaviour
         }
     }
 
-    public void ResetScore()
+    public void ResetAll()
     {
         score = 0;
         konamiEnabled = false;

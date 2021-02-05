@@ -51,8 +51,11 @@ public class Alien : Enemy
     public override void KonamiAction()
     {
         base.KonamiAction();
-        health = 1;
-        speed *= 1.5f;
+        if (!isMiniatureAlien)
+        {
+            health = 1;
+            speed *= 1.5f;
+        }
     }
 
     public void ChaseHuman(Human human)
@@ -193,7 +196,14 @@ public class Alien : Enemy
             gameMaster.IncreaseWaveEnemyCount(alienCount);
             for (int i = 0; i < alienCount; i++)
             {
-                GameObject alien = Instantiate(miniatureAlien, transform.position, Quaternion.identity);
+                float offsetMax = 0.7f;
+                float yOffset = Random.Range(-offsetMax, offsetMax);
+                float xOffset = Random.Range(-offsetMax, offsetMax);
+                Instantiate(
+                    miniatureAlien,
+                    new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z),
+                    Quaternion.identity
+                );
             }
         }
         base.DestroySelf();

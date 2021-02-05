@@ -31,12 +31,12 @@ public class Enemy : Hittable
 
     protected override void Start()
     {
+        health = maxHealth;
         base.Start();
         spriteRenderer = GetComponent<SpriteRenderer>();
         circleCollider = GetComponent<CircleCollider2D>();
         audioSources = GetComponents<AudioSource>();
         soundPlayer = GetComponent<SoundPlayer>();
-        health = maxHealth;
     }
 
     protected override void Update()

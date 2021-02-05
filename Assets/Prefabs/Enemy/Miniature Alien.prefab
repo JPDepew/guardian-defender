@@ -295,7 +295,7 @@ MonoBehaviour:
   isMiniatureAlien: 1
   miniatureAlien: {fileID: 0}
   windows: {fileID: 243068611828111518}
-  infectedAlien: {fileID: 1947277898753582, guid: e6bd4ee995f4ca747994464cc89c7cfa,
+  infectedAlien: {fileID: 1947277898753582, guid: 1d70cd8a5f1c09d47bb640dbdbb22958,
     type: 3}
 --- !u!82 &39339953660238202
 AudioSource:

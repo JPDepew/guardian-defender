@@ -55,6 +55,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -106,12 +107,13 @@ MonoBehaviour:
   hit: {fileID: 1673419022545814, guid: 4a1e1f5940c9ee34caaff2d45f084973, type: 3}
   scoreText: {fileID: 102459404601752188, guid: 56eea590a78b02e45a7c2f05adf9b930,
     type: 3}
-  explosion: {fileID: 1224325130770760, guid: 893a497e8ea072e43ba4afbaa540ce13, type: 3}
+  explosion: {fileID: 1224325130770760, guid: 23c655c71f5f1ea44ae29ec9e31d0cdf, type: 3}
   maxHealth: 10
   bounceBackAmount: 0.1
   rotateAmount: 1
   rotateTime: 0.1
   health: 0
+  destroyPoints: 0
   human: {fileID: 1691991003821096, guid: ee2d588b6b6f794419524debbecde589, type: 3}
   hitMask: {fileID: 1420692630697412, guid: 9f82f5f963221b043bf771af582717a8, type: 3}
   disinfectMask: {fileID: 1445406477649806, guid: fa87d4e44434d3c4e967a5472853ccf0,
@@ -626,6 +628,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -648,7 +651,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328254957
-  m_SortingLayer: 3
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: df7a4c22963723746857db72e50b6cf8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
