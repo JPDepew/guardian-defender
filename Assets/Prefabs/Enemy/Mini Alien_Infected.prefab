@@ -129,7 +129,7 @@ MonoBehaviour:
   easeToNewDirection: 0.2
   disinfectHumanOffset: 0.45
   destroyDelay: 0.31
-  disinfectHealth: 3
+  disinfectHealth: 1
   dstToAttack: 3
 --- !u!50 &50184987301346392
 Rigidbody2D:

@@ -196,12 +196,10 @@ public class Alien : Enemy
             gameMaster.IncreaseWaveEnemyCount(alienCount);
             for (int i = 0; i < alienCount; i++)
             {
-                float offsetMax = 0.7f;
-                float yOffset = Random.Range(-offsetMax, offsetMax);
-                float xOffset = Random.Range(-offsetMax, offsetMax);
+                Vector2 offset = GetRandomVectorInRange(0.7f);
                 Instantiate(
                     miniatureAlien,
-                    new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z),
+                    new Vector3(transform.position.x + offset.x, transform.position.y + offset.y, transform.position.z),
                     Quaternion.identity
                 );
             }

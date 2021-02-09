@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Human : Hittable
 {
@@ -13,6 +14,7 @@ public class Human : Hittable
     public float moveSpeed = 3;
     public GameObject explosion;
     public GroundLineRenderer frontGroundLineRenderer;
+    public float rotationSpeed = 20;
 
     private Transform currentGround;
     private float actualSpeed = 0;
@@ -66,6 +68,7 @@ public class Human : Hittable
                 {
                     curState = State.GROUNDED;
                     shouldDie = true;
+                    ResetRotation();
                 }
             }
         }
@@ -81,6 +84,7 @@ public class Human : Hittable
                 audioSource.Play();
                 transform.parent = null;
                 curState = State.GROUNDED;
+                ResetRotation();
             }
         }
         if (curState == State.GROUNDED)
@@ -111,10 +115,15 @@ public class Human : Hittable
         shouldDie = true;
         transform.SetParent(null);
         float posAboveGround = transform.position.y - linePosY;
+        print(konami);
         if (posAboveGround < dieOffset)
         {
             //human can live if hit ground
             shouldDie = false;
+        }
+        if (konami)
+        {
+            StartCoroutine("HandleRotation");
         }
         curState = State.FALLING;
     }
@@ -125,6 +134,7 @@ public class Human : Hittable
         transform.SetParent(alienTransform);
         curState = State.ABDUCTED;
         shouldWrap = false; // (Alien takes care of the wrapping)
+        ResetRotation();
     }
 
     /// <summary>
@@ -140,6 +150,13 @@ public class Human : Hittable
         transform.position = new Vector2(shipTransform.position.x, shipTransform.position.y + offsetFromShip);
         curState = State.RESCUED;
         spriteRenderer.sortingOrder = humanCount;
+        ResetRotation();
+    }
+
+    void ResetRotation()
+    {
+        StopCoroutine("HandleRotation");
+        transform.rotation = Quaternion.identity;
     }
 
     public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
@@ -150,6 +167,17 @@ public class Human : Hittable
             return true;
         }
         return false;
+    }
+
+    IEnumerator HandleRotation()
+    {
+        float rotateSpeed = Random.Range(-rotationSpeed, rotationSpeed) * 50;
+        while (true)
+        {
+            print("rotating");
+            transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
+            yield return null;
+        }
     }
 
     protected void DestroySelf()

@@ -29,9 +29,14 @@ public class Enemy : Hittable
 
     bool isDestroyed = false;
 
-    protected override void Start()
+    protected override void Awake()
     {
         health = maxHealth;
+        base.Awake();
+    }
+
+    protected override void Start()
+    {
         base.Start();
         spriteRenderer = GetComponent<SpriteRenderer>();
         circleCollider = GetComponent<CircleCollider2D>();
@@ -135,5 +140,13 @@ public class Enemy : Hittable
     protected void InvokeOnEnemyDestroyed(int scoreIncrease)
     {
         onEnemyDestroyed?.Invoke(scoreIncrease);
+    }
+
+    protected Vector2 GetRandomVectorInRange(float maxRange)
+    {
+        float yPoint = Random.Range(-maxRange, maxRange);
+        float xPoint = Random.Range(-maxRange, maxRange);
+
+        return new Vector2(xPoint, yPoint);
     }
 }

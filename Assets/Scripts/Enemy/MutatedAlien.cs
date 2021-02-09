@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MutatedAlien : Enemy
@@ -17,9 +16,6 @@ public class MutatedAlien : Enemy
     public float disinfectHealth = 3;
     public float dstToAttack = 3f;
 
-    //public delegate void OnDestroyed();
-    //public static event OnDestroyed onMutatedAlienDestroyed;
-
     float newSpeed = 8;
     float speed = 8;
     float randomYOffset = 0;
@@ -36,7 +32,6 @@ public class MutatedAlien : Enemy
         base.Start();
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
         verticalHalfSize = Camera.main.orthographicSize;
@@ -106,9 +101,31 @@ public class MutatedAlien : Enemy
         InvokeOnEnemyDestroyed(destroyPoints);
         GetComponent<PolygonCollider2D>().enabled = false;
         yield return new WaitForSeconds(destroyDelay);
-        GameObject newHuman = Instantiate(human, new Vector2(transform.position.x, transform.position.y - disinfectHumanOffset), Quaternion.Euler(Vector2.zero));
-        newHuman.GetComponent<Human>().SetToFalling();
+        InstantiateHuman();
         Destroy(gameObject);
+    }
+
+    void InstantiateHuman()
+    {
+        if (konami)
+        {
+            int maxHumanCount = 3;
+            for (int i = 0; i < maxHumanCount; i++)
+            {
+                Vector2 offset = GetRandomVectorInRange(0.3f);
+                GameObject newHuman = Instantiate(
+                    human,
+                    new Vector2(transform.position.x + offset.x, transform.position.y - disinfectHumanOffset + offset.y),
+                    Quaternion.Euler(Vector2.zero)
+                );
+                newHuman.GetComponent<Human>().SetToFalling();
+            }
+        }
+        else
+        {
+            GameObject newHuman = Instantiate(human, new Vector2(transform.position.x, transform.position.y - disinfectHumanOffset), Quaternion.Euler(Vector2.zero));
+            newHuman.GetComponent<Human>().SetToFalling();
+        }
     }
 
     protected override void DestroySelf()

@@ -17,14 +17,14 @@ public class ScreenWrappingObject : MonoBehaviour
         constants = Constants.instance;
         data = Data.Instance;
         mainCam = Camera.main.transform;
-    }
-
-    protected virtual void Start()
-    {
         if (data.konamiEnabled)
         {
             KonamiAction();
         }
+    }
+
+    protected virtual void Start()
+    {
         wrapDst = constants.wrapDst * wrapDstMultiplier;
         Konami.onKonamiEnabled += KonamiAction;
     }

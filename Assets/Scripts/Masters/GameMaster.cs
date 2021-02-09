@@ -22,8 +22,8 @@ public class GameMaster : MonoBehaviour
     Utilities utilities;
     Data data;
 
-    public float initialNumberOfHumans;
-    public float initialNumberOfAliens;
+    public int initialNumberOfHumans;
+    public int initialNumberOfAliens;
     public float instantiateNewWaveDelay = 2f;
 
     public Text scoreText;
@@ -243,7 +243,8 @@ public class GameMaster : MonoBehaviour
     /// </summary>
     IEnumerator SpawnAliens()
     {
-        for (int i = 0; i < initialNumberOfAliens; i++)
+        int aliensToCreate = data.konamiEnabled ? initialNumberOfAliens + waveCount * 2 : initialNumberOfAliens;
+        for (int i = 0; i < aliensToCreate; i++)
         {
             waveEnemyCount++;
             StartCoroutine(SpawnAlien());
