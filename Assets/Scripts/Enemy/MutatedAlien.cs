@@ -20,6 +20,7 @@ public class MutatedAlien : Enemy
     float speed = 8;
     float randomYOffset = 0;
     float verticalHalfSize;
+    Vector2 currentScale;
 
     protected override void Start()
     {
@@ -29,7 +30,19 @@ public class MutatedAlien : Enemy
         randomYOffset = Random.Range(offsetMin, offsetMax);
         speed = Random.Range(speedMin, speedMax);
         newSpeed = speed;
+        currentScale = transform.localScale;
         base.Start();
+    }
+
+    public override void KonamiAction()
+    {
+        base.KonamiAction();
+        speedMin = speedMin / 2;
+        speedMax = speedMax * 1.7f;
+        if (GetRandomChance(2))
+        {
+            StartCoroutine("GrowCycle");
+        }
     }
 
     protected override void Update()
@@ -103,6 +116,29 @@ public class MutatedAlien : Enemy
         yield return new WaitForSeconds(destroyDelay);
         InstantiateHuman();
         Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Only used in konami mode. Randomly grows and shrinks the mutated alien
+    /// </summary>
+    IEnumerator GrowCycle()
+    {
+        while (true)
+        {
+            Vector2 targetScale = GetRandomVector2();
+            StopCoroutine("Scale");
+            StartCoroutine("Scale", targetScale);
+            yield return new WaitForSeconds(3);
+        }
+    }
+
+    IEnumerator Scale(Vector2 targetScale)
+    {
+        while (true)
+        {
+            transform.localScale = Vector2.Lerp(transform.localScale, targetScale, 0.1f);
+            yield return null;
+        }
     }
 
     void InstantiateHuman()
@@ -182,6 +218,27 @@ public class MutatedAlien : Enemy
     {
         StopAllCoroutines();
         newSpeed = 0;
+    }
+
+    /// <summary>
+    /// Decide if the 
+    /// </summary>
+    bool GetRandomChance(int maxRandomRange)
+    {
+        int growChance = Random.Range(0, maxRandomRange);
+        if (growChance == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    Vector2 GetRandomVector2()
+    {
+        float maxScale = 2;
+        float minScale = -1;
+        float scale = Random.Range(minScale, maxScale);
+        return new Vector2(currentScale.x + scale, currentScale.y + scale);
     }
 }
 

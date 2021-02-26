@@ -7,6 +7,7 @@ public class FlyingSaucer : Enemy
     public float shootWaitTime;
     public float actionDstToPlayer = 7f;
     public float easeToNewDirection = 0.3f;
+    public float forwardRaycastDst = 3;
     public Vector2 horizontalBounds;
 
     public GameObject bullet;
@@ -87,7 +88,20 @@ public class FlyingSaucer : Enemy
             {
                 Vector2 dirToPlayer = player.transform.position - transform.position;
                 float dstToPlayer = dirToPlayer.magnitude;
-                if (dstToPlayer < actionDstToPlayer)
+                Vector2 raycastDir = new Vector2(dirToPlayer.x, 0);
+                RaycastHit2D raycastHit2D = Physics2D.Raycast(
+                    transform.position,
+                    dirToPlayer,
+                    forwardRaycastDst,
+                    layerMaskToAvoid
+                );
+                Debug.DrawRay(transform.position, dirToPlayer.normalized * forwardRaycastDst, Color.red);
+                if (raycastHit2D)
+                {
+                    print(raycastHit2D);
+                    HandleAvoidManuever(raycastHit2D.collider.transform, dirToPlayer.normalized);
+                }
+                else if (dstToPlayer < actionDstToPlayer)
                 {
 
                     float placement = goToTopOfPlayer ? 2 : -2;
@@ -132,6 +146,23 @@ public class FlyingSaucer : Enemy
                 yield return new WaitForSeconds(waitTime);
                 goToTopOfPlayer = !goToTopOfPlayer;
             }
+        }
+    }
+
+    /// <summary>
+    /// Avoiding the object that was hit
+    /// </summary>
+    /// <param name="raycastHit2D"></param>
+    void HandleAvoidManuever(Transform hitTransform, Vector2 dirToPlayer)
+    {
+        float multiplier = 1.5f;
+        if (hitTransform.position.y > transform.position.y)
+        {
+            newDirection = (dirToPlayer + Vector2.down * multiplier).normalized;
+        }
+        else
+        {
+            newDirection = (dirToPlayer + Vector2.up * multiplier).normalized;
         }
     }
 

@@ -17,7 +17,6 @@ public class SwarmAttacker : Enemy
     public float avoidEnemyTime = 0.5f;
 
     public GameObject bullet;
-    public LayerMask layerMaskToAvoid;
 
     float verticalHalfSize;
     Vector2 directionToUse;

@@ -113,12 +113,13 @@ MonoBehaviour:
   rescueHumanBonus: 500
   timeFreezeAmount: 800
   explosionOffset: 0
+  negativeHumanOffset: 0.4
   powerups:
   - {fileID: 114622171338110102, guid: 4148f66613fa4544687d5fc19efed356, type: 3}
   - {fileID: 114524866262424988, guid: c97c09016795cd344b0599d98e331cf5, type: 3}
   - {fileID: 114622171338110102, guid: d222e1049ebaae64b8b0be27d34bfb66, type: 3}
   - {fileID: 114524866262424988, guid: cc6511c3c399053419bb6840f07a85f3, type: 3}
-  - {fileID: 114524866262424988, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
+  - {fileID: 7867803655029207136, guid: 91c21dc2050054e46b236056caf1b16c, type: 3}
   - {fileID: 114524866262424988, guid: 6ece7f93c33aac344b45e2ddb3fb2b02, type: 3}
   - {fileID: 1999705554846012398, guid: 60438cf002439f242b464e6d1c1f40ac, type: 3}
   - {fileID: 2329618759853525913, guid: 6641b25032df30847a55ef505a1b47d3, type: 3}

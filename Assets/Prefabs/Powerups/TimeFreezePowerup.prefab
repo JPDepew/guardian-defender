@@ -105,9 +105,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4325748653195650}
-  - component: {fileID: 114524866262424988}
   - component: {fileID: 50480464229113126}
   - component: {fileID: 61730704734093212}
+  - component: {fileID: 7867803655029207136}
   m_Layer: 0
   m_Name: TimeFreezePowerup
   m_TagString: Untagged
@@ -131,25 +131,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114524866262424988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458180464156824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 738856ec94e3a764bbd8963e14a2ca40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wrapDstMultiplier: 1
-  explosion: {fileID: 1188604548433550, guid: 1ca780a9cc3489b458bfb8e1776b5d93, type: 3}
-  powerupEnum: 4
-  powerupName: Time Freeze
-  keyCode: 97
-  minWave: 5
-  enableable: 0
 --- !u!50 &50480464229113126
 Rigidbody2D:
   serializedVersion: 4
@@ -197,6 +178,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7867803655029207136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458180464156824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948ad49f5b5b53d49adc105edccbee1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wrapDstMultiplier: 1
+  explosion: {fileID: 1188604548433550, guid: 1ca780a9cc3489b458bfb8e1776b5d93, type: 3}
+  powerupEnum: 4
+  powerupName: Time Freeze
+  keyCode: 97
+  minWave: 5
+  enableable: 1
+  defaultCount: 0
+  increaseAmt: 800
+  maxCount: 3200
 --- !u!1 &5118823467019374846
 GameObject:
   m_ObjectHideFlags: 0

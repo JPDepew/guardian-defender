@@ -117,10 +117,14 @@ MonoBehaviour:
   rotateTime: 0.05
   health: 0
   destroyPoints: 300
+  layerMaskToAvoid:
+    serializedVersion: 2
+    m_Bits: 32768
   speed: 6
   shootWaitTime: 2
   actionDstToPlayer: 9
   easeToNewDirection: 0.3
+  forwardRaycastDst: 6
   horizontalBounds: {x: 0, y: 0}
   bullet: {fileID: 1200172600666214, guid: dc8901e4ec44a00468d95eab44283462, type: 3}
 --- !u!82 &82278937721478308

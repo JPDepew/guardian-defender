@@ -149,6 +149,10 @@ MonoBehaviour:
   powerupName: Extra Life
   keyCode: 0
   minWave: 3
+  enableable: 0
+  defaultCount: 3
+  increaseAmt: 1
+  maxCount: 6
 --- !u!50 &50480464229113126
 Rigidbody2D:
   serializedVersion: 4

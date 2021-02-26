@@ -10,6 +10,9 @@ public class SwarmContainer : Enemy
     public float thrusterLength = 30;
     public float topBound = 2;
     public float bottomBound = -2;
+    public float minEngineWaitTime = 0.5f;
+    public float maxEngineWaitTime = 3f;
+    public float maxVelocityMagnitude = 1f;
 
     public Transform swarmAttackContainer;
     public GameObject body;
@@ -55,6 +58,15 @@ public class SwarmContainer : Enemy
         return true;
     }
 
+    public override void KonamiAction()
+    {
+        base.KonamiAction();
+        minEngineWaitTime = 0.1f;
+        maxEngineWaitTime = 0.4f;
+        thrusterLength = 10;
+        thrusterStrength = 2f;
+    }
+
     public void StartDestroy()
     {
         DestroySelf();
@@ -71,22 +83,21 @@ public class SwarmContainer : Enemy
                     yield return FindPlayer();
                 }
             }
-            Vector2 directionToMove;
+            Vector2 directionToMove = (player.transform.position - transform.position).normalized;
             List<Transform> enginesToUse;
 
             if (ShouldMoveUp())
             {
-                directionToMove = Vector2.up;
+                directionToMove = Vector2.up + directionToMove;
                 enginesToUse = GetNearestEngineDirections(directionToMove);
             }
             else if (ShouldMoveDown())
             {
-                directionToMove = -Vector2.up;
+                directionToMove = Vector2.down + directionToMove;
                 enginesToUse = GetNearestEngineDirections(directionToMove);
             }
             else
             {
-                directionToMove = (player.transform.position - transform.position).normalized;
                 enginesToUse = GetNearestEngineDirections(directionToMove);
             }
 
@@ -102,6 +113,7 @@ public class SwarmContainer : Enemy
                 for (int i = 0; i < enginesToUse.Count; i++)
                 {
                     rigidbody2d.AddForceAtPosition(enginesToUse[i].up * thrusterStrength, enginesToUse[i].position);
+                    rigidbody2d.velocity = Vector2.ClampMagnitude(rigidbody2d.velocity, maxVelocityMagnitude);
                 }
                 yield return null;
             }
@@ -109,7 +121,7 @@ public class SwarmContainer : Enemy
             {
                 enginesToUse[i].GetComponentInChildren<ParticleSystem>().Stop();
             }
-            float waitTime = Random.Range(0.5f, 3f);
+            float waitTime = Random.Range(minEngineWaitTime, maxEngineWaitTime);
             yield return new WaitForSeconds(waitTime);
         }
     }

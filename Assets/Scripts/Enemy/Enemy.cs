@@ -14,6 +14,7 @@ public class Enemy : Hittable
     public float rotateTime = 0.2f;
     public float health;
     public int destroyPoints;
+    public LayerMask layerMaskToAvoid;
     protected Vector2 direction;
     protected Vector2 newDirection;
     protected AudioSource[] audioSources;

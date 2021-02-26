@@ -10,7 +10,7 @@ public class PlayerStats : MonoBehaviour
     private int lives;
     public int score;
     public int timeFreezeAmountRemaining = 0;
-    public Dictionary<PowerupObj, bool> powerups = new Dictionary<PowerupObj, bool>();
+    public Dictionary<PowerupObj, int> powerups = new Dictionary<PowerupObj, int>();
     public bool completedTutorial = false;
 
     Constants constants;
@@ -24,7 +24,6 @@ public class PlayerStats : MonoBehaviour
 
         lives = 3;
         PowerupObj.onGetPowerup += OnPowerupActivate;
-        //Konami.onKonamiEnabled += ActivateAllPowerups;
     }
 
     private void Start()
@@ -33,14 +32,13 @@ public class PlayerStats : MonoBehaviour
         data = Data.Instance;
         foreach (PowerupObj powerup in Constants.instance.powerups)
         {
-            powerups.Add(powerup, false);
+            powerups.Add(powerup, powerup.defaultCount);
         }
     }
 
     private void OnDestroy()
     {
         PowerupObj.onGetPowerup -= OnPowerupActivate;
-        //Konami.onKonamiEnabled -= ActivateAllPowerups;
     }
 
     public int GetLives()
@@ -61,27 +59,37 @@ public class PlayerStats : MonoBehaviour
 
     public bool IsPowerupActive(Powerup powerupEnum)
     {
-        bool isActive = false;
+        int isActive = 0;
         PowerupObj powerupObj = PowerupKeyByEnum(powerupEnum);
+        print(powerupEnum);
+        print(powerups[powerupObj]);
         if (powerupObj)
         {
+            print("getting");
             powerups.TryGetValue(powerupObj, out isActive);
         }
-        return isActive;
+        print(isActive);
+        return isActive > 0;
     }
 
     public int NumPowerupsActive()
     {
-        return powerups.Where(x => x.Value == true).Count();
+        return powerups.Where(x => x.Value > 0).Count();
     }
 
     void OnPowerupActivate(Powerup powerupEnum)
     {
         PowerupObj powerup = PowerupKeyByEnum(powerupEnum);
+        print(powerup);
         if (powerup.enableable)
         {
-            powerups[powerup] = true;
+            powerups[powerup] = 1;
         }
+        else
+        {
+            powerups[powerup] += powerup.increaseAmt;
+        }
+        print(powerups[powerup]);
         if (powerupEnum == Powerup.ExtraLife)
         {
             lives++;
@@ -92,13 +100,24 @@ public class PlayerStats : MonoBehaviour
         }
         if (powerupEnum == Powerup.TimeFreeze)
         {
-            timeFreezeAmountRemaining += constants.timeFreezeAmount;
+            timeFreezeAmountRemaining += constants.timeFreezeAmount; // TODO - make this work with what's stored in the powerup. Maybe a decrement function on the player powerups. (probably??)
         }
     }
 
     PowerupObj PowerupKeyByEnum(Powerup powerupEnum)
     {
         return powerups.FirstOrDefault(x => x.Key.powerupEnum == powerupEnum).Key;
+    }
+
+    public int PowerupValueByEnum(Powerup powerupEnum)
+    {
+        return powerups.FirstOrDefault(x => x.Key.powerupEnum == powerupEnum).Value;
+    }
+
+    public void DecrementPowerupValue(Powerup powerupEnum)
+    {
+        PowerupObj powerupObj = PowerupKeyByEnum(powerupEnum);
+        powerups[powerupObj] -= powerupObj.increaseAmt;
     }
 
     public int GetScore()
@@ -126,7 +145,7 @@ public class PlayerStats : MonoBehaviour
         foreach (var key in keys)
         {
             if (key.powerupEnum == Powerup.TimeFreeze) continue;
-            powerups[key] = false;
+            powerups[key] = 0;
         }
     }
 
@@ -139,19 +158,15 @@ public class PlayerStats : MonoBehaviour
     {
         int waveNumber = GameMaster.instance.waveCount;
         List<PowerupObj> availablePowerups = powerups.Where(
-            x => x.Value == false && (x.Key.minWave <= waveNumber || data.konamiEnabled)
+            x => x.Key.CanBeDropped()
+            && (x.Key.minWave <= waveNumber || data.konamiEnabled)
         ).Select(x => x.Key).ToList();
-
-        int randomNum = Random.Range(0, availablePowerups.Count);
-        return availablePowerups[randomNum];
-    }
-
-    void ActivateAllPowerups()
-    {
-        List<PowerupObj> powerupObjects = powerups.Keys.ToList();
-        foreach (PowerupObj powerupObj in powerupObjects)
+        if (availablePowerups.Count > 0)
         {
-            powerupObj.InvokePowerup();
+            int randomNum = Random.Range(0, availablePowerups.Count);
+            return availablePowerups[randomNum];
         }
+        int index = Random.Range(0, powerups.Count);
+        return powerups.Keys.ToList()[index];
     }
 }

@@ -42,13 +42,17 @@ v3.0.1
 
 v3.0.2
 	- Konami code
-	// clean up konami alien
 		* aliens speed up *
 		* aliens explode into more small aliens *
 		* weird sounds
 		* flying saucer erratic behavior *
-			* zooms around and spins
-		* Humans walk around and spin
+		* Humans walk around and spin *
+		* Swarm container speed up *
+		* Mutated aliens - Every so often they grow really big *
+		* Flying saucers should avoid the swarm container
+		* You shouldn't get so many lives
+		* Look at how powerups are given in player stats etc - maybe there should be some function that returns if the player already has the max amount *
+		* Special konami boss who comes if you have all the powerups, big grinning face
 	- Ramming thing - You can't get shot or hit from the front, and you can destroy enemies by ramming them *
 	- Infinity shot *
 	- Boss - interlocking bricks that switch position. Sometimes shoots bricks out

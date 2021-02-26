@@ -54,6 +54,9 @@ MonoBehaviour:
   keyCode: 0
   minWave: 5
   enableable: 1
+  defaultCount: 0
+  increaseAmt: 1
+  maxCount: 1
 --- !u!50 &1937805921904681714
 Rigidbody2D:
   serializedVersion: 4

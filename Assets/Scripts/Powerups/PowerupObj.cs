@@ -9,8 +9,9 @@ public class PowerupObj : ScreenWrappingObject
     public KeyCode keyCode;
     public int minWave = 0;
     public bool enableable = true;
-
-    private PlayerStats playerStats;
+    public int defaultCount = 0;
+    public int increaseAmt = 1;
+    public int maxCount = 1;
 
     public delegate void OnGetPowerup(Powerup powerup);
     public static event OnGetPowerup onGetPowerup;
@@ -18,10 +19,9 @@ public class PowerupObj : ScreenWrappingObject
     protected override void Start()
     {
         base.Start();
-        playerStats = PlayerStats.instance;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
@@ -39,6 +39,15 @@ public class PowerupObj : ScreenWrappingObject
 
     public void InvokePowerup()
     {
+        print("invoking");
         onGetPowerup?.Invoke(powerupEnum);
+    }
+
+    /// <summary>
+    /// Should the saucer drop this
+    /// </summary>
+    public virtual bool CanBeDropped()
+    {
+        return PlayerStats.instance.PowerupValueByEnum(powerupEnum) < maxCount;
     }
 }

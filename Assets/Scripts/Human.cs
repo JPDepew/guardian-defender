@@ -115,7 +115,6 @@ public class Human : Hittable
         shouldDie = true;
         transform.SetParent(null);
         float posAboveGround = transform.position.y - linePosY;
-        print(konami);
         if (posAboveGround < dieOffset)
         {
             //human can live if hit ground
@@ -174,7 +173,6 @@ public class Human : Hittable
         float rotateSpeed = Random.Range(-rotationSpeed, rotationSpeed) * 50;
         while (true)
         {
-            print("rotating");
             transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
             yield return null;
         }
