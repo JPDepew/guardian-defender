@@ -11,13 +11,13 @@ public class ScreenWrappingObject : MonoBehaviour
 
     private Transform mainCam;
     private float wrapDst = 100;
-   
+
     protected virtual void Awake()
     {
         constants = Constants.instance;
         data = Data.Instance;
         mainCam = Camera.main.transform;
-        if (data.konamiEnabled)
+        if (data && data.konamiEnabled)
         {
             KonamiAction();
         }
@@ -25,7 +25,10 @@ public class ScreenWrappingObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        wrapDst = constants.wrapDst * wrapDstMultiplier;
+        if (constants)
+        {
+            wrapDst = constants.wrapDst * wrapDstMultiplier;
+        }
         Konami.onKonamiEnabled += KonamiAction;
     }
 

@@ -39,7 +39,6 @@ public class PowerupObj : ScreenWrappingObject
 
     public void InvokePowerup()
     {
-        print("invoking");
         onGetPowerup?.Invoke(powerupEnum);
     }
 

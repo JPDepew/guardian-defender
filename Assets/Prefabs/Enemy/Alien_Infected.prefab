@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 60625853155871218}
   - component: {fileID: 8156307076939890507}
   - component: {fileID: 9179630188887055104}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Alien_Infected
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -114,6 +114,10 @@ MonoBehaviour:
   rotateTime: 0.1
   health: 0
   destroyPoints: 0
+  layerMaskToAvoid:
+    serializedVersion: 2
+    m_Bits: 32768
+  forwardRaycastDst: 6
   human: {fileID: 1691991003821096, guid: ee2d588b6b6f794419524debbecde589, type: 3}
   hitMask: {fileID: 1420692630697412, guid: 9f82f5f963221b043bf771af582717a8, type: 3}
   disinfectMask: {fileID: 1445406477649806, guid: fa87d4e44434d3c4e967a5472853ccf0,

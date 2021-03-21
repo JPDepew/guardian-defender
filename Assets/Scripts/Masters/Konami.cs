@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Konami : MonoBehaviour
 {
+    public GameObject konamiBoss;
+    public float konamiBossWaitSeconds = 60;
     Data data;
     KeyCode[] keyCodes = new KeyCode[] {
         KeyCode.UpArrow,
@@ -16,13 +19,25 @@ public class Konami : MonoBehaviour
         KeyCode.A
     };
     int keyCodeIndex = 0;
+    Constants constants;
+    GameObject konamiBossRef;
+    bool timerIsRunning = false;
 
     public delegate void OnKonami();
     public static event OnKonami onKonamiEnabled;
 
     private void Start()
     {
+        constants = Constants.instance;
         data = Data.Instance;
+        ShipController.onPlayerDie += StopBossTimer;
+        PlayerStats.onGatherAllPowerups += StartBossTimer;
+    }
+
+    void OnDestroy()
+    {
+        ShipController.onPlayerDie -= StopBossTimer;
+        PlayerStats.onGatherAllPowerups -= StartBossTimer;
     }
 
     void Update()
@@ -44,6 +59,44 @@ public class Konami : MonoBehaviour
             {
                 keyCodeIndex = 0;
             }
+        }
+    }
+
+    void StopBossTimer()
+    {
+        StopCoroutine("BossTimer");
+        timerIsRunning = false;
+    }
+
+    public void StartBossTimer()
+    {
+        if (!timerIsRunning && (konamiBossRef == null || (konamiBossRef && !konamiBossRef.activeSelf)))
+        {
+            StartCoroutine("BossTimer");
+        }
+    }
+
+    IEnumerator BossTimer()
+    {
+        print("starting timer");
+        timerIsRunning = true;
+        yield return new WaitForSeconds(konamiBossWaitSeconds);
+        timerIsRunning = false;
+        print("instantiate time!!");
+        Vector2 cameraPosition = Camera.main.transform.position;
+        Vector2 position = new Vector2(cameraPosition.x + constants.wrapDst, 0);
+        if (!konamiBossRef)
+        {
+            konamiBossRef = Instantiate(
+                konamiBoss,
+                position,
+                Quaternion.identity
+            );
+        }
+        else
+        {
+            konamiBossRef.SetActive(true);
+            konamiBossRef.transform.position = position;
         }
     }
 }

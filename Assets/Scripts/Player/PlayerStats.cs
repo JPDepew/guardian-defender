@@ -18,6 +18,9 @@ public class PlayerStats : MonoBehaviour
 
     private int scoreTracker;
 
+    public delegate void OnGatherAllPowerups();
+    public static event OnGatherAllPowerups onGatherAllPowerups;
+
     private void Awake()
     {
         instance = this;
@@ -61,14 +64,10 @@ public class PlayerStats : MonoBehaviour
     {
         int isActive = 0;
         PowerupObj powerupObj = PowerupKeyByEnum(powerupEnum);
-        print(powerupEnum);
-        print(powerups[powerupObj]);
         if (powerupObj)
         {
-            print("getting");
             powerups.TryGetValue(powerupObj, out isActive);
         }
-        print(isActive);
         return isActive > 0;
     }
 
@@ -80,7 +79,6 @@ public class PlayerStats : MonoBehaviour
     void OnPowerupActivate(Powerup powerupEnum)
     {
         PowerupObj powerup = PowerupKeyByEnum(powerupEnum);
-        print(powerup);
         if (powerup.enableable)
         {
             powerups[powerup] = 1;
@@ -89,10 +87,9 @@ public class PlayerStats : MonoBehaviour
         {
             powerups[powerup] += powerup.increaseAmt;
         }
-        print(powerups[powerup]);
         if (powerupEnum == Powerup.ExtraLife)
         {
-            lives++;
+            IncrementLives();
         }
         if (powerupEnum == Powerup.Bomb)
         {
@@ -165,6 +162,10 @@ public class PlayerStats : MonoBehaviour
         {
             int randomNum = Random.Range(0, availablePowerups.Count);
             return availablePowerups[randomNum];
+        }
+        if (data.konamiEnabled)
+        {
+            onGatherAllPowerups?.Invoke();
         }
         int index = Random.Range(0, powerups.Count);
         return powerups.Keys.ToList()[index];

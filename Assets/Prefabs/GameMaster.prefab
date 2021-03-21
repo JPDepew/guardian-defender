@@ -373,3 +373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8aa59b943b30c242839ebdf4447031f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  konamiBoss: {fileID: 4377016878223840852, guid: 00835cfc63994e041a1179ea9db15f6c,
+    type: 3}
+  konamiBossWaitSeconds: 10

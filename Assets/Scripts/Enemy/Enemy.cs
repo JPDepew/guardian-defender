@@ -15,6 +15,7 @@ public class Enemy : Hittable
     public float health;
     public int destroyPoints;
     public LayerMask layerMaskToAvoid;
+    public float forwardRaycastDst = 3;
     protected Vector2 direction;
     protected Vector2 newDirection;
     protected AudioSource[] audioSources;
@@ -22,6 +23,7 @@ public class Enemy : Hittable
     protected CircleCollider2D circleCollider;
 
     protected ShipController player;
+    protected Vector2 dirToPlayer;
     protected SoundPlayer soundPlayer;
     protected bool findingPlayer = false;
 
@@ -43,6 +45,14 @@ public class Enemy : Hittable
         circleCollider = GetComponent<CircleCollider2D>();
         audioSources = GetComponents<AudioSource>();
         soundPlayer = GetComponent<SoundPlayer>();
+    }
+
+    protected void SetDirectionToPlayer()
+    {
+        if (player != null)
+        {
+            dirToPlayer = player.transform.position - transform.position;
+        }
     }
 
     protected override void Update()

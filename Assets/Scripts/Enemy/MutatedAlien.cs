@@ -15,11 +15,12 @@ public class MutatedAlien : Enemy
     public float destroyDelay = 0.4f;
     public float disinfectHealth = 3;
     public float dstToAttack = 3f;
+    public bool miniatureAlien = false;
+    float verticalHalfSize;
 
     float newSpeed = 8;
     float speed = 8;
     float randomYOffset = 0;
-    float verticalHalfSize;
     Vector2 currentScale;
 
     protected override void Start()
@@ -39,7 +40,7 @@ public class MutatedAlien : Enemy
         base.KonamiAction();
         speedMin = speedMin / 2;
         speedMax = speedMax * 1.7f;
-        if (GetRandomChance(2))
+        if (GetRandomChance(2) && !miniatureAlien)
         {
             StartCoroutine("GrowCycle");
         }
@@ -48,7 +49,7 @@ public class MutatedAlien : Enemy
     protected override void Update()
     {
         verticalHalfSize = Camera.main.orthographicSize;
-
+        SetDirectionToPlayer();
         speed = Mathf.Lerp(speed, newSpeed, 0.1f);
 
         HandleOffScreenDirection();
@@ -171,7 +172,7 @@ public class MutatedAlien : Enemy
 
     IEnumerator ChasePlayer()
     {
-        float actualXOffset = randomYOffset;
+        float actualYOffset = randomYOffset;
         while (true)
         {
             if (player == null)
@@ -181,32 +182,36 @@ public class MutatedAlien : Enemy
             }
             else
             {
-                if ((transform.position - player.transform.position).magnitude < dstToAttack)
+                RaycastHit2D raycastHit2D = Physics2D.Raycast(
+                    transform.position,
+                    dirToPlayer,
+                    forwardRaycastDst,
+                    layerMaskToAvoid
+                );
+                Debug.DrawRay(transform.position, dirToPlayer.normalized * forwardRaycastDst, Color.red);
+                if (raycastHit2D)
                 {
-                    actualXOffset = 0;
+                    actualYOffset = GetYOffset(raycastHit2D.collider.transform.position);
+                }
+                else if ((transform.position - player.transform.position).magnitude < dstToAttack)
+                {
+                    actualYOffset = 0;
                 }
                 else
                 {
-                    actualXOffset = randomYOffset;
+                    actualYOffset = randomYOffset;
                 }
-                newDirection = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y + actualXOffset).normalized;
+                newDirection = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y + actualYOffset).normalized;
             }
             yield return new WaitForSeconds(0.25f);
         }
     }
 
-    private void HandleOffScreenDirection()
+    float GetYOffset(Vector2 hitPos)
     {
-        if (transform.position.y > verticalHalfSize - constants.topOffset && newDirection.y > 0)
-        {
-            // Condition: alien is above screen
-            newDirection = new Vector2(newDirection.x, 0);
-        }
-        else if (transform.position.y < -verticalHalfSize + constants.bottomOffset && newDirection.y < 0)
-        {
-            // Condition: alien is below screen
-            newDirection = new Vector2(newDirection.x, 0);
-        }
+        float offset = 8;
+        int yDirection = (int)Mathf.Sign(transform.position.y - hitPos.y);
+        return yDirection * offset;
     }
 
     public void SetDirection(Vector2 _direction)
@@ -235,10 +240,23 @@ public class MutatedAlien : Enemy
 
     Vector2 GetRandomVector2()
     {
-        float maxScale = 2;
-        float minScale = -1;
-        float scale = Random.Range(minScale, maxScale);
-        return new Vector2(currentScale.x + scale, currentScale.y + scale);
+        int sign = Random.Range(0, 2) * 2 - 1;
+        float scale = Random.Range(0.2f, 3);
+        return new Vector2(scale, scale) * sign;
+    }
+
+    private void HandleOffScreenDirection()
+    {
+        if (transform.position.y > verticalHalfSize - constants.topOffset && newDirection.y > 0)
+        {
+            // Condition: alien is above screen
+            newDirection = new Vector2(newDirection.x, 0);
+        }
+        else if (transform.position.y < -verticalHalfSize + constants.bottomOffset && newDirection.y < 0)
+        {
+            // Condition: alien is below screen
+            newDirection = new Vector2(newDirection.x, 0);
+        }
     }
 }
 

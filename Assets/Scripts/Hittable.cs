@@ -22,7 +22,10 @@ public class Hittable : ScreenWrappingObject {
     /// <returns>True if damage occurred</returns>
     public virtual bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
     {
-        Instantiate(hit, hitPosition, transform.rotation, transform);
+        if (hit)
+        {
+           Instantiate(hit, hitPosition, transform.rotation, transform);
+        }
         return true;
     }
 }

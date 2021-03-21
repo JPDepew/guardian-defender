@@ -66,6 +66,9 @@ public class ShipController : MonoBehaviour
 
     GameMaster gameMaster;
 
+    public delegate void OnPlayerDie();
+    public static event OnPlayerDie onPlayerDie;
+
     private void Start()
     {
         playerStats = PlayerStats.instance;
@@ -132,7 +135,11 @@ public class ShipController : MonoBehaviour
             Destroy(gameObject);
         }
         healthIndicators.Clear();
-        for (int i = 0; i < playerStats.GetLives(); i++)
+        
+        int playerLives = playerStats.GetLives();
+        int maxHealthIndicators = 3;
+        int healthIndicatorLimit = playerLives > maxHealthIndicators ? maxHealthIndicators : playerLives;
+        for (int i = 0; i < healthIndicatorLimit; i++)
         {
             GameObject tempHealthIndicator = Instantiate(healthIndicator, healthIndicatorPos.position + Vector3.right * currentHealthIndicatorOffset, transform.rotation);
             tempHealthIndicator.transform.parent = healthIndicatorParent;
@@ -240,6 +247,11 @@ public class ShipController : MonoBehaviour
         {
             direction = new Vector2(direction.x, 0);
         }
+    }
+
+    public float GetPlayerSpeed()
+    {
+        return direction.x;
     }
 
     void HandleHorizontalInput()
@@ -509,6 +521,7 @@ public class ShipController : MonoBehaviour
     {
         if (!destroyed && !frozen)
         {
+            onPlayerDie?.Invoke();
             destroyed = true;
             Instantiate(explosion, transform.position, transform.rotation);
             playerStats.DecrementLives();
@@ -531,6 +544,7 @@ public class ShipController : MonoBehaviour
         {
             collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
             DestroySelf();
+            // should probably be player die event
             gameMaster.RespawnPlayer();
         }
         if (collision.tag == "SwarmTop" || collision.tag == "SwarmBottom")

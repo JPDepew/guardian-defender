@@ -1,0 +1,157 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class KonamiBoss : Enemy
+{
+    public float getPlayerDirectionInterval = 1;
+    public float linearInterpolationTime = 0.5f;
+    public float approachPlayerSpeed = 30;
+    public float descendSpeed = 2;
+    public float dstToChomp = 3;
+    public float yTargetOffset = 1;
+    public float speedLinearInterpolation = 0.2f;
+    public float attackWaitTime = 10;
+
+    float speed = 1;
+    Vector2 directionToMove;
+    Animator animator;
+    enum State { APPROACHING, VISIBLE, ATTACK, PROPELLOR, LEAVING };
+    State state = State.APPROACHING;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        animator = GetComponent<Animator>();
+        StartCoroutine(Controller());
+        StartCoroutine(SetDirectionToPlayerEveryInterval());
+        StartCoroutine(FindPlayer());
+        StartCoroutine(SetDirectionToMove());
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        animator.SetBool("isPlayerAlive", player != null);
+        animator.SetFloat("dstToPlayer", dirToPlayer.magnitude);
+        if (state == State.LEAVING && !spriteRenderer.isVisible)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator Controller()
+    {
+        IEnumerator approachPlayer = Move();
+        StartCoroutine(approachPlayer);
+        yield return null;
+    }
+
+    IEnumerator SetDirectionToPlayerEveryInterval()
+    {
+        while (true)
+        {
+            SetDirectionToPlayer();
+            if (Mathf.Sign(dirToPlayer.x) > 0)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            }
+            else
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+        }
+            yield return new WaitForSeconds(getPlayerDirectionInterval);
+        }
+    }
+
+    IEnumerator SetDirectionToMove()
+    {
+        while (true)
+        {
+            if (player)
+            {
+                directionToMove = Vector2.Lerp(
+                    directionToMove,
+                    new Vector2(dirToPlayer.x, dirToPlayer.y + yTargetOffset),
+                    linearInterpolationTime
+                );
+            }
+            else
+            {
+                directionToMove = Vector2.down;
+                state = State.LEAVING;
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator Move()
+    {
+        while (true)
+        {
+            speed = Mathf.Lerp(speed, GetSpeed(), GetSpeedLinearInterpolation());
+            transform.Translate(directionToMove.normalized * speed * Time.deltaTime);
+            yield return null;
+        }
+    }
+
+    float GetSpeed()
+    {
+        if (!player)
+        {
+            return descendSpeed;
+        }
+        float absPlayerSpeed = Mathf.Abs(player.GetPlayerSpeed());
+        if (dirToPlayer.magnitude < dstToChomp)
+        {
+            return absPlayerSpeed + approachPlayerSpeed;
+        }
+        if (spriteRenderer.isVisible)
+        {
+            if (state == State.APPROACHING)
+            {
+                state = State.VISIBLE;
+                StartCoroutine(AttackWaitTimer());
+                print("awt");
+            }
+            if (state == State.VISIBLE)
+            {
+                print("visible");
+                return player.GetPlayerSpeed();
+            }
+            return absPlayerSpeed + 0.7f;
+        }
+        return absPlayerSpeed + approachPlayerSpeed;
+    }
+
+    IEnumerator AttackWaitTimer()
+    {
+        yield return new WaitForSeconds(attackWaitTime);
+        state = State.ATTACK;
+    }
+
+    float GetSpeedLinearInterpolation()
+    {
+        if (!player)
+        {
+            return 1;
+        }
+        return speedLinearInterpolation;
+    }
+
+    IEnumerator SpinAttack()
+    {
+        yield return null;
+    }
+
+    public void PlayChomp()
+    {
+        audioSources[0].Play();
+    }
+}

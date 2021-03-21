@@ -52,7 +52,7 @@ MonoBehaviour:
   powerupEnum: 6
   powerupName: Auto Shot
   keyCode: 0
-  minWave: 5
+  minWave: 15
   enableable: 1
   defaultCount: 0
   increaseAmt: 1
