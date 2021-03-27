@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -42,6 +41,14 @@ public class SwarmAttacker : Enemy
     protected override void Update()
     {
         base.Update();
+    }
+
+    public override void KonamiAction()
+    {
+        acceleration *= 3.5f;
+        maxVelocity *= 1.5f;
+        shootWaitTime *= 0.7f;
+        base.KonamiAction();
     }
 
     public void Activate()

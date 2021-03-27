@@ -78,11 +78,9 @@ public class Konami : MonoBehaviour
 
     IEnumerator BossTimer()
     {
-        print("starting timer");
         timerIsRunning = true;
         yield return new WaitForSeconds(konamiBossWaitSeconds);
         timerIsRunning = false;
-        print("instantiate time!!");
         Vector2 cameraPosition = Camera.main.transform.position;
         Vector2 position = new Vector2(cameraPosition.x + constants.wrapDst, 0);
         if (!konamiBossRef)
@@ -95,7 +93,7 @@ public class Konami : MonoBehaviour
         }
         else
         {
-            konamiBossRef.SetActive(true);
+            konamiBossRef.GetComponent<KonamiBoss>().StartChase();
             konamiBossRef.transform.position = position;
         }
     }

@@ -521,10 +521,11 @@ public class ShipController : MonoBehaviour
     {
         if (!destroyed && !frozen)
         {
-            onPlayerDie?.Invoke();
             destroyed = true;
+            onPlayerDie?.Invoke();
             Instantiate(explosion, transform.position, transform.rotation);
             playerStats.DecrementLives();
+            gameMaster.RespawnPlayer();
             Destroy(gameObject);
         }
     }
@@ -545,18 +546,15 @@ public class ShipController : MonoBehaviour
             collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
             DestroySelf();
             // should probably be player die event
-            gameMaster.RespawnPlayer();
         }
         if (collision.tag == "SwarmTop" || collision.tag == "SwarmBottom")
         {
             DestroySelf();
-            gameMaster.RespawnPlayer();
         }
         if (collision.tag == "AlienBullet")
         {
             Destroy(collision.gameObject);
             DestroySelf();
-            gameMaster.RespawnPlayer();
         }
     }
 }

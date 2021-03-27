@@ -150,6 +150,7 @@ MonoBehaviour:
   keyCode: 0
   minWave: 3
   enableable: 0
+  hardLimit: 1
   defaultCount: 3
   increaseAmt: 1
   maxCount: 6

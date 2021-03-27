@@ -28,6 +28,12 @@ public class KonamiBoss : Enemy
     {
         base.Start();
         animator = GetComponent<Animator>();
+        StartChase();
+    }
+
+    public void StartChase()
+    {
+        gameObject.SetActive(true);
         StartCoroutine(Controller());
         StartCoroutine(SetDirectionToPlayerEveryInterval());
         StartCoroutine(FindPlayer());
@@ -41,6 +47,8 @@ public class KonamiBoss : Enemy
         animator.SetFloat("dstToPlayer", dirToPlayer.magnitude);
         if (state == State.LEAVING && !spriteRenderer.isVisible)
         {
+            state = State.APPROACHING;
+            StopAllCoroutines();
             gameObject.SetActive(false);
         }
     }

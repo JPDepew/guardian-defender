@@ -124,6 +124,7 @@ public class PlayerStats : MonoBehaviour
     public void DecrementLives()
     {
         lives--;
+        DecrementPowerupValue(Powerup.ExtraLife);
     }
 
     public void IncrementLives()
@@ -141,7 +142,7 @@ public class PlayerStats : MonoBehaviour
         List<PowerupObj> keys = new List<PowerupObj>(powerups.Keys);
         foreach (var key in keys)
         {
-            if (key.powerupEnum == Powerup.TimeFreeze) continue;
+            if (key.powerupEnum == Powerup.TimeFreeze || key.powerupEnum == Powerup.ExtraLife) continue;
             powerups[key] = 0;
         }
     }
@@ -167,7 +168,8 @@ public class PlayerStats : MonoBehaviour
         {
             onGatherAllPowerups?.Invoke();
         }
-        int index = Random.Range(0, powerups.Count);
-        return powerups.Keys.ToList()[index];
+        availablePowerups = powerups.Where(x => !x.Key.hardLimit).Select(x => x.Key).ToList();
+        int index = Random.Range(0, availablePowerups.Count);
+        return availablePowerups[index];
     }
 }

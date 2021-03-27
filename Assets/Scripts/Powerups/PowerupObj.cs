@@ -9,6 +9,7 @@ public class PowerupObj : ScreenWrappingObject
     public KeyCode keyCode;
     public int minWave = 0;
     public bool enableable = true;
+    public bool hardLimit = false;
     public int defaultCount = 0;
     public int increaseAmt = 1;
     public int maxCount = 1;
