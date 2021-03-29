@@ -72,7 +72,7 @@ public class KonamiBoss : Enemy
             else
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y);
-        }
+            }
             yield return new WaitForSeconds(getPlayerDirectionInterval);
         }
     }
@@ -83,11 +83,23 @@ public class KonamiBoss : Enemy
         {
             if (player)
             {
-                directionToMove = Vector2.Lerp(
-                    directionToMove,
-                    new Vector2(dirToPlayer.x, dirToPlayer.y + yTargetOffset),
-                    linearInterpolationTime
-                );
+                if (state == State.VISIBLE)
+                {
+                    float playerSpeed = player.GetPlayerSpeed();
+                    directionToMove = Vector2.Lerp(
+                        directionToMove,
+                        new Vector2(Mathf.Sign(playerSpeed) * Mathf.Abs(dirToPlayer.x), dirToPlayer.y + yTargetOffset),
+                        linearInterpolationTime
+                    ).normalized;
+                }
+                else
+                {
+                    directionToMove = Vector2.Lerp(
+                        directionToMove,
+                        new Vector2(dirToPlayer.x, dirToPlayer.y + yTargetOffset),
+                        linearInterpolationTime
+                    ).normalized;
+                }
             }
             else
             {
@@ -104,7 +116,9 @@ public class KonamiBoss : Enemy
         while (true)
         {
             speed = Mathf.Lerp(speed, GetSpeed(), GetSpeedLinearInterpolation());
-            transform.Translate(directionToMove.normalized * speed * Time.deltaTime);
+            print(speed);
+            print(directionToMove);
+            transform.Translate(directionToMove * speed * Time.deltaTime);
             yield return null;
         }
     }
@@ -126,12 +140,11 @@ public class KonamiBoss : Enemy
             {
                 state = State.VISIBLE;
                 StartCoroutine(AttackWaitTimer());
-                print("awt");
             }
             if (state == State.VISIBLE)
             {
                 print("visible");
-                return player.GetPlayerSpeed();
+                return absPlayerSpeed;
             }
             return absPlayerSpeed + 0.7f;
         }

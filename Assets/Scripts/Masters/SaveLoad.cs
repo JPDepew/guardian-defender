@@ -41,4 +41,5 @@ public static class SaveLoad
 class PlayerData
 {
     public bool completedTutorial;
+    public int konamiBossHealth;
 }
