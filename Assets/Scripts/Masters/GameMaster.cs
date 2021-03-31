@@ -65,6 +65,7 @@ public class GameMaster : MonoBehaviour
 
     void Start()
     {
+        SaveLoad.Load();
         // setting instance refs
         playerStats = PlayerStats.instance;
         utilities = Utilities.instance;

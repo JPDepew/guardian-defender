@@ -155,6 +155,7 @@ public class PlayerStats : MonoBehaviour
     public PowerupObj GetRandomPowerup()
     {
         int waveNumber = GameMaster.instance.waveCount;
+            onGatherAllPowerups?.Invoke();
         List<PowerupObj> availablePowerups = powerups.Where(
             x => x.Key.CanBeDropped()
             && (x.Key.minWave <= waveNumber || data.konamiEnabled)

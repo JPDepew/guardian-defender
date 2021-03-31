@@ -9,6 +9,7 @@ public class KonamiBoss : Enemy
     public float approachPlayerSpeed = 30;
     public float descendSpeed = 2;
     public float dstToChomp = 3;
+    public float dstToSlowdown = 6;
     public float yTargetOffset = 1;
     public float speedLinearInterpolation = 0.2f;
     public float attackWaitTime = 10;
@@ -16,6 +17,7 @@ public class KonamiBoss : Enemy
     float speed = 1;
     Vector2 directionToMove;
     Animator animator;
+    Data data;
     enum State { APPROACHING, VISIBLE, ATTACK, PROPELLOR, LEAVING };
     State state = State.APPROACHING;
 
@@ -27,6 +29,8 @@ public class KonamiBoss : Enemy
     protected override void Start()
     {
         base.Start();
+        data = Data.Instance;
+        health = data.konamiBossHealth;
         animator = GetComponent<Animator>();
         StartChase();
     }
@@ -34,15 +38,16 @@ public class KonamiBoss : Enemy
     public void StartChase()
     {
         gameObject.SetActive(true);
-        StartCoroutine(Controller());
-        StartCoroutine(SetDirectionToPlayerEveryInterval());
         StartCoroutine(FindPlayer());
         StartCoroutine(SetDirectionToMove());
+        StartCoroutine(SetDirectionToPlayerEveryInterval());
+        StartCoroutine(Move());
     }
 
     protected override void Update()
     {
         base.Update();
+        print(state);
         animator.SetBool("isPlayerAlive", player != null);
         animator.SetFloat("dstToPlayer", dirToPlayer.magnitude);
         if (state == State.LEAVING && !spriteRenderer.isVisible)
@@ -53,11 +58,9 @@ public class KonamiBoss : Enemy
         }
     }
 
-    IEnumerator Controller()
+    void OnDestroy()
     {
-        IEnumerator approachPlayer = Move();
-        StartCoroutine(approachPlayer);
-        yield return null;
+        data.konamiBossHealth = (int)health;
     }
 
     IEnumerator SetDirectionToPlayerEveryInterval()
@@ -116,8 +119,6 @@ public class KonamiBoss : Enemy
         while (true)
         {
             speed = Mathf.Lerp(speed, GetSpeed(), GetSpeedLinearInterpolation());
-            print(speed);
-            print(directionToMove);
             transform.Translate(directionToMove * speed * Time.deltaTime);
             yield return null;
         }
@@ -134,7 +135,7 @@ public class KonamiBoss : Enemy
         {
             return absPlayerSpeed + approachPlayerSpeed;
         }
-        if (spriteRenderer.isVisible)
+        if (dirToPlayer.magnitude < dstToSlowdown)
         {
             if (state == State.APPROACHING)
             {

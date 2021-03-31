@@ -6,6 +6,7 @@ public class Data : MonoBehaviour
 {
     public int score { get; set; }
     public bool konamiEnabled = false;
+    public int konamiBossHealth = 50000;
 
     public static Data Instance
     {

@@ -14,6 +14,7 @@ public class GameOverMaster : MonoBehaviour
 
     private void Start()
     {
+        SaveLoad.Save();
         if (Constants.instance.score > Constants.instance.highScore)
         {
             Constants.instance.SetHighScore();

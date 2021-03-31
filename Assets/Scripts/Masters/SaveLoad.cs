@@ -14,6 +14,8 @@ public static class SaveLoad
         PlayerData data = new PlayerData();
         PlayerStats stats = PlayerStats.instance;
         data.completedTutorial = stats.completedTutorial;
+        data.konamiBossHealth = Data.Instance.konamiBossHealth;
+        Debug.Log(Data.Instance.konamiBossHealth);
 
         bf.Serialize(file, data);
         file.Close();
@@ -31,7 +33,8 @@ public static class SaveLoad
             file.Close();
 
             PlayerStats playerStats = PlayerStats.instance;
-
+            Debug.Log(data.konamiBossHealth);
+            Data.Instance.konamiBossHealth = data.konamiBossHealth;
             playerStats.completedTutorial = data.completedTutorial;
         }
     }

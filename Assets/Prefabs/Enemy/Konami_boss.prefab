@@ -369,11 +369,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   forwardRaycastDst: 3
-  getPlayerDirectionInterval: 0.2
+  getPlayerDirectionInterval: 0.1
   linearInterpolationTime: 0.05
   approachPlayerSpeed: 15
   descendSpeed: 2
   dstToChomp: 5
+  dstToSlowdown: 12
   yTargetOffset: 1
   speedLinearInterpolation: 0.2
   attackWaitTime: 10
