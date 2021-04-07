@@ -197,9 +197,13 @@ MonoBehaviour:
   keyCode: 97
   minWave: 5
   enableable: 1
+  hardLimit: 0
   defaultCount: 0
   increaseAmt: 800
   maxCount: 3200
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &5118823467019374846
 GameObject:
   m_ObjectHideFlags: 0

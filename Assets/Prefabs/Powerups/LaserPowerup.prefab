@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -142,9 +143,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738856ec94e3a764bbd8963e14a2ca40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wrapDstMultiplier: 1
   explosion: {fileID: 1188604548433550, guid: 2acfea5141b90284589dd965edb812e0, type: 3}
-  powerups: 0
+  powerupEnum: 0
   powerupName: Laser
+  keyCode: 0
+  minWave: 0
+  enableable: 1
+  hardLimit: 0
+  defaultCount: 0
+  increaseAmt: 1
+  maxCount: 1
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &50480464229113126
 Rigidbody2D:
   serializedVersion: 4
@@ -238,6 +250,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

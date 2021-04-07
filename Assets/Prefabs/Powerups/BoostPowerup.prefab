@@ -150,6 +150,13 @@ MonoBehaviour:
   keyCode: 304
   minWave: 2
   enableable: 1
+  hardLimit: 0
+  defaultCount: 0
+  increaseAmt: 1
+  maxCount: 1
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &50421277739173258
 Rigidbody2D:
   serializedVersion: 4

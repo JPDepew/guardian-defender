@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 80854316911416402}
   - component: {fileID: 6725830660655110683}
   - component: {fileID: 8968975054652897826}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Miniature Alien
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -285,6 +285,10 @@ MonoBehaviour:
   rotateTime: 0.1
   health: 0
   destroyPoints: 150
+  layerMaskToAvoid:
+    serializedVersion: 2
+    m_Bits: 0
+  forwardRaycastDst: 3
   curState: 0
   speed: 3
   abductionSpeed: 1.2

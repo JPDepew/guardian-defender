@@ -197,6 +197,7 @@ public class ShipController : MonoBehaviour
         while (true)
         {
             Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1.75f, 0.2f), 0, layerMask);
+            print(col?.tag);
             if (col && col.tag == "Human")
             {
                 Human human = col.transform.GetComponent<Human>();
@@ -213,6 +214,11 @@ public class ShipController : MonoBehaviour
                         gameMaster.InstantiateScorePopup(constants.catchHumanBonus * shipHumans.Count, transform.position);
                     }
                 }
+            }
+            else if (col?.tag == "Alien")
+            {
+                col.GetComponent<Enemy>().DamageSelf(12, transform.position);
+                DestroySelf();
             }
             yield return new WaitForSecondsRealtime(.02f);
         }
@@ -541,12 +547,11 @@ public class ShipController : MonoBehaviour
         {
             return;
         }
-        if (collision.tag == "Alien")
-        {
-            collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
-            DestroySelf();
-            // should probably be player die event
-        }
+        //if (collision.tag == "Alien")
+        //{
+        //    collision.GetComponent<Enemy>().DamageSelf(12, transform.position);
+        //    DestroySelf();
+        //}
         if (collision.tag == "SwarmTop" || collision.tag == "SwarmBottom")
         {
             DestroySelf();

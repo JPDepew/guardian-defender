@@ -80,6 +80,7 @@ public class GameMaster : MonoBehaviour
         Enemy.onEnemyDestroyed += OnAlienDestroyed;
         Watch.onWatchDestroyed += OnWatchDestroyed;
         PlayerPowerups.onTimeFreeze += ToggleMusic;
+        Konami.onKonamiEnabled += OnKonamiEnabled;
 
         verticalHalfSize = mainCamera.orthographicSize;
         bonusTextAnimator = bonusText.GetComponent<Animator>();
@@ -218,10 +219,33 @@ public class GameMaster : MonoBehaviour
                 yield return null;
             }
             currentWatchAlien = true;
-            audioSources[0].Stop();
             Instantiate(watchAlien, new Vector2(shipReference.transform.position.x + 4, mainCamera.orthographicSize + 3), watchAlien.transform.rotation);
             yield return new WaitForSeconds(6);
-            audioSources[1].Play();
+            if (!data.konamiEnabled)
+            {
+                audioSources[0].Stop();
+                audioSources[1].Play();
+            }
+        }
+    }
+
+    void OnKonamiEnabled()
+    {
+        PlayMusic(audioSources[2]);
+    }
+
+    void PlayMusic(AudioSource audioSourceToPlay)
+    {
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if (audioSource == audioSourceToPlay)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Stop();
+            }
         }
     }
 
@@ -267,8 +291,11 @@ public class GameMaster : MonoBehaviour
     private void OnWatchDestroyed()
     {
         currentWatchAlien = false;
-        audioSources[0].Play();
-        audioSources[1].Stop();
+        if (!data.konamiEnabled)
+        {
+            audioSources[0].Play();
+            audioSources[1].Stop();
+        }
     }
 
     /// <summary>
@@ -404,6 +431,7 @@ public class GameMaster : MonoBehaviour
         Enemy.onEnemyDestroyed -= OnAlienDestroyed;
         Watch.onWatchDestroyed -= OnWatchDestroyed;
         PlayerPowerups.onTimeFreeze -= ToggleMusic;
+        Konami.onKonamiEnabled -= OnKonamiEnabled;
     }
 
     IEnumerator NewScene()

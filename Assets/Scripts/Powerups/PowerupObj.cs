@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PowerupObj : ScreenWrappingObject
@@ -13,6 +14,7 @@ public class PowerupObj : ScreenWrappingObject
     public int defaultCount = 0;
     public int increaseAmt = 1;
     public int maxCount = 1;
+    public LayerMask collisionLayerMask;
 
     public delegate void OnGetPowerup(Powerup powerup);
     public static event OnGetPowerup onGetPowerup;
@@ -20,13 +22,20 @@ public class PowerupObj : ScreenWrappingObject
     protected override void Start()
     {
         base.Start();
+        StartCoroutine("HandleCollisions");
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
+    private IEnumerator HandleCollisions()
     {
-        if (other.tag == "Player")
+        while (true)
         {
-            Activate();
+            Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1, 1), 0, collisionLayerMask);
+            print(col?.tag);
+            if (col && col.tag == "Player")
+            {
+                Activate();
+            }
+            yield return new WaitForSecondsRealtime(.02f);
         }
     }
 

@@ -8,10 +8,6 @@ public class TimeFreezePowerObj : PowerupObj
     {
         base.Start();
     }
-    protected override void OnTriggerEnter2D(Collider2D other)
-    {
-        base.OnTriggerEnter2D(other);
-    }
     public override bool CanBeDropped()
     {
         return PlayerStats.instance.timeFreezeAmountRemaining < maxCount;

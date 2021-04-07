@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50277967784638276}
   - component: {fileID: 6699997527994562829}
   - component: {fileID: 9067413269701450036}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Alien
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -121,6 +121,10 @@ MonoBehaviour:
   rotateTime: 0.1
   health: 0
   destroyPoints: 150
+  layerMaskToAvoid:
+    serializedVersion: 2
+    m_Bits: 0
+  forwardRaycastDst: 3
   curState: 0
   speed: 2
   abductionSpeed: 1.4

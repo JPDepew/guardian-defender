@@ -47,7 +47,6 @@ public class KonamiBoss : Enemy
     protected override void Update()
     {
         base.Update();
-        print(state);
         animator.SetBool("isPlayerAlive", player != null);
         animator.SetFloat("dstToPlayer", dirToPlayer.magnitude);
         if (state == State.LEAVING && !spriteRenderer.isVisible)
@@ -76,7 +75,7 @@ public class KonamiBoss : Enemy
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y);
             }
-            yield return new WaitForSeconds(getPlayerDirectionInterval);
+            yield return new WaitForSecondsRealtime(getPlayerDirectionInterval);
         }
     }
 
@@ -119,7 +118,7 @@ public class KonamiBoss : Enemy
         while (true)
         {
             speed = Mathf.Lerp(speed, GetSpeed(), GetSpeedLinearInterpolation());
-            transform.Translate(directionToMove * speed * Time.deltaTime);
+            transform.Translate(directionToMove * speed * Time.unscaledDeltaTime);
             yield return null;
         }
     }
@@ -154,7 +153,7 @@ public class KonamiBoss : Enemy
 
     IEnumerator AttackWaitTimer()
     {
-        yield return new WaitForSeconds(attackWaitTime);
+        yield return new WaitForSecondsRealtime(attackWaitTime);
         state = State.ATTACK;
     }
 
@@ -165,11 +164,6 @@ public class KonamiBoss : Enemy
             return 1;
         }
         return speedLinearInterpolation;
-    }
-
-    IEnumerator SpinAttack()
-    {
-        yield return null;
     }
 
     public void PlayChomp()

@@ -1090,6 +1090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   konamiEnabled: 0
+  konamiBossHealth: 50000
 --- !u!4 &488610579
 Transform:
   m_ObjectHideFlags: 0
@@ -3670,5 +3671,10 @@ PrefabInstance:
       propertyPath: powerupInstructions
       value: 
       objectReference: {fileID: 2004980638}
+    - target: {fileID: 6180188443640018933, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: konamiBossWaitSeconds
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5112bc0481ecb82408edbf3d88f2ac5e, type: 3}

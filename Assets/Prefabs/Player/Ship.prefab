@@ -5815,7 +5815,7 @@ MonoBehaviour:
   rammer: {fileID: 258336852}
   layerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1280
   fuelParticleSystem: {fileID: 198411630127620130}
   particleSystemPosLeft: {fileID: 4201931875760158}
   particleSystemPosRight: {fileID: 4698269673787468}
