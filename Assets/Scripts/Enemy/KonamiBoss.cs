@@ -18,6 +18,7 @@ public class KonamiBoss : Enemy
     Vector2 directionToMove;
     Animator animator;
     Data data;
+    Utilities utilities;
     enum State { APPROACHING, VISIBLE, ATTACK, PROPELLOR, LEAVING };
     State state = State.APPROACHING;
 
@@ -30,6 +31,7 @@ public class KonamiBoss : Enemy
     {
         base.Start();
         data = Data.Instance;
+        utilities = Utilities.instance;
         health = data.konamiBossHealth;
         animator = GetComponent<Animator>();
         StartChase();
@@ -47,6 +49,7 @@ public class KonamiBoss : Enemy
     protected override void Update()
     {
         base.Update();
+        if (utilities.gameState == Utilities.GameState.STOPPED) return;
         animator.SetBool("isPlayerAlive", player != null);
         animator.SetFloat("dstToPlayer", dirToPlayer.magnitude);
         if (state == State.LEAVING && !spriteRenderer.isVisible)
@@ -117,8 +120,11 @@ public class KonamiBoss : Enemy
     {
         while (true)
         {
-            speed = Mathf.Lerp(speed, GetSpeed(), GetSpeedLinearInterpolation());
-            transform.Translate(directionToMove * speed * Time.unscaledDeltaTime);
+            if (utilities.gameState != Utilities.GameState.STOPPED)
+            {
+                speed = Mathf.Lerp(speed, GetSpeed(), GetSpeedLinearInterpolation());
+                transform.Translate(directionToMove * speed * Time.unscaledDeltaTime);
+            }
             yield return null;
         }
     }

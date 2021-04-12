@@ -50,10 +50,12 @@ v3.0.2
 		* Swarm container speed up *
 		* Mutated aliens - Every so often they grow really big *
 		* Flying saucers should avoid the swarm container *
-		* You shouldn't get so many lives
+		* You shouldn't get so many lives * 
 		* Swarmers *
 		* Look at how powerups are given in player stats etc - maybe there should be some function that returns if the player already has the max amount *
 		* Special konami boss who comes if you have all the powerups, big grinning face *
+		* What happens when you beat the boss?
+		* Boss hit
 	- Ramming thing - You can't get shot or hit from the front, and you can destroy enemies by ramming them *
 	- Infinity shot *
 	
