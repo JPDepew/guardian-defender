@@ -34,6 +34,7 @@ public class KonamiBoss : Enemy
         utilities = Utilities.instance;
         health = data.konamiBossHealth;
         animator = GetComponent<Animator>();
+        print(state);
         StartChase();
     }
 
@@ -41,8 +42,9 @@ public class KonamiBoss : Enemy
     {
         gameObject.SetActive(true);
         StartCoroutine(FindPlayer());
-        StartCoroutine(SetDirectionToMove());
         StartCoroutine(SetDirectionToPlayerEveryInterval());
+        StartCoroutine(SetDirectionToMove());
+        print(dirToPlayer);
         StartCoroutine(Move());
     }
 

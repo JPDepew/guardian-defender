@@ -30,7 +30,6 @@ public class PowerupObj : ScreenWrappingObject
         while (true)
         {
             Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1, 1), 0, collisionLayerMask);
-            print(col?.tag);
             if (col && col.tag == "Player")
             {
                 Activate();

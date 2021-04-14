@@ -58,7 +58,6 @@ public class ShipController : MonoBehaviour
 
     private float invulnerabilityTime = 1f;
     private float invulnerabilityTargetTime;
-    private BoxCollider2D boxCollider;
     private bool shouldBeInvulnerable = true;
 
     float verticalHalfSize;
@@ -88,9 +87,6 @@ public class ShipController : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.5f);
-
-        boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.enabled = false;
 
         StartCoroutine(HandleCollisions());
     }
@@ -197,7 +193,6 @@ public class ShipController : MonoBehaviour
         while (true)
         {
             Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1.75f, 0.2f), 0, layerMask);
-            print(col?.tag);
             if (col && col.tag == "Human")
             {
                 Human human = col.transform.GetComponent<Human>();
@@ -215,7 +210,7 @@ public class ShipController : MonoBehaviour
                     }
                 }
             }
-            else if (col?.tag == "Alien")
+            else if (!shouldBeInvulnerable && col?.tag == "Alien")
             {
                 col.GetComponent<Enemy>().DamageSelf(12, transform.position);
                 DestroySelf();
@@ -496,7 +491,6 @@ public class ShipController : MonoBehaviour
         {
             if (Time.time > invulnerabilityTargetTime)
             {
-                boxCollider.enabled = true;
                 shouldBeInvulnerable = false;
                 spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1);
             }
@@ -543,7 +537,7 @@ public class ShipController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (demo)
+        if (demo || shouldBeInvulnerable)
         {
             return;
         }

@@ -3551,6 +3551,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2624488884235690137, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430184, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: scoreText
@@ -3651,6 +3656,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameMaster
       objectReference: {fileID: 0}
+    - target: {fileID: 3523095128311430189, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3523095128311430352, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: timeFreezeAmountText
@@ -3671,6 +3681,11 @@ PrefabInstance:
       propertyPath: powerupInstructions
       value: 
       objectReference: {fileID: 2004980638}
+    - target: {fileID: 3523095128311430354, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6180188443640018933, guid: 5112bc0481ecb82408edbf3d88f2ac5e,
         type: 3}
       propertyPath: konamiBossWaitSeconds

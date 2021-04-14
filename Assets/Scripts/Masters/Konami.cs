@@ -93,8 +93,8 @@ public class Konami : MonoBehaviour
         }
         else
         {
-            konamiBossRef.GetComponent<KonamiBoss>().StartChase();
             konamiBossRef.transform.position = position;
+            konamiBossRef.GetComponent<KonamiBoss>().StartChase();
         }
     }
 }
