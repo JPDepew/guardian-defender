@@ -14,11 +14,12 @@ public class PlayerPowerups : MonoBehaviour
     private PlayerStats playerStats;
     private Constants constants;
     private AudioSource[] audioSources;
-    private ShipController shipController;
 
     private KeyCode timeFreezeKeyCode;
     private KeyCode bombKeyCode;
 
+    private float fixedDeltaTimeMax = 0.02f;
+    private float fixedDeltaTimeMin = 0.001f;
     private bool timeFreeze = false;
 
     public delegate void OnBomb();
@@ -33,9 +34,9 @@ public class PlayerPowerups : MonoBehaviour
         timeFreezeKeyCode = constants.PowerupObjByEnum(Powerup.TimeFreeze).keyCode;
         bombKeyCode = constants.PowerupObjByEnum(Powerup.Bomb).keyCode;
         audioSources = GetComponents<AudioSource>();
-        shipController = GetComponent<ShipController>();
 
         PowerupObj.onGetPowerup += OnPowerupActivate;
+        ShipController.onPlayerDie += OnPlayerDie;
 
         if (IsTimeFreezeActive())
         {
@@ -51,6 +52,7 @@ public class PlayerPowerups : MonoBehaviour
     private void OnDestroy()
     {
         PowerupObj.onGetPowerup -= OnPowerupActivate;
+        ShipController.onPlayerDie -= OnPlayerDie;
     }
 
     void OnPowerupActivate(Powerup powerup)
@@ -62,6 +64,12 @@ public class PlayerPowerups : MonoBehaviour
                 StartCoroutine("TimeFreezeActive");
                 break;
         }
+    }
+
+    void OnPlayerDie()
+    {
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = fixedDeltaTimeMax;
     }
 
     void HandleBomb()
@@ -121,11 +129,11 @@ public class PlayerPowerups : MonoBehaviour
         }
 
         timeFreeze = !timeFreeze;
+        Time.fixedDeltaTime = sign > 0 ? fixedDeltaTimeMax : fixedDeltaTimeMin;
         while (Time.timeScale >= min && Time.timeScale <= 1 || shouldChange)
         {
             float newValue = Time.timeScale + fadeSpeed * sign;
             Time.timeScale = Mathf.Clamp(newValue, min, 1);
-            Time.fixedDeltaTime = sign > 0 ? 0.02f : 0.001f;
             shouldChange = false;
             yield return null;
         }

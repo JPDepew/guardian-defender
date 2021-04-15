@@ -391,7 +391,6 @@ public class GameMaster : MonoBehaviour
     public void RespawnPlayer()
     {
         PlayAllMusic();
-        Time.timeScale = 1;
         playerPosition = shipReference.transform.position;
         rotation = shipReference.transform.rotation;
         playerStats.ResetAllPowerups();

@@ -192,7 +192,8 @@ public class ShipController : MonoBehaviour
     {
         while (true)
         {
-            Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1.75f, 0.2f), 0, layerMask);
+            // todo: different size for different things?
+            Collider2D col = Physics2D.OverlapBox(transform.position, new Vector3(1.6f, 0.2f), 0, layerMask);
             if (col && col.tag == "Human")
             {
                 Human human = col.transform.GetComponent<Human>();

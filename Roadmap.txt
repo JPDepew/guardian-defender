@@ -57,6 +57,7 @@ v3.0.2
 		* Boss hit *
 		* What happens when you beat the boss?
 		* Swarmers staying slow on time freeze?? if you die or something
+		* Konami boss hit with laser
 	- Ramming thing - You can't get shot or hit from the front, and you can destroy enemies by ramming them *
 	- Infinity shot *
 	
