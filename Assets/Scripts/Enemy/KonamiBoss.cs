@@ -44,7 +44,6 @@ public class KonamiBoss : Enemy
         StartCoroutine(FindPlayer());
         StartCoroutine(SetDirectionToPlayerEveryInterval());
         StartCoroutine(SetDirectionToMove());
-        print(dirToPlayer);
         StartCoroutine(Move());
     }
 

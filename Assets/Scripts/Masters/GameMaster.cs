@@ -219,7 +219,11 @@ public class GameMaster : MonoBehaviour
                 yield return null;
             }
             currentWatchAlien = true;
-            Instantiate(watchAlien, new Vector2(shipReference.transform.position.x + 4, mainCamera.orthographicSize + 3), watchAlien.transform.rotation);
+            Instantiate(
+                watchAlien,
+                new Vector2(shipReference.transform.position.x + 4, mainCamera.orthographicSize + 3),
+                watchAlien.transform.rotation
+            );
             yield return new WaitForSeconds(6);
             if (!data.konamiEnabled)
             {
