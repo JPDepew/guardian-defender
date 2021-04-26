@@ -18,6 +18,8 @@ TagManager:
   - SwarmBottom
   - Engine
   - Ground Line Renderer
+  - RightLeg
+  - LeftLeg
   layers:
   - Default
   - TransparentFX

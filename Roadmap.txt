@@ -60,6 +60,9 @@ v3.0.2
 		* Konami boss hit with laser *
 	- Ramming thing - You can't get shot or hit from the front, and you can destroy enemies by ramming them *
 	- Infinity shot *
+	- Ground crawler
+	- If all humans die, you go to space with no land
+	- Enemy invasion
 	
 v3.0.3
 	- Boss - interlocking bricks that switch position. Sometimes shoots bricks out
