@@ -29,8 +29,8 @@ public class Human : Hittable
     {
         base.Awake();
         frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
-        utilities = Utilities.instance;
         linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x) - constants.negativeHumanOffset;
+        utilities = Utilities.instance;
     }
 
     protected override void Start()

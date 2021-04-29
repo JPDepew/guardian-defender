@@ -39,6 +39,7 @@ public class ScreenWrappingObject : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (Utilities.instance.gameState == Utilities.GameState.STOPPED) return;
         if (!shouldWrap) return;
         // The camera is too far to the right
         if (mainCam.position.x - transform.position.x > wrapDst)
