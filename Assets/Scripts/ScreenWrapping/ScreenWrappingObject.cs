@@ -4,7 +4,7 @@ public class ScreenWrappingObject : MonoBehaviour
 {
     public float wrapDstMultiplier = 1;
     protected Constants constants;
-    Data data;
+    protected Data data;
 
     protected bool shouldWrap = true;
     protected bool konami = false;

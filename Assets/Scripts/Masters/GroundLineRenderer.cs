@@ -87,11 +87,9 @@ public class GroundLineRenderer : MonoBehaviour
     {
         float leftmostXPoint = Mathf.Floor(xPos);
         float leftmostYPoint = GetYPoint(leftmostXPoint);
-        float rightmostXPoint = Mathf.Ceil(xPos);
-        float rightmostYPoint = GetYPoint(rightmostXPoint);
         float graphXPos = xPos - leftmostXPoint;
 
-        float slope = (rightmostYPoint - leftmostYPoint) / (rightmostXPoint - leftmostXPoint);
+        float slope = GetSlope(xPos);
 
         float yPos = slope * graphXPos + leftmostYPoint;
         if (float.IsNaN(yPos))
@@ -99,6 +97,15 @@ public class GroundLineRenderer : MonoBehaviour
             return transform.position.y;
         }
         return yPos + transform.position.y;
+    }
+
+    public float GetSlope(float xPos)
+    {
+        float leftmostXPoint = Mathf.Floor(xPos);
+        float leftmostYPoint = GetYPoint(leftmostXPoint);
+        float rightmostXPoint = Mathf.Ceil(xPos);
+        float rightmostYPoint = GetYPoint(rightmostXPoint);
+        return (rightmostYPoint - leftmostYPoint) / (rightmostXPoint - leftmostXPoint);
     }
 
     public float GetYPoint(float xPos)

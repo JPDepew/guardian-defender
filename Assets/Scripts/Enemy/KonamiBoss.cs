@@ -17,7 +17,6 @@ public class KonamiBoss : Enemy
     float speed = 1;
     Vector2 directionToMove;
     Animator animator;
-    Data data;
     Utilities utilities;
     enum State { APPROACHING, VISIBLE, ATTACK, PROPELLOR, LEAVING };
     State state = State.APPROACHING;

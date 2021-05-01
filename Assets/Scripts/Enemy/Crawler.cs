@@ -30,7 +30,7 @@ public class Crawler : Enemy
     protected override void Update()
     {
         base.Update();
-        linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x) - 1;
+        linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x);
         ControlState();
         if (!player && !findingPlayer)
         {
@@ -42,17 +42,24 @@ public class Crawler : Enemy
     void HandleMovement()
     {
         if (state == State.SHOOTING) return;
-        print(linePosY);
-        float targetYMovement = Mathf.Clamp(linePosY, -(verticalHalfSize - 0.5f), 100);
-        print("target");
-        print(targetYMovement);
+        float targetYMovement = Mathf.Clamp(linePosY - transform.position.y, -(verticalHalfSize - 0.5f), 100);
         int moveDirection = (int)Mathf.Sign(dirToPlayer.x);
-        Vector2 targetPos = new Vector2(
-            transform.position.x + moveSpeed * moveDirection * Time.deltaTime,
+        Vector2 targetDir = new Vector2(
+            moveDirection,
             targetYMovement
         );
+        float curRotation = transform.rotation.eulerAngles.z;
+        if (curRotation > 180)
+        {
+            curRotation -= 360;
+        }
+        float slope = frontGroundLineRenderer.GetSlope(transform.position.x);
+        float targetAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
+        float smoothedAngle = Mathf.Lerp(curRotation, targetAngle, .25f);
 
-        transform.position = Vector2.Lerp(transform.position, targetPos, 0.5f);
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, smoothedAngle));
+
+        transform.Translate(targetDir.normalized * Time.deltaTime);
     }
 
     void ControlState()
