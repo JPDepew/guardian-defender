@@ -68,6 +68,7 @@ public class Crawler : Enemy
         {
             if (state != State.SHOOTING)
             {
+                audioSources[0].Stop();
                 StopCoroutine("AnimateCrawling");
                 AnimateBlank();
                 state = State.SHOOTING;
@@ -77,6 +78,7 @@ public class Crawler : Enemy
         {
             if (state != State.WALKING)
             {
+                audioSources[0].Play();
                 StartCoroutine("AnimateCrawling");
                 state = State.WALKING;
             }

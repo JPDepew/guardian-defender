@@ -241,7 +241,7 @@ public class ShipController : MonoBehaviour
     void ManageVerticalBounds()
     {
         // Checking to make sure it is not off the screen
-        if (transform.position.y <= -verticalHalfSize + 1 && direction.y < 0)
+        if (transform.position.y <= -verticalHalfSize + .3f && direction.y < 0)
         {
             direction = new Vector2(direction.x, 0);
         }
