@@ -21,6 +21,7 @@ public class Crawler : Enemy
         base.Start();
         StartCoroutine(FindPlayer());
         StartCoroutine(SetDirectionToPlayerInterval());
+        StartCoroutine("AnimateCrawling");
 
         verticalHalfSize = Camera.main.orthographicSize;
         frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
