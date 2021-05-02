@@ -13,15 +13,14 @@ public class Crawler : Enemy
     private float linePosY;
     private float verticalHalfSize;
 
-    enum State { WALKING, SHOOTING };
-    State state = State.WALKING;
+    enum State { WALKING, SHOOTING, DEFAULT };
+    State state = State.DEFAULT;
 
     protected override void Start()
     {
         base.Start();
         StartCoroutine(FindPlayer());
         StartCoroutine(SetDirectionToPlayerInterval());
-        StartCoroutine("AnimateCrawling");
 
         verticalHalfSize = Camera.main.orthographicSize;
         frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
