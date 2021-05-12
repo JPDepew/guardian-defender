@@ -7,6 +7,7 @@ public class Crawler : Enemy
     public float maxXDstToPlayer = 3;
     public float moveSpeed = 4;
     public List<GameObject> legs;
+    public GameObject cannon;
 
     public GroundLineRenderer frontGroundLineRenderer;
 
