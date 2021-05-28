@@ -71,6 +71,7 @@ public class Crawler : Enemy
             {
                 audioSources[0].Stop();
                 StopCoroutine("AnimateCrawling");
+                StartCoroutine("ShootPlayer");
                 AnimateBlank();
                 state = State.SHOOTING;
             }
@@ -81,8 +82,20 @@ public class Crawler : Enemy
             {
                 audioSources[0].Play();
                 StartCoroutine("AnimateCrawling");
+                StopCoroutine("ShootPlayer");
                 state = State.WALKING;
             }
+        }
+    }
+
+    IEnumerator ShootPlayer()
+    {
+        while (true)
+        {
+            float angle = Vector2.SignedAngle(cannon.transform.up, dirToPlayer);
+            float angleToRotate = Mathf.Lerp(0, angle, 0.1f);
+            cannon.transform.Rotate(Vector3.forward, angleToRotate);
+            yield return null;
         }
     }
 

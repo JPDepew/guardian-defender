@@ -3700,46 +3700,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: Priority
-      value: 63
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: MaxDistance
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: MinDistance
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 7b4cb709a5470614e81675a155cfa62b, type: 3}
-    - target: {fileID: 5852976422325890552, guid: 88482afd1344abb458234f458720cc35,
-        type: 3}
-      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
-      value: 0.07777778
-      objectReference: {fileID: 0}
     - target: {fileID: 9129504496830808066, guid: 88482afd1344abb458234f458720cc35,
         type: 3}
       propertyPath: m_Name

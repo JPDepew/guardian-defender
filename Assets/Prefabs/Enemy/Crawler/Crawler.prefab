@@ -193,7 +193,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   forwardRaycastDst: 3
-  maxXDstToPlayer: 3
+  maxXDstToPlayer: 5
   moveSpeed: 3
   legs:
   - {fileID: 9129504497778084428}
@@ -214,17 +214,17 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8f7366123c5e82143af98b6b9eac9e30, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 7b4cb709a5470614e81675a155cfa62b, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 0.442
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 63
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 4
   MaxDistance: 20
   Pan2D: 0
   rolloffMode: 1
@@ -260,7 +260,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -275,7 +275,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.07777778
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -591,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 3384715549124434937, guid: cf945076385bf8d4c9587d048abb18ba,
         type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.0025168955
+      value: -0.0025111735
       objectReference: {fileID: 0}
     - target: {fileID: 3384715549124434937, guid: cf945076385bf8d4c9587d048abb18ba,
         type: 3}
@@ -919,7 +919,7 @@ PrefabInstance:
     - target: {fileID: 3384715549124434937, guid: cf945076385bf8d4c9587d048abb18ba,
         type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.0025149882
+      value: -0.0025111735
       objectReference: {fileID: 0}
     - target: {fileID: 3384715549124434937, guid: cf945076385bf8d4c9587d048abb18ba,
         type: 3}
