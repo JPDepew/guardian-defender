@@ -6,6 +6,7 @@ public class Crawler : Enemy
 {
     public float maxXDstToPlayer = 3;
     public float moveSpeed = 4;
+    public float maxTurnAngle = 21;
     public List<GameObject> legs;
     public GameObject cannon;
 
@@ -94,7 +95,19 @@ public class Crawler : Enemy
         {
             float angle = Vector2.SignedAngle(cannon.transform.up, dirToPlayer);
             float angleToRotate = Mathf.Lerp(0, angle, 0.1f);
+
             cannon.transform.Rotate(Vector3.forward, angleToRotate);
+            float clampZAngle = cannon.transform.localEulerAngles.z;
+            if (clampZAngle > 180)
+            {
+                clampZAngle -= 360;
+            }
+            clampZAngle = Mathf.Clamp(clampZAngle, -maxTurnAngle, maxTurnAngle);
+            cannon.transform.localEulerAngles = new Vector3(
+                cannon.transform.localEulerAngles.x,
+                cannon.transform.localEulerAngles.y,
+                clampZAngle
+            );
             yield return null;
         }
     }
@@ -133,12 +146,10 @@ public class Crawler : Enemy
         Animator legAnim = leg.GetComponent<Animator>();
         if (leg.tag == legTag)
         {
-            print("forward");
             legAnim.Play("CrawlerLeg_Forward");
         }
         else
         {
-            print("back");
             legAnim.Play("CrawlerLeg_Back");
         }
     }
