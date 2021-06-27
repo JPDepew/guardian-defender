@@ -1,37 +1,31 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : BulletParent
 {
     public Transform rayPos;
-    public float speed = 1f;
     public float hitOffsetMultiplier = 2f;
     public float invisibleTime = 0.5f;
     public LayerMask layerMask;
     public float damage = 1;
-    public float destroyAfter = 1f;
-
-    Utilities utilities;
-
     protected RaycastHit2D hit;
     SpriteRenderer spriteRenderer;
-    protected float direction;
+    float xDirection;
     private bool shouldRaycast = true;
 
-    protected virtual void Start()
+    protected override void Start()
     {
-        utilities = Utilities.instance;
+        base.Start();
 
-        direction = Mathf.Sign(transform.localScale.x);
+        xDirection = Mathf.Sign(transform.localScale.x);
         spriteRenderer = GetComponent<SpriteRenderer>();
-        StartCoroutine(DelayedDestroy());
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
         if (utilities.gameState == Utilities.GameState.STOPPED) return;
 
-        transform.Translate(Vector3.right * speed * direction * Time.deltaTime);
+        transform.Translate(Vector3.right * speed * xDirection * Time.deltaTime);
 
         if (shouldRaycast)
         {
@@ -41,8 +35,8 @@ public class Bullet : MonoBehaviour
 
     protected void Raycasting()
     {
-        hit = Physics2D.Raycast(rayPos.position, Vector2.right * direction, speed * hitOffsetMultiplier * Time.deltaTime, layerMask);
-        Debug.DrawRay(rayPos.position, Vector2.right * direction * speed * hitOffsetMultiplier * Time.deltaTime, Color.red);
+        hit = Physics2D.Raycast(rayPos.position, Vector2.right * xDirection, speed * hitOffsetMultiplier * Time.deltaTime, layerMask);
+        Debug.DrawRay(rayPos.position, Vector2.right * xDirection * speed * hitOffsetMultiplier * Time.deltaTime, Color.red);
         if (hit)
         {
             Transform hitObject = hit.transform;
@@ -70,12 +64,6 @@ public class Bullet : MonoBehaviour
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a - 0.1f);
             yield return null;
         }
-        Destroy(gameObject);
-    }
-
-    IEnumerator DelayedDestroy()
-    {
-        yield return new WaitForSeconds(destroyAfter);
         Destroy(gameObject);
     }
 }

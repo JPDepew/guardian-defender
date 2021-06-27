@@ -9,6 +9,9 @@ public class Crawler : Enemy
     public float maxTurnAngle = 21;
     public List<GameObject> legs;
     public GameObject cannon;
+    public float rotationLerpTime = 0.05f;
+    public float shootWaitSeconds = 3f;
+    public GameObject bullet;
 
     public GroundLineRenderer frontGroundLineRenderer;
 
@@ -72,6 +75,7 @@ public class Crawler : Enemy
             {
                 audioSources[0].Stop();
                 StopCoroutine("AnimateCrawling");
+                StartCoroutine("PointAtPlayer");
                 StartCoroutine("ShootPlayer");
                 AnimateBlank();
                 state = State.SHOOTING;
@@ -83,18 +87,19 @@ public class Crawler : Enemy
             {
                 audioSources[0].Play();
                 StartCoroutine("AnimateCrawling");
+                StopCoroutine("PointAtPlayer");
                 StopCoroutine("ShootPlayer");
                 state = State.WALKING;
             }
         }
     }
 
-    IEnumerator ShootPlayer()
+    IEnumerator PointAtPlayer()
     {
         while (true)
         {
             float angle = Vector2.SignedAngle(cannon.transform.up, dirToPlayer);
-            float angleToRotate = Mathf.Lerp(0, angle, 0.1f);
+            float angleToRotate = Mathf.Lerp(0, angle, rotationLerpTime);
 
             cannon.transform.Rotate(Vector3.forward, angleToRotate);
             float clampZAngle = cannon.transform.localEulerAngles.z;
@@ -109,6 +114,14 @@ public class Crawler : Enemy
                 clampZAngle
             );
             yield return null;
+        }
+    }
+    IEnumerator ShootPlayer()
+    {
+        while (true)
+        {
+            Instantiate(bullet, cannon.transform.position, cannon.transform.rotation);
+            yield return new WaitForSeconds(shootWaitSeconds);
         }
     }
 
