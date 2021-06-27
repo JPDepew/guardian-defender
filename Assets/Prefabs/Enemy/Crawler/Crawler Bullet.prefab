@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 3475910982631945219}
   - component: {fileID: 3475910982631945244}
   - component: {fileID: -3893642792836703308}
+  - component: {fileID: 4259575624508816309}
   m_Layer: 0
-  m_Name: Crawler Bulet
-  m_TagString: Untagged
+  m_Name: Crawler Bullet
+  m_TagString: AlienBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -747,7 +748,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.02
+      value: 0.03
       mode: 0
       spread: 0
       speed:
@@ -866,7 +867,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 500
+      scalar: 750
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4776,7 +4777,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 11d54e1aa1b11f14cb9c4d01dc42cf57, type: 2}
+  - {fileID: 2100000, guid: 9a0dd4488ed9e4c4abd1ee85760588b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4838,3 +4839,29 @@ MonoBehaviour:
   speed: 7
   shrinkCounter: 30
   direction: {x: 0, y: 1}
+--- !u!61 &4259575624508816309
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475910982631945246}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.012380123, y: -0.039668083}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.50594425, y: 0.4827335}
+  m_EdgeRadius: 0

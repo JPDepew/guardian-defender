@@ -26,22 +26,26 @@ public class Crawler : Enemy
         base.Start();
         StartCoroutine(FindPlayer());
         StartCoroutine(SetDirectionToPlayerInterval());
+        // initialize at a big number so it won't shoot at start
+        dirToPlayer = new Vector2(100, 100);
 
         verticalHalfSize = Camera.main.orthographicSize;
         frontGroundLineRenderer = GameObject.FindGameObjectWithTag("Ground Line Renderer").GetComponent<GroundLineRenderer>();
-        linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x) - constants.negativeHumanOffset;
     }
 
     protected override void Update()
     {
         base.Update();
         linePosY = frontGroundLineRenderer.GetWorldYPointRounded(transform.position.x);
-        ControlState();
         if (!player && !findingPlayer)
         {
             StartCoroutine(FindPlayer());
         }
-        HandleMovement();
+        else
+        {
+            ControlState();
+            HandleMovement();
+        }
     }
 
     void HandleMovement()
@@ -61,8 +65,10 @@ public class Crawler : Enemy
         float slope = frontGroundLineRenderer.GetSlope(transform.position.x);
         float targetAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
         float smoothedAngle = Mathf.Lerp(curRotation, targetAngle, .25f);
-
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, smoothedAngle));
+        if (!float.IsNaN(smoothedAngle))
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, smoothedAngle));
+        }
 
         transform.Translate(targetDir.normalized * Time.deltaTime);
     }

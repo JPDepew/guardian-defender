@@ -205,7 +205,7 @@ MonoBehaviour:
   - {fileID: 5785558871370589420}
   cannon: {fileID: 9129504497531117094}
   rotationLerpTime: 0.05
-  shootWaitSeconds: 1
+  shootWaitSeconds: 3
   bullet: {fileID: 3475910982631945246, guid: b75361af9878c524283a65d7129356eb, type: 3}
   frontGroundLineRenderer: {fileID: 0}
 --- !u!82 &5852976422325890552

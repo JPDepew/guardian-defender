@@ -10,7 +10,7 @@ public class Bullet : BulletParent
     public float damage = 1;
     protected RaycastHit2D hit;
     SpriteRenderer spriteRenderer;
-    float xDirection;
+    protected float xDirection;
     private bool shouldRaycast = true;
 
     protected override void Start()
