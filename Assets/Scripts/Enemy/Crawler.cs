@@ -21,6 +21,11 @@ public class Crawler : Enemy
     enum State { WALKING, SHOOTING, DEFAULT };
     State state = State.DEFAULT;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -46,6 +51,12 @@ public class Crawler : Enemy
             ControlState();
             HandleMovement();
         }
+    }
+
+    public override bool DamageSelf(float damage, Vector2 hitPosition, Vector2? bulletDirection = null)
+    {
+        soundPlayer.PlayRandomSoundFromRange(0, 5);
+        return base.DamageSelf(damage, hitPosition, bulletDirection);
     }
 
     void HandleMovement()
@@ -79,7 +90,7 @@ public class Crawler : Enemy
         {
             if (state != State.SHOOTING)
             {
-                audioSources[0].Stop();
+                audioSources[6].Stop();
                 StopCoroutine("AnimateCrawling");
                 StartCoroutine("PointAtPlayer");
                 StartCoroutine("ShootPlayer");
@@ -91,7 +102,7 @@ public class Crawler : Enemy
         {
             if (state != State.WALKING)
             {
-                audioSources[0].Play();
+                audioSources[6].Play();
                 StartCoroutine("AnimateCrawling");
                 StopCoroutine("PointAtPlayer");
                 StopCoroutine("ShootPlayer");

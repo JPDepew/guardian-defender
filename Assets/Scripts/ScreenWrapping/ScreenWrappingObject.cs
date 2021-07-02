@@ -29,6 +29,10 @@ public class ScreenWrappingObject : MonoBehaviour
         {
             wrapDst = constants.wrapDst * wrapDstMultiplier;
         }
+        else
+        {
+            constants = Constants.instance;
+        }
         Konami.onKonamiEnabled += KonamiAction;
     }
 
