@@ -17,7 +17,7 @@ public class Shield : MonoBehaviour {
         }
         if (collision.tag == "AlienBullet")
         {
-            Destroy(collision.gameObject);
+            collision.GetComponent<BulletParent>().DestroySelf();
         }
         if (collision.tag == "Watch")
         {

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletParent : MonoBehaviour
@@ -7,6 +6,7 @@ public class BulletParent : MonoBehaviour
     public float destroyAfter = 10f;
     public float speed = 1;
     public int shrinkCounter = 30;
+    public bool shouldOnlyDestroyCollider = false;
     public Vector2 direction;
 
     protected Utilities utilities;
@@ -36,5 +36,17 @@ public class BulletParent : MonoBehaviour
             yield return null;
         }
         Destroy(gameObject);
+    }
+
+    public void DestroySelf()
+    {
+        if (shouldOnlyDestroyCollider)
+        {
+            GetComponent<Collider2D>().enabled = false;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
