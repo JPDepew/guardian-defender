@@ -9,7 +9,8 @@ public class Shield : MonoBehaviour {
         if (collision.tag == "Alien")
         {
             Enemy alien = collision.GetComponent<Enemy>();
-            if (alien.GetComponent<Renderer>().isVisible)
+            Renderer renderer = alien.GetComponent<Renderer>();
+            if ((bool)(renderer?.isVisible))
             {
                 alien.DamageSelf(100, transform.position);
             }

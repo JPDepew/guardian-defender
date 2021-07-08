@@ -18,6 +18,7 @@ public class GameMaster : MonoBehaviour
     public GameObject flyingSaucer;
     public GameObject watchAlien;
     public GameObject swarmEnemy;
+    public GameObject crawler;
 
     Utilities utilities;
     Data data;
@@ -195,15 +196,10 @@ public class GameMaster : MonoBehaviour
 
     private IEnumerator InstantiateHumans()
     {
-        float camPosX = mainCamera.transform.position.x;
         for (int i = 0; i < initialNumberOfHumans; i++)
         {
-            float xPos = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
-            float yPos = frontGroundLineRenderer.GetWorldYPoint(xPos) - constants.negativeHumanOffset;
-            Vector2 humanPositon = new Vector2(xPos, yPos);
-
+            Vector2 humanPositon = GetRandomLinePosition();
             Instantiate(human, humanPositon, transform.rotation);
-
             yield return null;
         }
     }
@@ -212,6 +208,7 @@ public class GameMaster : MonoBehaviour
     {
         StartCoroutine(SpawnAliens());
         StartCoroutine(SpawnSwarmContainers());
+        StartCoroutine(SpawnCrawlers());
         if (waveCount % 5 == 0 && waveCount != 0 && !currentWatchAlien)
         {
             while (shipReference == null)
@@ -255,13 +252,28 @@ public class GameMaster : MonoBehaviour
 
     private IEnumerator SpawnSwarmContainers()
     {
-        if (waveCount % 1 == 0)
+        if (waveCount % 2 == 0)
         {
             for (int i = 0; i <= Mathf.Ceil(waveCount / 2); i++)
             {
                 waveEnemyCount += 7;
                 Vector2 position = GetRandomPosition();
                 Instantiate(swarmEnemy, position, transform.rotation);
+                yield return null;
+            }
+        }
+    }
+
+    private IEnumerator SpawnCrawlers()
+    {
+        int crawlerWaveAppear = 3;
+        if (waveCount > crawlerWaveAppear)
+        {
+            for (int i = 0; i <= Mathf.Ceil((waveCount - crawlerWaveAppear) / 2); i++)
+            {
+                waveEnemyCount += 1;
+                Vector2 position = GetRandomLinePosition();
+                Instantiate(crawler, position, transform.rotation);
                 yield return null;
             }
         }
@@ -290,6 +302,18 @@ public class GameMaster : MonoBehaviour
         Transform tempTransform = Instantiate(alienSpawn, alienPosition, transform.rotation).transform;
         yield return new WaitForSeconds(alienSpawn.main.duration);
         Instantiate(alien, tempTransform.position, transform.rotation);
+    }
+
+    /// <summary>
+    /// Get a random position on the front line
+    /// </summary>
+    /// <returns>Vector2 Position on line</returns>
+    private Vector2 GetRandomLinePosition()
+    {
+        float camPosX = mainCamera.transform.position.x;
+        float xPos = Random.Range(camPosX - wrapDst, camPosX + wrapDst);
+        float yPos = frontGroundLineRenderer.GetWorldYPoint(xPos) - constants.negativeHumanOffset;
+        return new Vector2(xPos, yPos);
     }
 
     private void OnWatchDestroyed()

@@ -135,6 +135,7 @@ public class Crawler : Enemy
     }
     IEnumerator ShootPlayer()
     {
+        yield return new WaitForSeconds(0.1f);
         while (true)
         {
             Instantiate(bullet, cannon.transform.position, cannon.transform.rotation);
