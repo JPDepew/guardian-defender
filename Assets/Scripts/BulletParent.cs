@@ -43,6 +43,11 @@ public class BulletParent : MonoBehaviour
         if (shouldOnlyDestroyCollider)
         {
             GetComponent<Collider2D>().enabled = false;
+            ParticleSystem particleSystem = GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+            }
         }
         else
         {

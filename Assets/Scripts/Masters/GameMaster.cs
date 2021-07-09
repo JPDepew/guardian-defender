@@ -254,7 +254,7 @@ public class GameMaster : MonoBehaviour
     {
         if (waveCount % 2 == 0)
         {
-            for (int i = 0; i <= Mathf.Ceil(waveCount / 2); i++)
+            for (int i = 0; i < Mathf.Ceil(waveCount / 2); i++)
             {
                 waveEnemyCount += 7;
                 Vector2 position = GetRandomPosition();
